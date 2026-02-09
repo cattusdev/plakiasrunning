@@ -1,0 +1,62 @@
+.mini-card {
+  background-color: var(--bg-color-info);
+  color: white;
+  border-radius: 8px;
+  padding: 10px;
+  display: inline-block;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 5px 5px 10px 5px;
+}
+
+.mini-card .card-content p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.mini-card .card-content span {
+  display: block;
+  font-size: 17px;
+  margin-top: 0px;
+}
+
+.card-content {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 4px;
+}
+.material-symbols-sharp {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+.bg-booked{
+  color: #1b1b1b !important;
+  background-color: #f2bcc7 !important;
+}
+
+.bg-disabled{
+  background-color: #d4d4d4 !important;
+}
+
+
+.select2-container--bootstrap-5 .select2-selection--multiple .select2-selection__clear, .select2-container--bootstrap-5 .select2-selection--single .select2-selection__clear{
+  right: 10px !important;
+  left: unset !important; 
+}
+
+@media (min-width: 992px) {
+    .modal-xl {
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 1200px) {
+    .modal-xl {
+        max-width: 1140px;
+    }
+}

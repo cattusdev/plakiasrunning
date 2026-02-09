@@ -1,0 +1,17 @@
+RewriteEngine on
+
+# Redirect www.website.com to https://website.com
+RewriteCond %{HTTP_HOST} ^www\.almapsychology\.gr$ [NC]
+RewriteRule ^ https://almapsychology.gr%{REQUEST_URI} [L,R=301,NE]
+
+# Handle internal rewrite for website.com
+RewriteCond %{HTTP_HOST} ^almapsychology.gr$ [NC]
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule (.*) /public/$1 [L]
+
+# Handle internal rewrite for www.website.com after redirection
+RewriteCond %{HTTP_HOST} ^www\.almapsychology\.gr$ [NC]
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteRule ^ /public%{REQUEST_URI} [L]
+AddHandler application/x-httpd-php74 .php .php5 .php4 .php3
+AddHandler application/x-httpd-php74 .php .php5 .php4 .php3

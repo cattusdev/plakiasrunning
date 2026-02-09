@@ -1,0 +1,381 @@
+[07-Mar-2025 12:34:34 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:34:34 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:34:34 Europe/Athens] Params: []
+[07-Mar-2025 12:34:35 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:34:35 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:34:35 Europe/Athens] Params: []
+[07-Mar-2025 12:34:47 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:34:47 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:34:47 Europe/Athens] Params: []
+[07-Mar-2025 12:34:49 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:34:49 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:34:49 Europe/Athens] Params: []
+[07-Mar-2025 12:35:45 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:35:45 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:35:45 Europe/Athens] Params: []
+[07-Mar-2025 12:35:45 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:35:45 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:35:45 Europe/Athens] Params: []
+[07-Mar-2025 12:39:37 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:39:37 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:39:37 Europe/Athens] Params: []
+[07-Mar-2025 12:39:47 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:39:47 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:39:47 Europe/Athens] Params: []
+[07-Mar-2025 12:47:18 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:47:18 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:47:18 Europe/Athens] Params: []
+[07-Mar-2025 12:47:19 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:47:19 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:47:19 Europe/Athens] Params: []
+[07-Mar-2025 12:50:06 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:50:06 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:50:06 Europe/Athens] Params: []
+[07-Mar-2025 12:50:07 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:50:07 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:50:07 Europe/Athens] Params: []
+[07-Mar-2025 12:50:08 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:50:08 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:50:08 Europe/Athens] Params: []
+[07-Mar-2025 12:50:14 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:50:14 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:50:14 Europe/Athens] Params: []
+[07-Mar-2025 12:50:14 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:50:14 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:50:14 Europe/Athens] Params: []
+[07-Mar-2025 12:52:45 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:52:45 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:52:45 Europe/Athens] Params: []
+[07-Mar-2025 12:52:45 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:52:45 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:52:45 Europe/Athens] Params: []
+[07-Mar-2025 12:52:45 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:52:45 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:52:45 Europe/Athens] Params: []
+[07-Mar-2025 12:53:04 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:53:04 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:53:04 Europe/Athens] Params: []
+[07-Mar-2025 12:53:04 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:53:04 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:53:04 Europe/Athens] Params: []
+[07-Mar-2025 12:57:22 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:57:22 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:57:22 Europe/Athens] Params: []
+[07-Mar-2025 12:57:23 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:57:23 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:57:23 Europe/Athens] Params: []
+[07-Mar-2025 12:57:23 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:57:23 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:57:23 Europe/Athens] Params: []
+[07-Mar-2025 12:57:23 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 12:57:23 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 12:57:23 Europe/Athens] Params: []
+[07-Mar-2025 13:01:40 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:01:40 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:01:40 Europe/Athens] Params: []
+[07-Mar-2025 13:03:13 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:03:13 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:03:13 Europe/Athens] Params: []
+[07-Mar-2025 13:03:13 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:03:13 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:03:13 Europe/Athens] Params: []
+[07-Mar-2025 13:03:13 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:03:13 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:03:13 Europe/Athens] Params: []
+[07-Mar-2025 13:03:40 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:03:40 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:03:40 Europe/Athens] Params: []
+[07-Mar-2025 13:03:41 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:03:41 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:03:41 Europe/Athens] Params: []
+[07-Mar-2025 13:17:47 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:17:47 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:17:47 Europe/Athens] Params: []
+[07-Mar-2025 13:30:18 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:30:18 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:30:18 Europe/Athens] Params: []
+[07-Mar-2025 13:30:24 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:30:24 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:30:24 Europe/Athens] Params: []
+[07-Mar-2025 13:31:00 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:31:00 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:31:00 Europe/Athens] Params: []
+[07-Mar-2025 13:31:34 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:31:34 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:31:34 Europe/Athens] Params: []
+[07-Mar-2025 13:31:34 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:31:34 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:31:34 Europe/Athens] Params: []
+[07-Mar-2025 13:32:15 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:32:15 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:32:15 Europe/Athens] Params: []
+[07-Mar-2025 13:32:16 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:32:16 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:32:16 Europe/Athens] Params: []
+[07-Mar-2025 13:32:41 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:32:41 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:32:41 Europe/Athens] Params: []
+[07-Mar-2025 13:33:02 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:33:02 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:33:02 Europe/Athens] Params: []
+[07-Mar-2025 13:33:07 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:33:07 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:33:07 Europe/Athens] Params: []
+[07-Mar-2025 13:33:12 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:33:12 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:33:12 Europe/Athens] Params: []
+[07-Mar-2025 13:33:13 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:33:13 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:33:13 Europe/Athens] Params: []
+[07-Mar-2025 13:33:42 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:33:42 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:33:42 Europe/Athens] Params: []
+[07-Mar-2025 13:33:49 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:33:49 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:33:49 Europe/Athens] Params: []
+[07-Mar-2025 13:34:15 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:34:15 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:34:15 Europe/Athens] Params: []
+[07-Mar-2025 13:49:49 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:49:49 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:49:49 Europe/Athens] Params: []
+[07-Mar-2025 13:49:52 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 13:49:52 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 13:49:52 Europe/Athens] Params: []
+[07-Mar-2025 14:01:49 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 14:01:49 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 14:01:49 Europe/Athens] Params: []
+[07-Mar-2025 14:02:04 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 14:02:04 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 14:02:04 Europe/Athens] Params: []
+[07-Mar-2025 14:02:07 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 14:02:07 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 14:02:07 Europe/Athens] Params: []
+[07-Mar-2025 14:02:08 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 14:02:08 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 14:02:08 Europe/Athens] Params: []
+[07-Mar-2025 14:03:20 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 14:03:20 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 14:03:20 Europe/Athens] Params: []
+[07-Mar-2025 14:10:55 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 14:10:55 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 14:10:55 Europe/Athens] Params: []
+[07-Mar-2025 14:10:59 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 14:10:59 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 14:10:59 Europe/Athens] Params: []
+[07-Mar-2025 14:52:26 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 14:52:26 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 14:52:26 Europe/Athens] Params: []
+[07-Mar-2025 15:00:30 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 15:00:30 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 15:00:30 Europe/Athens] Params: []
+[07-Mar-2025 15:00:31 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 15:00:31 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 15:00:31 Europe/Athens] Params: []
+[07-Mar-2025 15:00:31 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 15:00:31 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 15:00:31 Europe/Athens] Params: []
+[07-Mar-2025 15:01:00 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 15:01:00 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 15:01:00 Europe/Athens] Params: []
+[07-Mar-2025 15:01:01 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 15:01:01 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 15:01:01 Europe/Athens] Params: []
+[07-Mar-2025 15:02:37 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 15:02:37 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 15:02:37 Europe/Athens] Params: []
+[07-Mar-2025 16:54:15 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 16:54:15 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 16:54:15 Europe/Athens] Params: []
+[07-Mar-2025 16:54:15 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 16:54:15 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 16:54:15 Europe/Athens] Params: []
+[07-Mar-2025 16:54:15 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 16:54:15 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 16:54:15 Europe/Athens] Params: []
+[07-Mar-2025 16:54:47 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 16:54:47 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 16:54:47 Europe/Athens] Params: []
+[07-Mar-2025 16:54:47 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 16:54:47 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 16:54:47 Europe/Athens] Params: []
+[07-Mar-2025 17:03:24 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 17:03:24 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 17:03:24 Europe/Athens] Params: []
+[07-Mar-2025 17:07:34 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 17:07:34 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 17:07:34 Europe/Athens] Params: []
+[07-Mar-2025 17:07:34 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 17:07:34 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 17:07:34 Europe/Athens] Params: []
+[07-Mar-2025 17:07:35 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 17:07:35 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 17:07:35 Europe/Athens] Params: []
+[07-Mar-2025 17:07:39 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 17:07:39 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 17:07:39 Europe/Athens] Params: []
+[07-Mar-2025 17:07:39 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 17:07:39 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 17:07:39 Europe/Athens] Params: []
+[07-Mar-2025 18:15:47 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 18:15:47 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 18:15:47 Europe/Athens] Params: []
+[07-Mar-2025 20:24:25 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 20:24:25 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 20:24:25 Europe/Athens] Params: []
+[07-Mar-2025 20:24:25 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 20:24:25 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 20:24:25 Europe/Athens] Params: []
+[07-Mar-2025 21:01:25 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:01:25 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:01:25 Europe/Athens] Params: []
+[07-Mar-2025 21:01:25 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:01:25 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:01:25 Europe/Athens] Params: []
+[07-Mar-2025 21:01:25 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:01:25 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:01:25 Europe/Athens] Params: []
+[07-Mar-2025 21:01:46 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:01:46 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:01:46 Europe/Athens] Params: []
+[07-Mar-2025 21:01:47 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:01:47 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:01:47 Europe/Athens] Params: []
+[07-Mar-2025 21:16:20 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:16:20 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:16:20 Europe/Athens] Params: []
+[07-Mar-2025 21:16:22 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:16:22 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:16:22 Europe/Athens] Params: []
+[07-Mar-2025 21:16:27 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:16:27 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:16:27 Europe/Athens] Params: []
+[07-Mar-2025 21:16:32 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:16:32 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:16:32 Europe/Athens] Params: []
+[07-Mar-2025 21:17:03 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:17:03 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:17:03 Europe/Athens] Params: []
+[07-Mar-2025 21:17:09 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:17:09 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:17:09 Europe/Athens] Params: []
+[07-Mar-2025 21:18:56 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:18:56 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:18:56 Europe/Athens] Params: []
+[07-Mar-2025 21:18:58 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:18:58 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:18:58 Europe/Athens] Params: []
+[07-Mar-2025 21:25:06 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:25:06 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:25:06 Europe/Athens] Params: []
+[07-Mar-2025 21:27:33 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:27:33 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:27:33 Europe/Athens] Params: []
+[07-Mar-2025 21:27:41 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:27:41 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:27:41 Europe/Athens] Params: []
+[07-Mar-2025 21:39:27 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:39:27 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:39:27 Europe/Athens] Params: []
+[07-Mar-2025 21:39:32 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:39:32 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:39:32 Europe/Athens] Params: []
+[07-Mar-2025 21:51:16 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:51:16 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:51:16 Europe/Athens] Params: []
+[07-Mar-2025 21:51:17 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:51:17 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:51:17 Europe/Athens] Params: []
+[07-Mar-2025 21:51:18 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:51:18 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:51:18 Europe/Athens] Params: []
+[07-Mar-2025 21:51:19 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 21:51:19 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 21:51:19 Europe/Athens] Params: []
+[07-Mar-2025 22:54:23 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[07-Mar-2025 22:54:23 Europe/Athens] SQL: SELECT * FROM options
+[07-Mar-2025 22:54:23 Europe/Athens] Params: []
+[08-Mar-2025 00:00:56 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 00:00:56 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 00:00:56 Europe/Athens] Params: []
+[08-Mar-2025 00:38:42 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 00:38:42 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 00:38:42 Europe/Athens] Params: []
+[08-Mar-2025 01:20:44 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 01:20:44 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 01:20:44 Europe/Athens] Params: []
+[08-Mar-2025 02:42:51 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 02:42:51 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 02:42:51 Europe/Athens] Params: []
+[08-Mar-2025 02:42:53 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 02:42:53 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 02:42:53 Europe/Athens] Params: []
+[08-Mar-2025 03:03:34 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 03:03:34 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 03:03:34 Europe/Athens] Params: []
+[08-Mar-2025 04:03:37 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 04:03:37 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 04:03:37 Europe/Athens] Params: []
+[08-Mar-2025 04:03:41 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 04:03:41 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 04:03:41 Europe/Athens] Params: []
+[08-Mar-2025 04:03:41 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 04:03:41 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 04:03:41 Europe/Athens] Params: []
+[08-Mar-2025 04:33:29 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 04:33:29 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 04:33:29 Europe/Athens] Params: []
+[08-Mar-2025 04:33:33 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 04:33:33 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 04:33:33 Europe/Athens] Params: []
+[08-Mar-2025 04:33:35 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 04:33:35 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 04:33:35 Europe/Athens] Params: []
+[08-Mar-2025 05:04:37 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 05:04:37 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 05:04:37 Europe/Athens] Params: []
+[08-Mar-2025 05:04:38 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 05:04:38 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 05:04:38 Europe/Athens] Params: []
+[08-Mar-2025 07:00:01 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 07:00:01 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 07:00:01 Europe/Athens] Params: []
+[08-Mar-2025 07:00:02 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 07:00:02 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 07:00:02 Europe/Athens] Params: []
+[08-Mar-2025 07:09:35 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 07:09:35 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 07:09:35 Europe/Athens] Params: []
+[08-Mar-2025 09:13:14 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 09:13:14 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 09:13:14 Europe/Athens] Params: []
+[08-Mar-2025 09:13:18 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 09:13:18 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 09:13:18 Europe/Athens] Params: []
+[08-Mar-2025 09:13:19 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 09:13:19 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 09:13:19 Europe/Athens] Params: []
+[08-Mar-2025 09:37:09 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 09:37:09 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 09:37:09 Europe/Athens] Params: []
+[08-Mar-2025 09:37:10 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 09:37:10 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 09:37:10 Europe/Athens] Params: []
+[08-Mar-2025 09:37:11 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 09:37:11 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 09:37:11 Europe/Athens] Params: []
+[08-Mar-2025 10:06:26 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 10:06:26 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 10:06:26 Europe/Athens] Params: []
+[08-Mar-2025 10:08:33 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 10:08:33 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 10:08:33 Europe/Athens] Params: []
+[08-Mar-2025 10:08:53 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 10:08:53 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 10:08:53 Europe/Athens] Params: []
+[08-Mar-2025 10:08:54 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 10:08:54 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 10:08:54 Europe/Athens] Params: []
+[08-Mar-2025 10:08:54 Europe/Athens] Database error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'db4iwdlojuepkb.options' doesn't exist
+[08-Mar-2025 10:08:54 Europe/Athens] SQL: SELECT * FROM options
+[08-Mar-2025 10:08:54 Europe/Athens] Params: []

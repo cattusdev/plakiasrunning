@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Turn off directory browsing
+Options -Indexes
+
+# If the requested file or directory exists, stop processing further rules
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redirect everything to index.php
+RewriteRule ^(.*)$ index.php?page=$1 [L,QSA,B]
