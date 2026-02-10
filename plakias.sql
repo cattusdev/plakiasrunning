@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2026 at 06:25 PM
+-- Generation Time: Feb 10, 2026 at 04:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 7.4.33
 
@@ -50,9 +50,10 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `slot_id`, `client_id`, `therapist_id`, `package_id`, `attendees_count`, `start_datetime`, `end_datetime`, `appointment_type`, `status`, `payment_status`, `notes`, `admin_notes`, `created_at`, `google_event_id`) VALUES
-(37, NULL, 11, 1, 6, 1, '2026-02-08 09:00:00', '2026-02-08 10:00:00', 'inPerson', 'booked', 'unpaid', '', NULL, '2026-02-09 17:55:49', NULL),
+(37, NULL, 11, 1, 6, 1, '2026-02-08 09:00:00', '2026-02-08 10:00:00', 'inPerson', 'booked', 'paid', '', NULL, '2026-02-09 17:55:49', NULL),
 (38, NULL, 32, 2, 5, 1, '2026-03-10 09:00:00', '2026-03-10 10:30:00', 'inPerson', 'booked', 'paid', '', NULL, '2026-02-09 17:58:05', NULL),
-(39, NULL, 33, 2, 5, 1, '2026-03-10 09:00:00', '2026-03-10 10:30:00', 'inPerson', 'booked', 'paid', '', NULL, '2026-02-09 18:35:06', NULL);
+(39, NULL, 33, 2, 5, 1, '2026-03-10 09:00:00', '2026-03-10 10:30:00', 'inPerson', 'booked', 'paid', '', NULL, '2026-02-09 18:35:06', NULL),
+(40, NULL, 9, 1, 6, 1, '2026-03-08 09:00:00', '2026-03-08 10:00:00', 'inPerson', 'booked', 'unpaid', '', NULL, '2026-02-10 15:43:13', NULL);
 
 -- --------------------------------------------------------
 
@@ -340,7 +341,8 @@ INSERT INTO `payments` (`id`, `client_id`, `reservation_id`, `amount_total`, `fe
 (587, 32, 0, '22.00', '', 'Captured', 'EveryPay', '0000-00-00 00:00:00', '2026-01-22 08:53:15', NULL, 'pmt_doWW5sPFwTvMoSZExjZLnWa7', '', 'EUR', 'Visa', '', 'Visa •••• 9395 (05/2026)', 'GR', 'asd', '', '22.00', 'EBOOK-pmt_doWW', 'mrkakoliris@gmail.com', '231', 'das', '2026-01-22'),
 (592, 32, 29, '50', '', 'Completed', 'Cash', '2026-01-29 12:00:00', '2026-01-29 15:22:31', '2026-01-29 16:14:24', '', '', '', '', '', '', '', '', '', '50', '', '', '', '', NULL),
 (593, 8, 30, '50', '', 'Completed', 'Cash', '2026-01-29 12:00:00', '2026-01-29 16:18:02', NULL, '', '', '', '', '', '', '', '', '', '50', '', '', '', '', NULL),
-(594, 0, 38, '60', '', 'Completed', 'Cash', '2026-02-09 18:34:35', '2026-02-09 16:04:01', '2026-02-09 16:34:35', '', '', '', '', '', '', '', '', '', '60', '', '', '', '', NULL);
+(594, 0, 38, '60', '', 'Completed', 'Cash', '2026-02-09 18:34:35', '2026-02-09 16:04:01', '2026-02-09 16:34:35', '', '', '', '', '', '', '', '', '', '60', '', '', '', '', NULL),
+(595, 11, 37, '60', '', 'Completed', 'Cash', '2026-02-10 12:57:18', '2026-02-10 10:57:18', NULL, '', '', '', '', '', '', '', '', '', '60', '', '', '', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -434,8 +436,8 @@ CREATE TABLE `therapists` (
 --
 
 INSERT INTO `therapists` (`id`, `first_name`, `last_name`, `title`, `bio`, `languages`, `pace_range`, `email`, `phone`, `avatar`, `is_active`, `booking_window_days`, `min_notice_hours`, `created_at`, `color`) VALUES
-(1, 'Victor', 'Frankenstein', 'Psychokiller', 'ADSIJHASJDIh:AKOSDjaos;DJ', '', '', 'psycho@alma.gr', '6985858585', 'uploads/therapists/11f8730a81968265c494907929deb9d1.jpg', 1, 60, 12, '2026-01-27 14:57:58', '#3788d8'),
-(2, 'John', 'Doe', 'Psychonaut', 'dasads', '', '', 'naut@alma.gr', '6544654654', 'uploads/therapists/13c4268e267df3602984fc81653173a2.jpg', 1, 60, 12, '2026-01-27 15:04:23', '#3788d8');
+(1, 'John', 'Souvito', 'Runner', 'ADSIJHASJDIh:AKOSDjaos;DJ', '', '', 'john@plakiasrunning.gr', '6985858585', 'uploads/therapists/c656ae2d548e9d264e70c7ba5cea26dc.jpg', 1, 60, 12, '2026-01-27 14:57:58', '#3788d8'),
+(2, 'Sarra', 'Doe', 'Runner', 'dasads', '', '', 'sarra@plakiasrunning.gr', '6544654654', 'uploads/therapists/60884161a6410626e87f4161b8f3b2cc.jpg', 1, 60, 12, '2026-01-27 15:04:23', '#3788d8');
 
 -- --------------------------------------------------------
 
@@ -461,8 +463,8 @@ CREATE TABLE `therapist_availability_rules` (
 --
 
 INSERT INTO `therapist_availability_rules` (`id`, `therapist_id`, `package_id`, `weekday`, `start_time`, `end_time`, `appointment_type`, `is_active`, `created_at`, `updated_at`) VALUES
-(17, 1, 6, 0, '09:00:00', '10:00:00', NULL, 1, '2026-02-09 17:55:05', NULL),
-(18, 2, NULL, 1, '21:00:00', '22:00:00', NULL, 1, '2026-02-09 18:24:31', NULL);
+(19, 1, 6, 0, '09:00:00', '10:00:00', NULL, 1, '2026-02-10 15:25:04', NULL),
+(27, 2, 4, 1, '21:00:00', '23:00:00', NULL, 1, '2026-02-10 16:15:45', NULL);
 
 -- --------------------------------------------------------
 
@@ -489,7 +491,8 @@ INSERT INTO `therapist_time_blocks` (`id`, `therapist_id`, `start_datetime`, `en
 (1, 1, '2026-02-09 11:00:00', '2026-02-09 12:00:00', 'block', 'Test book', '2026-01-28 17:48:40', NULL),
 (2, 2, '2026-01-28 11:00:00', '2026-01-28 12:00:00', 'block', 'tedt', '2026-01-28 18:56:23', NULL),
 (4, 1, '2026-01-27 11:00:00', '2026-01-27 12:30:00', 'block', 'Out for coffee', '2026-01-29 19:18:25', NULL),
-(5, 2, '2026-03-11 09:00:00', '2026-03-11 10:30:00', 'block', 'dafs', '2026-02-09 18:35:35', NULL);
+(5, 2, '2026-03-11 09:00:00', '2026-03-11 10:30:00', 'block', 'dafs', '2026-02-09 18:35:35', NULL),
+(6, 1, '2026-02-10 09:00:00', '2026-02-10 10:00:00', 'block', '', '2026-02-10 15:53:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -519,7 +522,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `firstName`, `lastName`, `access`, `locked`, `locked_until`, `created_at`, `updated_at`, `attempts`, `twoFactorAuth`, `last_login_attempt`, `total_attempts`) VALUES
-(1, 'nick@cattus.dev', '$2y$10$Y6.N0c4BHcMg0Wk3NNjpSe3Drfa1dK8F4Dyw8k5zdAJoGDeqCCfxa', 'Nick', 'Kakoliris', 1, 0, NULL, '2023-09-05 07:59:34', '2026-02-09 14:00:43', 0, 0, '2026-02-09 14:00:43', 0);
+(1, 'nick@cattus.dev', '$2y$10$Y6.N0c4BHcMg0Wk3NNjpSe3Drfa1dK8F4Dyw8k5zdAJoGDeqCCfxa', 'Nick', 'Kakoliris', 1, 0, NULL, '2023-09-05 07:59:34', '2026-02-10 08:59:27', 0, 0, '2026-02-10 08:59:27', 0);
 
 -- --------------------------------------------------------
 
@@ -694,7 +697,7 @@ ALTER TABLE `user_groups`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -754,7 +757,7 @@ ALTER TABLE `packages`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=595;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=596;
 
 --
 -- AUTO_INCREMENT for table `product_orders`
@@ -784,13 +787,13 @@ ALTER TABLE `therapists`
 -- AUTO_INCREMENT for table `therapist_availability_rules`
 --
 ALTER TABLE `therapist_availability_rules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `therapist_time_blocks`
 --
 ALTER TABLE `therapist_time_blocks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `users`
