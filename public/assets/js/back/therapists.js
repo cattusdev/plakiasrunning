@@ -15,6 +15,22 @@ let availablePackagesList = [];
 document.addEventListener("DOMContentLoaded", function () {
 
     // ==========================================
+    // 0. Helper: Time Calculation
+    // ==========================================
+    function addMinutesToTime(timeStr, minutes) {
+        if (!timeStr) return '';
+        let [h, m] = timeStr.split(':').map(Number);
+
+        let date = new Date();
+        date.setHours(h);
+        date.setMinutes(m + parseInt(minutes));
+
+        let newH = String(date.getHours()).padStart(2, '0');
+        let newM = String(date.getMinutes()).padStart(2, '0');
+        return `${newH}:${newM}`;
+    }
+
+    // ==========================================
     // 1. Table Columns Configuration
     // ==========================================
     var columnDefs = [
@@ -25,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
             visible: false
         },
         {
-            // Photo Column
             data: "avatar",
             title: "Photo",
             orderable: false,
@@ -122,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ==========================================
-    // 3. Modal Actions (Add, Edit, Save)
+    // 3. Modal Actions
     // ==========================================
 
     // Helper: Generate Rule Row HTML with Package Dropdown
@@ -136,10 +151,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Build Package Options
         let pkgOptions = `<option value="" ${pid == '' ? 'selected' : ''} class="fw-bold text-muted">-- General Availability --</option>`;
-        availablePackagesList.forEach(p => {
-            let sel = (p.id == pid) ? 'selected' : '';
-            pkgOptions += `<option value="${p.id}" ${sel}>${p.title}</option>`;
-        });
+
+        // Populate options from Global List
+        if (availablePackagesList && availablePackagesList.length > 0) {
+            availablePackagesList.forEach(p => {
+                let sel = (p.id == pid) ? 'selected' : '';
+                pkgOptions += `<option value="${p.id}" ${sel}>${p.title}</option>`;
+            });
+        }
 
         return `<tr>
          <td>
@@ -177,7 +196,7 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#" + genPrefix + "ModalLongTitle").text("Νέος Guide");
     });
 
-    // B. Edit
+    // B. Edit (ΔΙΟΡΘΩΜΕΝΟ: Φορτώνει ΠΑΚΕΤΑ και μετά RULES)
     $(document).on("click", ".edit", function (e) {
         e.preventDefault();
         let row = $(this).closest("tr");
@@ -192,8 +211,8 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#email").val(rowData.email);
         $("#phone").val(rowData.phone);
         $("#bio").val(rowData.bio);
-        $("#languages").val(rowData.languages);   // New Field
-        $("#pace_range").val(rowData.pace_range); // New Field
+        $("#languages").val(rowData.languages);
+        $("#pace_range").val(rowData.pace_range);
         $("#booking_window_days").val(rowData.booking_window_days || 60);
         $("#min_notice_hours").val(rowData.min_notice_hours !== null ? rowData.min_notice_hours : 12);
 
@@ -211,28 +230,36 @@ document.addEventListener("DOMContentLoaded", function () {
         const tbody = $("#modalRulesTable tbody");
         tbody.html('<tr><td colspan="5" class="text-center text-muted"><div class="spinner-border spinner-border-sm"></div> Loading Schedule...</td></tr>');
 
-        // Fetch Rules AND Packages List
+        // 1. Fetch Packages FIRST
         $.post("includes/admin/ajax.php", {
-            action: 'availabilityRules_get',
+            action: 'getTherapistPackages', // Χρησιμοποιούμε το endpoint που φέρνει πακέτα
             therapist_id: tid,
             csrf_token: getCsrfToken()
-        }, function (res) {
-            tbody.empty();
+        }, function (pkgRes) {
 
-            if (res.success) {
-                // 1. Store packages list globally
-                availablePackagesList = res.packages_list || [];
+            // Αποθήκευση στη global list
+            availablePackagesList = pkgRes.data || [];
+            console.log("Packages loaded for Therapist:", availablePackagesList);
 
-                // 2. Render Rules
-                if (res.data && res.data.length > 0) {
-                    res.data.forEach(r => tbody.append(getRuleRowHtml(r)));
+            // 2. Fetch Rules SECOND (τώρα η λίστα είναι γεμάτη)
+            $.post("includes/admin/ajax.php", {
+                action: 'availabilityRules_get',
+                therapist_id: tid,
+                csrf_token: getCsrfToken()
+            }, function (res) {
+                tbody.empty();
+
+                if (res.success) {
+                    if (res.data && res.data.length > 0) {
+                        res.data.forEach(r => tbody.append(getRuleRowHtml(r)));
+                    } else {
+                        tbody.append(getRuleRowHtml({ weekday: 1 }));
+                    }
                 } else {
-                    // Empty state or default row
-                    tbody.append(getRuleRowHtml({ weekday: 1 }));
+                    tbody.html('<tr><td colspan="5" class="text-danger text-center">Error loading rules.</td></tr>');
                 }
-            } else {
-                tbody.html('<tr><td colspan="5" class="text-danger text-center">Error loading rules.</td></tr>');
-            }
+            }, 'json');
+
         }, 'json');
 
         new bootstrap.Tab(document.querySelector('#tab-general-link')).show();
@@ -373,12 +400,12 @@ document.addEventListener("DOMContentLoaded", function () {
     $("#avatar").change(function () {
         const file = this.files[0];
         if (file) {
-            let reader = new FileReader();
-            reader.onload = function (event) {
+            let letReader = new FileReader();
+            letReader.onload = function (event) {
                 $('#avatarPreview').attr('src', event.target.result);
                 $('#currentAvatarMsg').show();
             }
-            reader.readAsDataURL(file);
+            letReader.readAsDataURL(file);
         }
     });
 
@@ -391,4 +418,47 @@ document.addEventListener("DOMContentLoaded", function () {
             return new Promise(resolve => resolve(confirm(title + "\n" + msg.replace(/<[^>]*>/g, ''))));
         };
     }
+
+    // ==========================================
+    // 6. SMART RULES: AUTO-CALCULATE END TIME
+    // ==========================================
+
+    // Α. Όταν αλλάζει το Πακέτο -> Υπολόγισε το End Time
+    $(document).on('change', '.rule-package', function () {
+        const tr = $(this).closest('tr');
+        const pkgId = $(this).val();
+        const startVal = tr.find('.rule-start').val();
+
+        if (pkgId && startVal && availablePackagesList.length > 0) {
+            // Βρες το πακέτο στη λίστα για να πάρεις τη διάρκεια
+            // (Χρησιμοποιούμε == για loose equality σε περίπτωση string/int)
+            const pkg = availablePackagesList.find(p => p.id == pkgId);
+
+            if (pkg && pkg.duration_minutes) {
+                const newEnd = addMinutesToTime(startVal, pkg.duration_minutes);
+                tr.find('.rule-end').val(newEnd);
+
+                // Προαιρετικό: Ένα οπτικό εφέ ότι άλλαξε
+                tr.find('.rule-end').addClass('bg-warning-subtle');
+                setTimeout(() => tr.find('.rule-end').removeClass('bg-warning-subtle'), 500);
+            }
+        }
+    });
+
+    // Β. Όταν αλλάζει η Έναρξη (και υπάρχει επιλεγμένο πακέτο) -> Ενημέρωσε το End Time
+    $(document).on('change', '.rule-start', function () {
+        const tr = $(this).closest('tr');
+        const pkgId = tr.find('.rule-package').val();
+        const startVal = $(this).val();
+
+        if (pkgId && startVal && availablePackagesList.length > 0) {
+            const pkg = availablePackagesList.find(p => p.id == pkgId);
+
+            if (pkg && pkg.duration_minutes) {
+                const newEnd = addMinutesToTime(startVal, pkg.duration_minutes);
+                tr.find('.rule-end').val(newEnd);
+            }
+        }
+    });
+
 });

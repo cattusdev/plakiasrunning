@@ -13,7 +13,7 @@ let monthCellMap = {};
 let fetchAbortController = null;
 
 let isBlockMode = false;
-
+let availablePackagesList = [];
 /* ============================================================
    GLOBAL HELPER FUNCTIONS (Must be outside DOMContentLoaded)
    ============================================================ */
@@ -35,8 +35,26 @@ function escapeHtml(text) {
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+function ymdLocal(dateObj) {
+    const y = dateObj.getFullYear();
+    const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const d = String(dateObj.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+
+function todayYmdLocal() {
+    return ymdLocal(new Date());
+}
+
+function isPastYmd(dateStr) {
+    // safe compare because YYYY-MM-DD
+    return dateStr && dateStr < todayYmdLocal();
+}
+
+
 // Μετατροπή JS Date σε string για input type="datetime-local" (YYYY-MM-DDTHH:mm)
 function formatDateToInput(date) {
+    if (!date) return ''; // <--- ΝΕΟΣ ΕΛΕΓΧΟΣ: Αν είναι null, επιστρέφει κενό αντί να σκάσει
     const pad = n => n < 10 ? '0' + n : n;
     return date.getFullYear() + '-' +
         pad(date.getMonth() + 1) + '-' +
@@ -225,21 +243,27 @@ function loadPackagesForTherapist(tid, preSelectPkgId = null, savedDates = null)
         pkgSelect.html(html).prop('disabled', false);
 
         if (preSelectPkgId) {
+            // 1. Αν έχουμε αποθηκευμένη ημερομηνία, τη βάζουμε ΠΡΙΝ το trigger change
+            // Αυτό αποτρέπει την "αυτόματη αναζήτηση επόμενου κενού" που θα έτρεχε αν το πεδίο ήταν άδειο.
+            if (savedDates && savedDates.start) {
+                const datePart = savedDates.start.split('T')[0];
+                $('#slot_date_picker').val(datePart);
+            }
+
+            // 2. Επιλογή Πακέτου & Trigger Change (για να τρέξουν οι listeners τιμής, διάρκειας κλπ)
             pkgSelect.val(preSelectPkgId).trigger('change');
+
+            // 3. Επαναφορά των σωστών ωρών (start/end)
+            // Βάζουμε ένα μικρό timeout γιατί το 'change' event του package μπορεί να προσπαθήσει να αλλάξει τις ώρες (π.χ. σε Group)
             if (savedDates && savedDates.start) {
                 setTimeout(() => {
                     $('#start_datetime').val(savedDates.start);
                     $('#end_datetime').val(savedDates.end);
-                    const datePart = savedDates.start.split('T')[0];
-                    $('#slot_date_picker').val(datePart);
 
-                    // Show slots logic only if not group
+                    // Αν είναι Group, κλειδώνουμε το end date ξανά (για σιγουριά)
                     const selectedOpt = pkgSelect.find('option:selected');
-                    const isGroup = selectedOpt.data('is-group') == 1;
-                    if (!isGroup) {
-                        const duration = selectedOpt.data('duration') || 60;
-                        $('#package_duration').val(duration);
-                        fetchAvailableSlots(tid, datePart, duration);
+                    if (selectedOpt.data('is-group') == 1) {
+                        $('#end_datetime').prop('readonly', true).addClass('bg-light');
                     }
                 }, 100);
             }
@@ -248,6 +272,7 @@ function loadPackagesForTherapist(tid, preSelectPkgId = null, savedDates = null)
 }
 
 // ===== ΔΙΟΡΘΩΜΕΝΗ ΣΥΝΑΡΤΗΣΗ ΓΙΑ ΤΑ SLOTS =====
+// ===== ΔΙΟΡΘΩΜΕΝΗ ΣΥΝΑΡΤΗΣΗ ΓΙΑ ΤΑ SLOTS (Με Ώρα & Περίοδο) =====
 function fetchAvailableSlots(tid, date, duration) {
     const container = $('#slots_container');
     const loader = $('#slots_loader'); // Αν υπάρχει
@@ -263,24 +288,31 @@ function fetchAvailableSlots(tid, date, duration) {
         if (res.success && res.slots && res.slots.length > 0) {
             let html = '';
             res.slots.forEach(slotItem => {
-                // ΕΛΕΓΧΟΣ: Αν είναι Object {start:..., available_spots:...} ή απλό String
-                let timeStr = '';
+                let startIso = '';
                 let spotsBadge = '';
 
+                // Ανάκτηση ISO string (είτε είναι object είτε string)
                 if (typeof slotItem === 'object') {
-                    // Παίρνουμε την ώρα (10:00) από το ISO string
-                    timeStr = slotItem.start.substring(11, 16);
-                    // Δείχνουμε τις θέσεις αν είναι > 1
+                    startIso = slotItem.start;
                     if (slotItem.available_spots > 1) {
-                        spotsBadge = ` <small style="font-size:0.75em;">(${slotItem.available_spots})</small>`;
+                        spotsBadge = ` <span class="badge bg-white text-primary border ms-1 rounded-pill">${slotItem.available_spots}</span>`;
                     }
                 } else {
-                    // Fallback για παλιά δεδομένα
-                    timeStr = slotItem;
+                    startIso = slotItem; // Fallback
                 }
 
-                html += `<button type="button" class="btn btn-outline-primary btn-sm time-slot-btn m-1" style="min-width: 70px;">
-                            ${timeStr}${spotsBadge}
+                // --- ΝΕΟ: Χρήση της helper function για Ώρα/Περίοδο ---
+                // Προσοχή: Το startIso είναι π.χ. "2024-05-10T09:00:00"
+                // Φτιάχνουμε Date object για να δουλέψει η helper
+                const dateObj = new Date(startIso);
+                const tInfo = getTimeInfo(dateObj);
+
+                html += `<button type="button" class="btn btn-outline-primary btn-sm time-slot-btn m-1 d-flex align-items-center gap-2" style="min-width: 90px;">
+                            <div class="text-start" style="line-height:1.1;">
+                                <div class="fw-bold fs-6">${tInfo.time}</div>
+                                <div class="small opacity-75" style="font-size:0.65em;">${tInfo.period}</div>
+                            </div>
+                            ${spotsBadge}
                          </button>`;
             });
             container.html(html);
@@ -434,6 +466,22 @@ function showAttendees(packageId) {
     });
 }
 
+// --- Helper: Format Time & Period (Πρωί/Απόγευμα) ---
+function getTimeInfo(dateInput) {
+    // Αν είναι string (ISO), φτιάχνουμε Date. Αν είναι ήδη Date, το κρατάμε.
+    const d = (typeof dateInput === 'string') ? new Date(dateInput) : dateInput;
+
+    const h = d.getHours();
+    const m = String(d.getMinutes()).padStart(2, '0');
+    const timeStr = `${String(h).padStart(2, '0')}:${m}`;
+
+    let period = 'Βράδυ';
+    if (h >= 5 && h < 12) period = 'Πρωί';
+    else if (h >= 12 && h < 17) period = 'Μεσημέρι';
+    else if (h >= 17 && h < 21) period = 'Απόγευμα';
+
+    return { time: timeStr, period: period };
+}
 
 /* ============================================================
    MAIN INITIALIZATION (DOMContentLoaded)
@@ -490,6 +538,46 @@ document.addEventListener('DOMContentLoaded', function () {
         return resources;
     }
 
+    function findTopEventAt(dateObj, resourceId = null) {
+        const t = dateObj.getTime();
+        const events = calendar.getEvents();
+
+        // προτεραιότητα: booking > group_event > block (ό,τι θες)
+        const priority = { booking: 3, group_event: 2, block: 1 };
+
+        let best = null;
+        let bestScore = -1;
+
+        events.forEach(ev => {
+            const p = ev.extendedProps || {};
+            const src = p.source;
+
+            if (!src || src === 'availability_bg' || ev.display === 'background') return;
+
+            // filter by resource if provided (resource views)
+            if (resourceId && ev.getResources && ev.getResources().length) {
+                const evRes = ev.getResources()[0]?.id;
+                if (evRes && String(evRes) !== String(resourceId)) return;
+            }
+
+            const s = ev.start ? ev.start.getTime() : null;
+            const e = ev.end ? ev.end.getTime() : (s ? s + 1 : null);
+            if (s === null || e === null) return;
+
+            // overlap check
+            if (t < e && t >= s) {
+                const score = priority[src] ?? 0;
+                if (score > bestScore) {
+                    bestScore = score;
+                    best = ev;
+                }
+            }
+        });
+
+        return best;
+    }
+
+
     async function loadTherapistsIntoSelect() {
         if (!therapistSelect) return;
         therapistSelect.innerHTML = '<option value="">-- Όλοι --</option>';
@@ -499,52 +587,46 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // -----------------------------------------------------------
-    // CALENDAR INITIALIZATION
-    // -----------------------------------------------------------
+    /* ============================================================
+        CALENDAR INITIALIZATION (With Drag Support)
+        ============================================================ */
     calendar = new FullCalendar.Calendar(calendarEl, {
         locale: 'el',
         timeZone: 'local',
-        initialView: 'resourceTimeGridWeek',
+
+        // --- VIEW & HEADER ---
+        initialView: 'dayGridMonth',
         headerToolbar: {
-            left: 'today prev,next',
+            left: 'prev,next today',
             center: 'title',
-            right: 'dayGridMonth,resourceTimeGridWeek,resourceTimeGridDay'
+            right: 'dayGridMonth,resourceTimeGridWeek,listWeek'
         },
+        buttonText: {
+            today: 'Σήμερα',
+            month: 'Μήνας',
+            week: 'Εβδομάδα',
+            day: 'Ημέρα',
+            list: 'Λίστα'
+        },
+
+        // --- SETTINGS ---
         height: 'auto',
         expandRows: true,
         resourceAreaWidth: '220px',
-        resourceAreaHeaderContent: 'Θεραπευτές',
         stickyHeaderDates: true,
         slotMinTime: '07:00:00',
         slotMaxTime: '23:00:00',
         slotDuration: '00:30:00',
         allDaySlot: false,
-        selectable: true,
-        editable: false,
+
+        // --- DRAG & DROP SETTINGS ---
+        selectable: true,      // Επιτρέπει το Drag
+        selectMirror: true,    // Δείχνει το ghost event καθώς σέρνεις
+        editable: false,       // Δεν θέλουμε να μετακινούνται τα υπάρχοντα events (μόνο create)
         nowIndicator: true,
+        dayMaxEvents: 4,
 
-        dayCellDidMount: function (info) {
-            if (info.view.type === 'dayGridMonth') {
-                const dateStr = info.date.toISOString().slice(0, 10);
-                monthCellMap[dateStr] = info.el;
-                info.el.style.position = 'relative';
-                if (!info.el.querySelector('.day-avatars')) {
-                    const wrap = document.createElement('div');
-                    wrap.className = 'day-avatars';
-                    info.el.appendChild(wrap);
-                }
-            }
-        },
-
-        datesSet: function (info) {
-            currentViewType = info.view.type;
-            if (currentViewType === 'dayGridMonth') {
-                document.querySelectorAll('.day-avatars').forEach(el => el.innerHTML = '');
-                fetchMonthSummary(info.startStr, info.endStr);
-            }
-        },
-
+        // --- RESOURCES ---
         resources: function (fetchInfo, successCallback) {
             if (therapistsCache.length === 0) {
                 fetchTherapists().then(() => {
@@ -555,211 +637,381 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
 
-        // --- EVENTS FETCH ---
+        // --- EVENT CONTENT (Card Look) ---
+        // --- 5. EVENT CONTENT (Η εμφάνιση "Κάρτας") ---
+        eventContent: function (arg) {
+            let p = arg.event.extendedProps;
+
+            // A. BUFFER
+            if (p.source === 'buffer') return { html: '' };
+
+            // B. BLOCKED
+            if (p.source === 'block') {
+                return {
+                    html: `
+                    <div class="d-flex align-items-center h-100 px-2 overflow-hidden">
+                        <i class="bi bi-slash-circle-fill me-2" style="font-size: 1em;"></i>
+                        <div class="fw-bold text-uppercase small" style="letter-spacing:0.5px; font-size:0.75em;">Blocked</div>
+                        ${p.notes ? `<div class="ms-1 small opacity-75 text-truncate">(${escapeHtml(p.notes)})</div>` : ''}
+                    </div>`
+                };
+            }
+
+            // C. SESSION / GROUP EVENT
+            if (p.source === 'session' || p.source === 'group_event') {
+                let current = parseInt(p.current_bookings || 0);
+                let max = parseInt(p.max_capacity || 0);
+
+                // Colors
+                let percentage = max > 0 ? (current / max) * 100 : 0;
+                let barColor = 'bg-success';
+                let textColor = 'text-muted';
+
+                if (percentage >= 100) { barColor = 'bg-danger'; textColor = 'text-danger fw-bold'; }
+                else if (percentage >= 75) { barColor = 'bg-warning'; textColor = 'text-dark fw-bold'; }
+
+                // --- ΝΕΟ: Υπολογισμός Ώρας ---
+                const tInfo = getTimeInfo(arg.event.start);
+
+                // HTML Structure
+                let html = `
+                <div class="p-1 h-100 d-flex flex-column justify-content-center">
+                    
+                    <div class="d-flex justify-content-between align-items-center mb-1" style="line-height:1;">
+                        <span class="badge bg-light text-secondary border shadow-sm" style="font-size:0.7em;">
+                            ${tInfo.time} <span class="fw-normal opacity-75 ms-1">(${tInfo.period})</span>
+                        </span>
+                    </div>
+
+                    <div class="fw-bold text-truncate text-dark mb-1" style="font-size:0.85em;">
+                        ${arg.event.title}
+                    </div>
+                    
+                    <div class="d-flex align-items-center" style="gap: 6px;">
+                        <div class="progress flex-grow-1 bg-light border" style="height: 5px;">
+                            <div class="progress-bar ${barColor}" role="progressbar" style="width: ${percentage}%"></div>
+                        </div>
+                        <span class="small ${textColor}" style="font-size:0.75em; min-width: 35px; text-align:right;">
+                            ${current}/${max}
+                        </span>
+                    </div>
+                </div>
+                `;
+                return { html: html };
+            }
+
+            return { html: `<div class="p-1 text-truncate">${arg.event.title}</div>` };
+        },
+
+        // --- EVENT CLICK ---
+        eventClick: function (info) {
+            const p = info.event.extendedProps;
+            if (p.source === 'block') {
+                const realId = String(info.event.id).replace('bl_', '');
+                if (confirm('Διαγραφή block;')) deleteBlock(realId);
+                return;
+            }
+            if (p.source === 'session' || p.source === 'group_event') {
+                const sessionId = info.event.id;
+                openSessionCommandCenter(sessionId, info.event);
+            }
+        },
+
+        // --- NEW: SELECT (DRAG TO CREATE) ---
+        select: function (info) {
+            // info.start, info.end, info.resource (αν είμαστε σε resource view)
+            const therapistId = info.resource ? info.resource.id : getSelectedTherapistId();
+
+            // 1. BLOCK MODE
+            if (isBlockMode) {
+                if (!therapistId || therapistId === 'unassigned') {
+                    alert('Παρακαλώ επιλέξτε συγκεκριμένο θεραπευτή (από τη λίστα ή το φίλτρο) για να βάλετε Block.');
+                    calendar.unselect();
+                    return;
+                }
+
+                const blockModalEl = document.getElementById('blockModal');
+                blockModalEl.dataset.therapistId = therapistId;
+                document.getElementById('blockTherapistLabel').textContent = info.resource ? info.resource.title : $('#therapistSelect option:selected').text();
+
+                // Format dates YYYY-MM-DD HH:mm (χωρίς T)
+                let startStr = formatDateToInput(info.start).replace('T', ' ');
+                let endStr = formatDateToInput(info.end).replace('T', ' ');
+
+                // Αν είμαστε σε Month View, το drag δίνει ολόκληρη μέρα (00:00 - 00:00 επόμενης).
+                // Βάζουμε default ώρες για ευκολία αν θες, αλλιώς το αφήνουμε 00:00
+                if (info.view.type === 'dayGridMonth') {
+                    startStr = ymdLocal(info.start) + ' 09:00';
+                    endStr = ymdLocal(info.start) + ' 10:00';
+                }
+
+                document.getElementById('blockStart').value = startStr;
+                document.getElementById('blockEnd').value = endStr;
+                document.getElementById('blockNotes').value = '';
+
+                new bootstrap.Modal(blockModalEl).show();
+                calendar.unselect();
+                return;
+            }
+
+            // 2. NORMAL MODE (New Booking)
+            resetForm();
+            $('#bookingModalTitle').text('Νέα Κράτηση');
+
+            // Format dates for datetime-local input (YYYY-MM-DDTHH:mm)
+            let startIso = formatDateToInput(info.start);
+            let endIso = formatDateToInput(info.end);
+
+            if (info.view.type === 'dayGridMonth') {
+                // Στο Month view, αν πατήσεις μια μέρα, ας βάλουμε default 1 ώρα
+                startIso = formatDateToInput(info.start).split('T')[0] + 'T09:00';
+                let endDateObj = new Date(info.start);
+                endDateObj.setHours(10);
+                endIso = formatDateToInput(endDateObj).split('T')[0] + 'T10:00';
+            }
+
+            $('#start_datetime').val(startIso);
+            $('#end_datetime').val(endIso);
+
+            const datePart = startIso.split('T')[0];
+            $('#slot_date_picker').val(datePart);
+
+            if (therapistId) {
+                // Load packages but don't trigger change yet to keep dates
+                $('#therapist_id').val(therapistId);
+                loadPackagesForTherapist(therapistId, null, { start: startIso, end: endIso });
+            }
+
+            bookingModal.show();
+            calendar.unselect();
+        },
+
+        // --- DATA SOURCE ---
         events: async function (fetchInfo, successCallback, failureCallback) {
             if (fetchAbortController) fetchAbortController.abort();
             fetchAbortController = new AbortController();
-            const signal = fetchAbortController.signal;
 
             try {
                 const fd = new FormData();
                 fd.append('action', 'calendar_getDataV2');
                 fd.append('start', fetchInfo.startStr);
                 fd.append('end', fetchInfo.endStr);
+                fd.append('therapist_id', getSelectedTherapistId() || '');
 
-                const isResourceView = (currentViewType.includes('resource'));
-                fd.append('include_availability', isResourceView ? '1' : '0');
+                const res = await apiPost(fd, fetchAbortController.signal);
 
-                const selectedTid = getSelectedTherapistId();
-                if (selectedTid !== null) fd.append('therapist_id', selectedTid);
+                if (res.success) {
+                    const events = res.data.map(item => {
+                        let className = (item.source === 'block') ? 'bg-block' :
+                            (item.source === 'session' || item.source === 'group_event') ? 'bg-session' : '';
 
-                const res = await apiPost(fd, signal);
-
-                if (!res.success) { failureCallback([]); return; }
-
-                const processedGroupsInMonth = new Set();
-
-                const events = (res.data || []).map(item => {
-                    const source = item.source;
-                    const isBg = (source === 'availability_bg' || item.display === 'background');
-
-                    if (currentViewType === 'dayGridMonth' && isBg) return null;
-                    if (selectedTid !== null && item.therapist_id == null && !isBg) return null;
-
-                    // De-duplicate groups in month view
-                    if (currentViewType === 'dayGridMonth' && source === 'group_event') {
-                        const m = String(item.id).match(/^grp_(\d+)/);
-                        const pkgId = m ? m[1] : item.id;
-                        if (processedGroupsInMonth.has(pkgId)) return null;
-                        processedGroupsInMonth.add(pkgId);
-                    }
-
-                    const startIso = item.start_datetime ? item.start_datetime.replace(' ', 'T') : null;
-                    const endIso = item.end_datetime ? item.end_datetime.replace(' ', 'T') : null;
-                    const resourceId = (item.therapist_id == null) ? 'unassigned' : String(item.therapist_id);
-
-                    const classNames = [];
-                    if (source === 'group_event') classNames.push('bg-group-event');
-                    if (source === 'block') classNames.push('bg-block');
-                    if (source === 'booking') classNames.push('bg-booked');
-                    if (source === 'availability_bg') classNames.push('bg-availability');
-
-                    // Buffer Styling
-                    if (source === 'buffer') classNames.push('bg-light', 'text-muted', 'small', 'fst-italic', 'opacity-75');
-
-                    return {
-                        id: item.id,
-                        start: startIso,
-                        end: endIso,
-                        title: item.title || '',
-                        classNames: classNames,
-                        display: item.display || (isBg ? 'background' : 'auto'),
-                        resourceId: resourceId,
-                        backgroundColor: (source === 'buffer') ? '#e9ecef' : undefined,
-                        borderColor: (source === 'buffer') ? '#dee2e6' : undefined,
-                        extendedProps: {
-                            source,
-                            isGroup: item.is_group ? 1 : 0,
-                            notes: item.notes,
-                            therapistId: item.therapist_id,
-                            appointment_type: item.appointment_type
-                        }
-                    };
-                }).filter(Boolean);
-
-                successCallback(events);
-
-            } catch (err) { if (err.name !== 'AbortError') failureCallback([]); }
-        },
-
-        // --- EVENT CONTENT ---
-        eventContent: function (arg) {
-            if (arg.event.extendedProps.source === 'buffer') {
-                return { html: '<div class="fc-event-main-frame h-100 d-flex align-items-center justify-content-center"><i class="bi bi-hourglass-split text-secondary"></i></div>' };
-            }
-        },
-        eventDidMount: function (info) {
-            const p = info.event.extendedProps;
-            const titleEl = info.el.querySelector('.fc-event-title');
-
-            if (titleEl && p.source !== 'buffer') {
-                if (p.source === 'group_event') {
-                    titleEl.innerHTML = `<i class="bi bi-people-fill me-1"></i> ${info.event.title}`;
+                        return {
+                            id: item.id,
+                            title: item.title,
+                            start: item.start_datetime,
+                            end: item.end_datetime,
+                            resourceId: item.therapist_id,
+                            className: className,
+                            extendedProps: {
+                                source: item.source,
+                                current_bookings: parseInt(item.current_bookings || 0),
+                                max_capacity: parseInt(item.max_capacity || 0),
+                                package_id: item.package_id,
+                                therapist_id: item.therapist_id,
+                                price: item.price,
+                                notes: item.notes
+                            }
+                        };
+                    });
+                    successCallback(events);
+                } else {
+                    failureCallback([]);
                 }
-                if (p.source === 'block') {
-                    // --- ENHANCED BLOCK DISPLAY ---
-                    let html = `<i class="bi bi-slash-circle me-1"></i> Block`;
-                    // Αν υπάρχει σημείωση, την προσθέτουμε
-                    if (p.notes) {
-                        html += ` <span class="fw-normal opacity-75">(${escapeHtml(p.notes)})</span>`;
-                    }
-                    titleEl.innerHTML = html;
-
-                    // Add Tooltip for long notes (optional but helpful)
-                    titleEl.title = p.notes || 'Block';
-                }
-                if (p.source === 'booking') {
-                    // Default Icon (Generic)
-                    let icon = '<i class="bi bi-person-check-fill me-1"></i>';
-
-                    // Logic based on Appointment Type (passed from backend)
-                    // Ensure your backend 'calendar_getDataV2' returns 'appointment_type' in extendedProps!
-                    const type = p.appointment_type; // e.g. 'online' or 'inPerson'
-
-                    if (type === 'online') {
-                        icon = '<i class="bi bi-camera-video-fill me-1 text-white"></i>'; // Video Icon
-                    } else if (type === 'inPerson') {
-                        icon = '<i class="bi bi-geo-alt-fill me-1 text-white"></i>'; // Location Icon
-                    }
-
-                    titleEl.innerHTML = `${icon} ${info.event.title}`;
-                }
-            }
-        },
-
-        // --- SELECT: ADD NEW ---
-        select: function (info) {
-            const resObj = info.resource;
-            const therapistId = resObj ? resObj.id : getSelectedTherapistId();
-
-            // 1. ΑΝ ΕΙΝΑΙ BLOCK MODE -> ΑΝΟΙΓΕ BLOCK MODAL
-            if (isBlockMode) {
-                if (!therapistId || therapistId === 'unassigned') {
-                    alert('Παρακαλώ επιλέξτε συγκεκριμένο θεραπευτή (στήλη ή φίλτρο) για να βάλετε Block.');
-                    calendar.unselect();
-                    return;
-                }
-
-                // Γέμισμα του Block Modal
-                const blockModalEl = document.getElementById('blockModal');
-                // Αποθηκεύουμε τον θεραπευτή στο dataset
-                blockModalEl.dataset.therapistId = therapistId;
-
-                // Εμφάνιση ονόματος
-                const tName = resObj ? resObj.title : $('#therapistSelect option:selected').text();
-                document.getElementById('blockTherapistLabel').textContent = tName;
-
-                // Ημερομηνίες (τις κόβουμε για να μην έχουν T)
-                // To input type="text" του block θέλει YYYY-MM-DD HH:mm:ss ή παρόμοιο. 
-                // Εδώ βάζουμε local string για ευκολία ή formatISO.
-                // Ας χρησιμοποιήσουμε το helper formatDateToInput που φτιάξαμε, αλλά με replace 'T' -> ' ' για ομορφιά
-                document.getElementById('blockStart').value = formatDateToInput(info.start).replace('T', ' ');
-                document.getElementById('blockEnd').value = formatDateToInput(info.end).replace('T', ' ');
-
-                document.getElementById('blockNotes').value = ''; // Καθαρισμός
-
-                const blModal = new bootstrap.Modal(blockModalEl);
-                blModal.show();
-                calendar.unselect();
-                return; // Σταματάμε εδώ, δεν ανοίγουμε booking
-            }
-
-            // 2. ΑΛΛΙΩΣ -> ΚΑΝΟΝΙΚΗ ΚΡΑΤΗΣΗ (Ο παλιός κώδικας)
-            resetForm();
-            $('#bookingModalTitle').text('Νέα Κράτηση');
-
-            $('#start_datetime').val(formatDateToInput(info.start));
-            $('#end_datetime').val(formatDateToInput(info.end));
-
-            const datePart = info.startStr.split('T')[0];
-            $('#slot_date_picker').val(datePart);
-
-            if (therapistId && therapistId !== 'unassigned') {
-                setTimeout(() => { $('#therapist_id').val(therapistId).trigger('change'); }, 100);
-            }
-
-            $('#tab-payments').prop('disabled', true);
-            $('#paymentsList').empty();
-            $('#pay_total').text('€0.00');
-
-            // Show details tab
-            const triggerEl = document.querySelector('#tab-details');
-            if (triggerEl) bootstrap.Tab.getOrCreateInstance(triggerEl).show();
-
-            bookingModal.show();
-            calendar.unselect();
-        },
-
-        // --- EVENT CLICK ---
-        eventClick: function (info) {
-            const p = info.event.extendedProps;
-
-            if (p.source === 'group_event') {
-                const m = String(info.event.id).match(/^grp_(\d+)/);
-                const pkgId = m ? parseInt(m[1], 10) : 0;
-                if (pkgId) openGroupModal(pkgId);
-            } else if (p.source === 'block') {
-                const realId = String(info.event.id).replace('bl_', '');
-                if (confirm('Διαγραφή block;')) deleteBlock(realId);
-            } else if (p.source === 'booking') {
-                const bookingId = info.event.id;
-                const cleanId = String(bookingId).replace('bk_', '');
-                openBookingEditModal(cleanId);
+            } catch (err) {
+                if (err.name !== 'AbortError') failureCallback([]);
             }
         }
     });
 
     calendar.render();
+
+    // --- OPEN SESSION COMMAND CENTER ---
+    async function openSessionCommandCenter(sessionId, eventObj) {
+        const modalEl = document.getElementById('sessionModal');
+        const modal = new bootstrap.Modal(modalEl);
+        const btnAdd = document.getElementById('btnSessionAddBooking');
+        const p = eventObj.extendedProps;
+
+        // --- 1. ΑΠΟΘΗΚΕΥΣΗ ΔΕΔΟΜΕΝΩΝ ΣΤΟ ΚΟΥΜΠΙ (ΓΙΑ PRE-FILL) ---
+
+        // A. Therapist ID
+        const tid = p.therapist_id || '';
+        btnAdd.setAttribute('data-therapist-id', tid);
+
+        // B. Package ID
+        let pkgId = p.package_id || '';
+        // Αν είναι Group Event (grp_15), το Package ID είναι το 15
+        if ((!pkgId || pkgId == 0) && sessionId.toString().startsWith('grp_')) {
+            let parts = sessionId.split('_');
+            if (parts[1]) pkgId = parts[1];
+        }
+        btnAdd.setAttribute('data-package-id', pkgId);
+
+        // C. Dates & Fallback Logic
+        let startObj = eventObj.start;
+        let endObj = eventObj.end;
+
+        // Αν το end είναι null (συμβαίνει συχνά στο FullCalendar), υπολόγισε +60 λεπτά
+        if (!endObj) {
+            endObj = new Date(startObj.getTime() + 60 * 60000);
+        }
+
+        btnAdd.setAttribute('data-start', formatDateToInput(startObj));
+        btnAdd.setAttribute('data-end', formatDateToInput(endObj));
+
+
+        // --- 2. UI Updates (Header, Time, Capacity) ---
+        document.getElementById('sessionModalTitle').innerText = eventObj.title;
+
+        const dateStr = startObj.toLocaleDateString('el-GR', { weekday: 'short', day: 'numeric', month: 'short' });
+        const timeStr = `${String(startObj.getHours()).padStart(2, '0')}:${String(startObj.getMinutes()).padStart(2, '0')} - ${String(endObj.getHours()).padStart(2, '0')}:${String(endObj.getMinutes()).padStart(2, '0')}`;
+        document.getElementById('sessionModalTime').innerText = `${dateStr} • ${timeStr}`;
+
+        // Reset List & Loaders
+        const tbody = document.getElementById('sessionAttendeesList');
+        tbody.innerHTML = '<tr><td colspan="4" class="text-center py-4"><div class="spinner-border text-primary"></div></td></tr>';
+
+        // Initial Capacity
+        document.getElementById('sessionCapacityCount').innerText = `${p.current_bookings}/${p.max_capacity}`;
+
+        // --- 3. EDIT BUTTON LOGIC ---
+        const btnEdit = document.getElementById('btnEditSessionDetails');
+        if (pkgId) {
+            btnEdit.classList.remove('d-none');
+            btnEdit.onclick = function () { window.location.href = `/packages.php?id=${pkgId}`; };
+        } else {
+            btnEdit.classList.add('d-none');
+        }
+
+        modal.show();
+
+        // --- 4. Fetch Details (Attendees) ---
+        const fd = new FormData();
+        fd.append('action', 'getSessionDetails');
+        fd.append('session_id', sessionId);
+        fd.append('csrf_token', getCsrfToken());
+
+        const res = await apiPostGlobal(fd);
+
+        if (res.success) {
+            const attendees = res.attendees || [];
+            const manualCount = parseInt(res.manual_count || 0);
+            tbody.innerHTML = '';
+
+            if (attendees.length === 0 && manualCount === 0) {
+                document.getElementById('sessionEmptyState').classList.remove('d-none');
+            } else {
+                document.getElementById('sessionEmptyState').classList.add('d-none');
+
+                // Render Attendees
+                attendees.forEach(att => {
+                    let statusBadge = att.payment_status === 'paid'
+                        ? '<span class="badge bg-success">Paid</span>'
+                        : '<span class="badge bg-warning text-dark">Unpaid</span>';
+
+                    let paxBadge = att.attendees_count > 1 ? ` <span class="badge bg-info text-dark border ms-1">+${att.attendees_count - 1}</span>` : '';
+
+                    let row = `
+                    <tr>
+                        <td class="ps-4">
+                            <div class="fw-bold text-dark">${escapeHtml(att.client_name)}${paxBadge}</div>
+                            <div class="small text-muted">${att.notes || ''}</div>
+                        </td>
+                        <td><div class="small"><i class="bi bi-telephone me-1"></i> ${att.phone || '-'}</div></td>
+                        <td>${statusBadge}</td>
+                        <td class="text-end pe-4">
+                            <button class="btn btn-sm btn-light border edit-booking-btn" data-booking-id="${att.booking_id}"><i class="bi bi-pencil-square text-primary"></i></button>
+                            <button class="btn btn-sm btn-light border text-danger delete-booking-btn" data-booking-id="${att.booking_id}"><i class="bi bi-x-lg"></i></button>
+                        </td>
+                    </tr>`;
+                    tbody.insertAdjacentHTML('beforeend', row);
+                });
+
+                // Render Manual
+                if (manualCount > 0) {
+                    tbody.insertAdjacentHTML('beforeend', `
+                    <tr class="table-warning border-warning">
+                        <td class="ps-4"><div class="fw-bold text-dark">Manual / Offline</div></td>
+                        <td colspan="2"><span class="badge bg-white text-dark border fw-bold">${manualCount} άτομα</span></td>
+                        <td></td>
+                    </tr>`);
+                }
+
+                // Update Header Count
+                let totalRealPax = manualCount;
+                attendees.forEach(a => totalRealPax += parseInt(a.attendees_count || 1));
+                document.getElementById('sessionCapacityCount').innerText = `${totalRealPax}/${p.max_capacity}`;
+            }
+        } else {
+            tbody.innerHTML = `<tr><td colspan="4" class="text-center text-danger">Error fetching details.</td></tr>`;
+        }
+    }
+
+    // --- WIRING UP BUTTONS ---
+
+    // 1. Edit Booking (From within the List)
+    $(document).on('click', '.edit-booking-btn', function () {
+        const bookingId = $(this).data('booking-id');
+        // We can use your existing Booking Modal logic here!
+        // But we need to make sure when it closes, it refreshes the Session Modal, not just the calendar.
+        $('#sessionModal').modal('hide'); // Hide session modal temporarily
+        openBookingEditModal(bookingId);
+    });
+
+    // 2. Add Booking (From Session Header)
+    $('#btnSessionAddBooking').click(function () {
+        $('#sessionModal').modal('hide'); // Κλείσε το session modal
+
+        // Reset Booking Form
+        resetForm();
+        $('#bookingModalTitle').text('Νέα Κράτηση (από Session)');
+
+        // Ανάκτηση δεδομένων από το κουμπί
+        // Χρησιμοποιούμε .attr() για να είμαστε σίγουροι ότι διαβάζουμε το DOM update
+        const btn = $(this);
+        const tid = btn.attr('data-therapist-id');
+        const pkgId = btn.attr('data-package-id');
+        const startIso = btn.attr('data-start'); // "YYYY-MM-DDTHH:mm"
+        const endIso = btn.attr('data-end');
+
+        console.log("Adding Booking Params:", { tid, pkgId, startIso, endIso }); // Για έλεγχο στην κονσόλα
+
+        // 1. Επιλογή Θεραπευτή
+        if (tid) {
+            // --- Η ΔΙΟΡΘΩΣΗ ΕΙΝΑΙ ΕΔΩ ---
+            // Βάζουμε ΜΟΝΟ την τιμή. ΔΕΝ κάνουμε .trigger('change')
+            // για να μην ξεκινήσει αυτόματη (κενή) φόρτωση πακέτων.
+            $('#therapist_id').val(tid);
+        }
+
+        // 2. Φόρτωση Πακέτων & Pre-select
+        // Καλούμε εμείς χειροκίνητα τη φόρτωση με τις σωστές παραμέτρους
+        if (tid) {
+            loadPackagesForTherapist(tid, pkgId, {
+                start: startIso,
+                end: endIso
+            });
+        }
+
+        // 3. Ενημέρωση του γενικού Date Picker (για οπτικούς λόγους)
+        if (startIso) {
+            const datePart = startIso.split('T')[0];
+            $('#slot_date_picker').val(datePart);
+        }
+
+        // Άνοιγμα Modal
+        bookingModal.show();
+    });
 
     // -----------------------------------------------------------
     // INTEGRATED BOOKING LOGIC
@@ -795,6 +1047,13 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#therapist_id').html(html);
         }, 500);
     })();
+
+    function isPastDate(dateStr) {
+        if (!dateStr) return false; // empty => let auto-find handle
+        // dateStr = YYYY-MM-DD
+        const todayStr = new Date().toISOString().slice(0, 10);
+        return dateStr < todayStr; // safe string compare in this format
+    }
 
     // Smart Flow Setup
     (function setupSmartBookingFlow() {
@@ -857,8 +1116,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // --- ΝΕΟ: ΑΥΤΟΜΑΤΗ ΕΥΡΕΣΗ ΠΡΩΤΗΣ ΔΙΑΘΕΣΙΜΗΣ ---
                 // Αν δεν έχει επιλεγεί ήδη ημερομηνία, ψάξε την πρώτη ελεύθερη
-                if (!$('#slot_date_picker').val()) {
-                    $('#slots_container').html('<div class="text-center my-3"><div class="spinner-border spinner-border-sm text-primary"></div><div class="small text-muted mt-1">Αναζήτηση διαθεσιμότητας...</div></div>');
+                const pickedDate = $('#slot_date_picker').val();
+
+                // ✅ Αν δεν υπάρχει ημερομηνία Ή είναι στο παρελθόν -> auto-find next available (όχι past)
+                if (!pickedDate || isPastDate(pickedDate)) {
+
+                    // καθάρισμα ώστε να ΜΗΝ κάνει refresh στην παλιά μέρα
+                    $('#slot_date_picker').val('');
+                    $('#start_datetime').val('');
+                    $('#end_datetime').val('');
+
+                    $('#slots_container').html(
+                        '<div class="text-center my-3">' +
+                        '<div class="spinner-border spinner-border-sm text-primary"></div>' +
+                        '<div class="small text-muted mt-1">Αναζήτηση επόμενης διαθεσιμότητας...</div>' +
+                        '</div>'
+                    );
 
                     $.post('includes/admin/ajax.php', {
                         action: 'findFirstAvailableDate',
@@ -868,14 +1141,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         csrf_token: getCsrfToken()
                     }, function (res) {
                         if (res.success && res.date) {
-                            // Βρέθηκε! Βάζουμε την ημερομηνία και ενεργοποιούμε το change για να φέρει τα slots
                             $('#slot_date_picker').val(res.date).trigger('change');
                         } else {
                             $('#slots_container').html('<div class="text-danger small fw-bold mt-2 text-center">Δεν βρέθηκε διαθεσιμότητα σύντομα.</div>');
                         }
                     }, 'json');
+
                 } else {
-                    // Αν έχει ήδη ημερομηνία, απλά ανανέωσε τα slots
+                    // ✅ έχει valid (σήμερα/μέλλον) ημερομηνία -> refresh slots
                     $('#slot_date_picker').trigger('change');
                 }
             }
@@ -1069,6 +1342,47 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
+    // --- SMART RULES: AUTO-CALCULATE END TIME ---
+
+    // 1. Όταν αλλάζει το Πακέτο -> Υπολόγισε το End Time
+    $(document).on('change', '.rule-package', function () {
+        const tr = $(this).closest('tr');
+        const pkgId = $(this).val();
+        const startVal = tr.find('.rule-start').val();
+
+        if (pkgId && startVal && availablePackagesList.length > 0) {
+            // Βρες το πακέτο στη λίστα για να πάρεις τη διάρκεια
+            // (Χρησιμοποιούμε == για loose equality σε περίπτωση string/int)
+            const pkg = availablePackagesList.find(p => p.id == pkgId);
+
+            if (pkg && pkg.duration_minutes) {
+                const newEnd = addMinutesToTime(startVal, pkg.duration_minutes);
+                tr.find('.rule-end').val(newEnd);
+
+                // Προαιρετικό: Ένα οπτικό εφέ ότι άλλαξε
+                tr.find('.rule-end').addClass('bg-warning-subtle');
+                setTimeout(() => tr.find('.rule-end').removeClass('bg-warning-subtle'), 500);
+            }
+        }
+    });
+
+    // 2. Όταν αλλάζει η Έναρξη (και υπάρχει επιλεγμένο πακέτο) -> Ενημέρωσε το End Time
+    $(document).on('change', '.rule-start', function () {
+        const tr = $(this).closest('tr');
+        const pkgId = tr.find('.rule-package').val();
+        const startVal = $(this).val();
+
+        if (pkgId && startVal && availablePackagesList.length > 0) {
+            const pkg = availablePackagesList.find(p => p.id == pkgId);
+
+            if (pkg && pkg.duration_minutes) {
+                const newEnd = addMinutesToTime(startVal, pkg.duration_minutes);
+                tr.find('.rule-end').val(newEnd);
+            }
+        }
+    });
+
+
     // Calendar UI Listeners
     therapistSelect?.addEventListener('change', function () {
         calendar.refetchResources();
@@ -1197,28 +1511,61 @@ document.addEventListener('DOMContentLoaded', function () {
         else calendar.refetchEvents();
     }
 
+
+    function addMinutesToTime(timeStr, minutes) {
+        if (!timeStr) return '';
+        let [h, m] = timeStr.split(':').map(Number);
+
+        let date = new Date();
+        date.setHours(h);
+        date.setMinutes(m + parseInt(minutes));
+
+        // Format back to HH:mm
+        let newH = String(date.getHours()).padStart(2, '0');
+        let newM = String(date.getMinutes()).padStart(2, '0');
+        return `${newH}:${newM}`;
+    }
+
+
+
     // --- Weekly Rules Modal Handlers ---
     const weeklyRulesModalEl = document.getElementById('weeklyRulesModal');
     const rulesTbody = document.querySelector('#rulesTable tbody');
+    // --- Helper: Generate Rule Row HTML ---
+    // --- Helper: Generate Rule Row HTML ---
     function ruleRowHtml(rule = {}) {
         const wd = (rule.weekday ?? 1);
-        const st = (rule.start_time ?? '10:00:00').slice(0, 5);
-        const en = (rule.end_time ?? '14:00:00').slice(0, 5);
-        const at = rule.appointment_type ?? '';
+        const st = (rule.start_time ?? '09:00').slice(0, 5);
+        const en = (rule.end_time ?? '17:00').slice(0, 5);
+        const pid = rule.package_id || ''; // Το ID του πακέτου από τον κανόνα
+
         const wdays = ['Κυριακή', 'Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο'];
+
+        // Χτίσιμο επιλογών (Options)
+        let pkgOptions = `<option value="" ${!pid ? 'selected' : ''} class="fw-bold text-muted">-- General Availability --</option>`;
+
+        if (Array.isArray(availablePackagesList) && availablePackagesList.length > 0) {
+            availablePackagesList.forEach(p => {
+                // Χρησιμοποιούμε == (όχι ===) για να πιάσουμε την ισότητα "5" == 5
+                let sel = (p.id == pid) ? 'selected' : '';
+                pkgOptions += `<option value="${p.id}" ${sel}>${p.title}</option>`;
+            });
+        }
+
         return `<tr>
-         <td><select class="form-select form-select-sm rule-weekday">
-           ${wdays.map((d, i) => `<option value="${i}" ${i == wd ? 'selected' : ''}>${d}</option>`).join('')}
-         </select></td>
-         <td><input type="time" class="form-control form-control-sm rule-start" value="${st}"></td>
-         <td><input type="time" class="form-control form-control-sm rule-end" value="${en}"></td>
-         <td><select class="form-select form-select-sm rule-type">
-           <option value="" ${at == '' ? 'selected' : ''}>(όλα)</option>
-           <option value="inPerson" ${at == 'inPerson' ? 'selected' : ''}>inPerson</option>
-           <option value="online" ${at == 'online' ? 'selected' : ''}>online</option>
-           <option value="mixed" ${at == 'mixed' ? 'selected' : ''}>mixed</option>
-         </select></td>
-         <td class="text-end"><button type="button" class="btn btn-sm btn-outline-danger delRuleRowBtn"><i class="bi bi-trash"></i></button></td>
+         <td>
+            <select class="form-select form-select-sm rule-weekday border-0 bg-light">
+               ${wdays.map((d, i) => `<option value="${i}" ${i == wd ? 'selected' : ''}>${d}</option>`).join('')}
+            </select>
+         </td>
+         <td><input type="time" class="form-control form-control-sm rule-start border-0" value="${st}"></td>
+         <td><input type="time" class="form-control form-control-sm rule-end border-0" value="${en}"></td>
+         <td>
+            <select class="form-select form-select-sm rule-package border-0" style="font-size:0.9em;">
+               ${pkgOptions}
+            </select>
+         </td>
+         <td class="text-end"><button type="button" class="btn btn-sm text-danger delRuleRowBtn"><i class="bi bi-x-lg"></i></button></td>
         </tr>`;
     }
 
@@ -1227,7 +1574,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const tid = getSelectedTherapistId();
         if (tid === null) { alert('Παρακαλώ επιλέξτε Θεραπευτή.'); return; }
 
-        // UI Updates
+        // UI Updates (Loader)
         document.getElementById('weeklyRulesTherapistLabel').textContent = therapistSelect.options[therapistSelect.selectedIndex].text;
         rulesTbody.innerHTML = `<tr><td colspan="5" class="text-center py-4 text-muted"><div class="spinner-border spinner-border-sm me-2"></div> Φόρτωση...</td></tr>`;
 
@@ -1235,35 +1582,62 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('policyWindow').value = '';
         document.getElementById('policyNotice').value = '';
 
-        // Fetch Data
-        const fd = new FormData();
-        fd.append('action', 'availabilityRules_get');
-        fd.append('therapist_id', tid);
+        try {
+            // 1. Προετοιμασία requests
 
-        const res = await apiPost(fd);
+            // Α. Φόρτωση Πακέτων (για να γεμίσει το dropdown)
+            const fdPkg = new FormData();
+            fdPkg.append('action', 'getTherapistPackages');
+            fdPkg.append('therapist_id', tid);
+            fdPkg.append('csrf_token', getCsrfToken());
 
-        // 1. Populate Table (Rules)
-        rulesTbody.innerHTML = '';
-        const rules = res.data || [];
-        if (!rules.length) {
-            rulesTbody.insertAdjacentHTML('beforeend', ruleRowHtml({ weekday: 1 }));
-        } else {
-            rules.forEach(r => rulesTbody.insertAdjacentHTML('beforeend', ruleRowHtml(r)));
+            // Β. Φόρτωση Κανόνων (Rules)
+            const fdRules = new FormData();
+            fdRules.append('action', 'availabilityRules_get');
+            fdRules.append('therapist_id', tid);
+            fdRules.append('csrf_token', getCsrfToken());
+
+            // 2. Εκτέλεση παράλληλα (Promise.all)
+            const [resPkg, resRules] = await Promise.all([
+                apiPost(fdPkg),
+                apiPost(fdRules)
+            ]);
+
+            // 3. Ενημέρωση Global λίστας πακέτων
+            // Το getTherapistPackages επιστρέφει {success: true, data: [...]}
+            availablePackagesList = resPkg.data || [];
+
+            console.log("Packages Loaded:", availablePackagesList); // Για έλεγχο στην κονσόλα
+
+            // 4. Εμφάνιση Κανόνων (Τώρα η ruleRowHtml θα βρει τα πακέτα)
+            rulesTbody.innerHTML = '';
+            const rules = resRules.data || [];
+
+            if (!rules.length) {
+                rulesTbody.insertAdjacentHTML('beforeend', ruleRowHtml({ weekday: 1 }));
+            } else {
+                rules.forEach(r => rulesTbody.insertAdjacentHTML('beforeend', ruleRowHtml(r)));
+            }
+
+            // 5. Εμφάνιση Πολιτικών
+            if (resRules.policies) {
+                document.getElementById('policyWindow').value = resRules.policies.booking_window_days || 60;
+                document.getElementById('policyNotice').value = resRules.policies.min_notice_hours || 12;
+            }
+
+            // 6. Άνοιγμα Modal
+            new bootstrap.Modal(weeklyRulesModalEl).show();
+
+        } catch (error) {
+            console.error(error);
+            rulesTbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger">Σφάλμα φόρτωσης δεδομένων.</td></tr>`;
         }
-
-        // 2. Populate Policies (New)
-        if (res.policies) {
-            document.getElementById('policyWindow').value = res.policies.booking_window_days || 60;
-            document.getElementById('policyNotice').value = res.policies.min_notice_hours || 12;
-        }
-
-        // Show Modal
-        new bootstrap.Modal(weeklyRulesModalEl).show();
     });
 
     document.getElementById('addRuleRowBtn')?.addEventListener('click', function () { rulesTbody.insertAdjacentHTML('beforeend', ruleRowHtml({})); });
     rulesTbody?.addEventListener('click', function (e) { if (e.target.closest('.delRuleRowBtn')) e.target.closest('tr').remove(); });
 
+    // --- SAVE ACTION (Save Rules & Policies) ---
     // --- SAVE ACTION (Save Rules & Policies) ---
     document.getElementById('saveWeeklyRulesBtn')?.addEventListener('click', async function () {
         const tid = getSelectedTherapistId();
@@ -1273,13 +1647,17 @@ document.addEventListener('DOMContentLoaded', function () {
         const originalText = btn.innerHTML;
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Αποθήκευση...';
+
         // 1. Prepare Rules Data
         const rows = Array.from(rulesTbody.querySelectorAll('tr'));
         const rules = rows.map(tr => ({
             weekday: parseInt(tr.querySelector('.rule-weekday').value, 10),
             start_time: tr.querySelector('.rule-start').value + ':00',
             end_time: tr.querySelector('.rule-end').value + ':00',
-            appointment_type: tr.querySelector('.rule-type').value || null,
+
+            // --- ΔΙΑΒΑΖΟΥΜΕ ΤΟ ΠΑΚΕΤΟ ---
+            package_id: tr.querySelector('.rule-package').value || null,
+
             is_active: 1
         }));
 
@@ -1287,6 +1665,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fdRules.append('action', 'availabilityRules_saveBulk');
         fdRules.append('therapist_id', tid);
         fdRules.append('rules_json', JSON.stringify(rules));
+        fdRules.append('csrf_token', getCsrfToken());
 
         // 2. Prepare Policies Data
         const fdPolicies = new FormData();
@@ -1294,9 +1673,9 @@ document.addEventListener('DOMContentLoaded', function () {
         fdPolicies.append('therapist_id', tid);
         fdPolicies.append('booking_window_days', document.getElementById('policyWindow').value);
         fdPolicies.append('min_notice_hours', document.getElementById('policyNotice').value);
+        fdPolicies.append('csrf_token', getCsrfToken());
 
         try {
-            // Send both requests in parallel
             const [resRules, resPolicies] = await Promise.all([
                 apiPost(fdRules),
                 apiPost(fdPolicies)
@@ -1305,20 +1684,14 @@ document.addEventListener('DOMContentLoaded', function () {
             if (resRules.success && resPolicies.success) {
                 bootstrap.Modal.getInstance(weeklyRulesModalEl).hide();
                 calendar.refetchEvents();
-                // Optional: Show success toast
             } else {
-                let errorMsg = 'Σφάλμα κατά την αποθήκευση:\n';
-                if (resRules.errors) errorMsg += 'Ωράριο: ' + resRules.errors.join(', ') + '\n';
-                if (resPolicies.errors) errorMsg += 'Πολιτικές: ' + resPolicies.errors.join(', ');
-                alert(errorMsg);
+                alert('Σφάλμα αποθήκευσης.');
             }
         } catch (e) {
             console.error(e);
-            alert('Σφάλμα επικοινωνίας.');
         } finally {
             btn.disabled = false;
             btn.innerHTML = originalText;
-
         }
     });
 

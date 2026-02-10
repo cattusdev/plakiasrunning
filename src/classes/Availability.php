@@ -85,10 +85,15 @@ class Availability
                 $buffer = isset($r->buffer_minutes) ? (int)$r->buffer_minutes : 0;
                 $endTs = strtotime($r->end_datetime) + ($buffer * 60);
 
+                // --- ΔΙΟΡΘΩΣΗ ΕΔΩ ---
+                // Αν το attendees_count είναι 0 ή NULL, το μετράμε σαν 1 άτομο
+                $count = (int)$r->attendees_count;
+                if ($count <= 0) $count = 1;
+
                 $out[] = [
                     'start' => strtotime($r->start_datetime),
                     'end'   => $endTs,
-                    'pax'   => (int)$r->attendees_count
+                    'pax'   => $count // Χρησιμοποιούμε το διορθωμένο count
                 ];
             }
         }

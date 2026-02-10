@@ -29,7 +29,7 @@ let listData = {
 document.addEventListener("DOMContentLoaded", function () {
     loadTherapistCheckboxes();
 
-    // --- DATATABLE ---
+    // --- DATATABLE CONFIG ---
     var columnDefs = [
         { data: "id", title: "ID", visible: false },
         {
@@ -75,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 1. STANDARD RUN (Recurring)
                 if (row.is_group == 0) {
                     let max = parseInt(row.max_attendants);
-                    // Αν είναι 1 = Private/Personal, αλλιώς Small Group
                     if (max === 1) {
                         return '<span class="badge bg-white text-dark border"><i class="bi bi-person me-1"></i>Personal (1)</span>';
                     } else {
@@ -111,15 +110,17 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (row.is_group == 1) {
                     attendBtn = `<a class="btn btn-sm btn-outline-dark border-0 me-1" title="Λίστα Runners" onclick="showAttendees(${row.id})"><i class="bi bi-people"></i></a>`;
                 }
+                // ΠΡΟΣΘΗΚΗ data-id ΓΙΑ ΕΥΚΟΛΙΑ
                 return `
                     ${attendBtn}
-                    <a class="btn btn-sm btn-light text-primary border me-1 edit-btn" title="Επεξεργασία"><i class="bi bi-pencil-square"></i></a>
+                    <a class="btn btn-sm btn-light text-primary border me-1 edit-btn" data-id="${row.id}" title="Επεξεργασία"><i class="bi bi-pencil-square"></i></a>
                     <a class="del${genSuffix} btn btn-sm btn-light text-danger border" title="Διαγραφή"><i class="bi bi-trash"></i></a>
                 `;
             }
         }
     ];
 
+    // --- DATATABLE INIT ---
     mainTable = $(tableName).DataTable({
         paging: true, responsive: true, autoWidth: false, pageLength: 25,
         dom: "rtip",
@@ -132,10 +133,13 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         initComplete: function () {
             $('#searchPackages').on('keyup', function () { mainTable.search(this.value).draw(); });
+
+            // --- ΝΕΟ: ΕΛΕΓΧΟΣ URL ΓΙΑ ΑΥΤΟΜΑΤΟ ΑΝΟΙΓΜΑ ---
+            checkUrlForEdit();
         }
     });
 
-    // --- MODAL ACTIONS ---
+    // --- NEW PACKAGE ACTION ---
     $(document).on("click", "#addNewPackage", function () {
         document.getElementById(genPrefix + "Form").reset();
 
@@ -146,8 +150,7 @@ document.addEventListener("DOMContentLoaded", function () {
         renderAllLists();
 
         $("#is_group").prop('checked', false);
-        // Trigger manually to update Help Text
-        document.getElementById('is_group').dispatchEvent(new Event('change'));
+        document.getElementById('is_group').dispatchEvent(new Event('change')); // Trigger help text update
 
         $('.therapist-cb').prop('checked', false);
         // Default values
@@ -155,74 +158,20 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#" + genPrefix + "ActionBtn").attr("data-action", "addPackage").text("Δημιουργία");
     });
 
+    // --- EDIT CLICK LISTENER (Updated to use common function) ---
     $(document).on("click", ".edit-btn", function (e) {
         e.preventDefault();
-        let tr = $(this).closest("tr");
-        let rowData = mainTable.row(tr).data();
-        let id = rowData.id;
-        let csrf_token = document.getElementsByName("csrf_token")[0].getAttribute("content");
-
-        $.ajax({
-            url: "includes/admin/ajax.php", type: "POST",
-            data: { action: "fetchPackage", id: id, csrf_token: csrf_token },
-            success: function (res) {
-                if (res.success) {
-                    let d = res.data;
-                    $("#packageID").val(d.id);
-                    $("#title").val(d.title);
-                    $("#category_id").val(d.category_id);
-                    $("#distance_km").val(d.distance_km);
-                    $("#elevation_gain").val(d.elevation_gain);
-                    $("#difficulty").val(d.difficulty);
-                    $("#terrain_type").val(d.terrain_type);
-                    $("#meeting_point_url").val(d.meeting_point_url);
-                    $("#price").val(d.price);
-                    $("#description").val(d.description);
-                    $("#duration_minutes").val(d.duration_minutes);
-                    $("#buffer_minutes").val(d.buffer_minutes);
-
-                    // Capacity
-                    $("#max_attendants").val(d.max_attendants);
-
-                    // Guides
-                    $('.therapist-cb').prop('checked', false);
-                    if (d.therapists && Array.isArray(d.therapists)) {
-                        d.therapists.forEach(tId => { $('#th_' + tId).prop('checked', true); });
-                    }
-
-                    // Group Logic
-                    if (d.is_group == 1) {
-                        $("#is_group").prop('checked', true);
-                        $("#groupSettings").removeClass('d-none');
-                        $("#manual_bookings").val(d.manual_bookings);
-                        if (d.start_datetime) $("#start_datetime").val(d.start_datetime.replace(' ', 'T').substring(0, 16));
-                    } else {
-                        $("#is_group").prop('checked', false);
-                        $("#groupSettings").addClass('d-none');
-                    }
-
-                    // Update Help Text based on state
-                    document.getElementById('is_group').dispatchEvent(new Event('change'));
-
-                    // Lists
-                    try { listData.includes = d.includes ? JSON.parse(d.includes) : []; } catch (e) { listData.includes = []; }
-                    listData.gearMandatory = [];
-                    listData.gearOptional = [];
-                    try {
-                        let gearObj = d.gear_requirements ? JSON.parse(d.gear_requirements) : {};
-                        if (gearObj.mandatory) listData.gearMandatory = gearObj.mandatory;
-                        if (gearObj.optional) listData.gearOptional = gearObj.optional;
-                    } catch (e) { }
-                    renderAllLists();
-
-                    $("#" + genPrefix + "ActionBtn").attr("data-action", "updPackage").text("Ενημέρωση");
-                    $("#packagesModal").modal("show");
-                }
-            }
-        });
+        let id = $(this).data('id');
+        // Fallback αν δεν υπάρχει data-id
+        if (!id) {
+            let tr = $(this).closest("tr");
+            let rowData = mainTable.row(tr).data();
+            id = rowData.id;
+        }
+        openEditPackageModal(id);
     });
 
-    // --- SAVE ---
+    // --- SAVE ACTION ---
     $("body").on("click", "#" + genPrefix + "ActionBtn", function (e) {
         e.preventDefault();
         const btn = $(this);
@@ -272,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Delete
+    // --- DELETE ACTION ---
     $(document).on("click", ".del" + genSuffix, async function () {
         let tr = $(this).closest("tr");
         let rowData = mainTable.row(tr).data();
@@ -285,7 +234,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Group Toggle Logic
+    // --- GROUP TOGGLE LOGIC ---
     document.getElementById('is_group').addEventListener('change', function () {
         const settings = document.getElementById('groupSettings');
         const helpText = document.getElementById('capacityHelpText');
@@ -300,6 +249,92 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+// ============================================================
+//  ΝΕΑ ΣΥΝΑΡΤΗΣΗ: OPEN EDIT MODAL (Reusable)
+// ============================================================
+function openEditPackageModal(id) {
+    let csrf_token = document.getElementsByName("csrf_token")[0].getAttribute("content");
+
+    $.ajax({
+        url: "includes/admin/ajax.php", type: "POST",
+        data: { action: "fetchPackage", id: id, csrf_token: csrf_token },
+        success: function (res) {
+            if (res.success) {
+                let d = res.data;
+                $("#packageID").val(d.id);
+                $("#title").val(d.title);
+                $("#category_id").val(d.category_id);
+                $("#distance_km").val(d.distance_km);
+                $("#elevation_gain").val(d.elevation_gain);
+                $("#difficulty").val(d.difficulty);
+                $("#terrain_type").val(d.terrain_type);
+                $("#meeting_point_url").val(d.meeting_point_url);
+                $("#price").val(d.price);
+                $("#description").val(d.description);
+                $("#duration_minutes").val(d.duration_minutes);
+                $("#buffer_minutes").val(d.buffer_minutes);
+
+                // Capacity
+                $("#max_attendants").val(d.max_attendants);
+
+                // Guides
+                $('.therapist-cb').prop('checked', false);
+                if (d.therapists && Array.isArray(d.therapists)) {
+                    d.therapists.forEach(tId => { $('#th_' + tId).prop('checked', true); });
+                }
+
+                // Group Logic
+                if (d.is_group == 1) {
+                    $("#is_group").prop('checked', true);
+                    $("#groupSettings").removeClass('d-none');
+                    $("#manual_bookings").val(d.manual_bookings);
+                    if (d.start_datetime) $("#start_datetime").val(d.start_datetime.replace(' ', 'T').substring(0, 16));
+                } else {
+                    $("#is_group").prop('checked', false);
+                    $("#groupSettings").addClass('d-none');
+                }
+
+                // Update Help Text
+                document.getElementById('is_group').dispatchEvent(new Event('change'));
+
+                // Lists
+                try { listData.includes = d.includes ? JSON.parse(d.includes) : []; } catch (e) { listData.includes = []; }
+                listData.gearMandatory = [];
+                listData.gearOptional = [];
+                try {
+                    let gearObj = d.gear_requirements ? JSON.parse(d.gear_requirements) : {};
+                    if (gearObj.mandatory) listData.gearMandatory = gearObj.mandatory;
+                    if (gearObj.optional) listData.gearOptional = gearObj.optional;
+                } catch (e) { }
+                renderAllLists();
+
+                $("#" + genPrefix + "ActionBtn").attr("data-action", "updPackage").text("Ενημέρωση");
+                $("#packagesModal").modal("show");
+            } else {
+                console.error("Package not found");
+            }
+        },
+        error: function (err) {
+            console.error("Ajax Error", err);
+        }
+    });
+}
+
+// ============================================================
+//  ΝΕΑ ΣΥΝΑΡΤΗΣΗ: CHECK URL PARAMETERS
+// ============================================================
+function checkUrlForEdit() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const packageId = urlParams.get('id');
+
+    if (packageId) {
+        openEditPackageModal(packageId);
+
+        // Optional: Remove ID from URL so refresh doesn't reopen it
+        // window.history.replaceState({}, document.title, window.location.pathname);
+    }
+}
 
 // --- HELPER FUNCTIONS ---
 function loadTherapistCheckboxes() {

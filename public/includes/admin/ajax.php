@@ -1192,6 +1192,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && Input::get('action', true) && Token
 
         // --- 2. GET AVAILABLE SLOTS (NEW LOGIC USING AVAILABILITY CLASS) ---
         case 'getAvailableSlots':
+
+    
             $tid = (int)Input::get('therapist_id');
             $pid = (int)Input::get('package_id');
             $date = Input::get('date'); // YYYY-MM-DD
@@ -1207,6 +1209,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && Input::get('action', true) && Token
             // 1. Fetch Package Info for Buffer & Type Rules
             $buffer = 0;
             $pkgType = 'inPerson'; // Default fallback
+
+           
+
 
             if ($pid) {
                 $p = $db->query("SELECT buffer_minutes, type FROM packages WHERE id = ?", [$pid]);
@@ -1225,6 +1230,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && Input::get('action', true) && Token
             $avail = new Availability();
 
             $step = ($pid && $duration > 0) ? $duration : 30;
+
+            
 
             // Εδώ γίνεται η "μαγεία": Ο αλγόριθμος ελέγχει Rules, Blocks, Capacity και Package Linking
             $results = $avail->computeAvailableStartTimesForTherapist(
@@ -2876,12 +2883,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && Input::get('action', true) && Token
         case 'calendar_getDataV2':
             $response = ['success' => false, 'data' => [], 'errors' => []];
 
-            $includeAvailability = isset($_POST['include_availability']) && (int)$_POST['include_availability'] === 1;
-
-            $therapistFilter = isset($_POST['therapist_id']) && $_POST['therapist_id'] !== ''
-                ? (int)$_POST['therapist_id']
-                : null;
-
+            $therapistFilter = isset($_POST['therapist_id']) && $_POST['therapist_id'] !== '' ? (int)$_POST['therapist_id'] : null;
             $rangeStart = isset($_POST['start']) ? date('Y-m-d H:i:s', strtotime($_POST['start'])) : null;
             $rangeEnd   = isset($_POST['end'])   ? date('Y-m-d H:i:s', strtotime($_POST['end']))   : null;
 
@@ -2894,88 +2896,165 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && Input::get('action', true) && Token
                 $db = Database::getInstance();
 
                 // -------------------------------------------------
-                // 1) BOOKINGS (Updated with Pax Count)
+                // STEP 1: PRE-CALCULATE BOOKINGS (COUNTS)
                 // -------------------------------------------------
-                $bookSql = "SELECT 
-                                b.id, b.start_datetime, b.end_datetime, b.status, b.appointment_type,
-                                b.therapist_id, b.package_id, b.attendees_count, /* <--- NEW FIELD */
-                                CONCAT(c.first_name,' ',c.last_name) AS client_name,
-                                p.title AS package_title,
-                                p.buffer_minutes,
-                                t.first_name AS t_fn, t.last_name AS t_ln
-                            FROM bookings b
-                            JOIN clients c ON c.id = b.client_id
-                            LEFT JOIN packages p ON p.id = b.package_id
-                            JOIN therapists t ON t.id = b.therapist_id
-                            WHERE b.status <> 'canceled'
-                              AND b.start_datetime < :re
-                              AND b.end_datetime > :rs";
+                // We use COALESCE(SUM(attendees_count), COUNT(id)) so if attendees_count is NULL (old data), it counts rows.
+                $countSql = "SELECT 
+                            therapist_id, 
+                            start_datetime, 
+                            COALESCE(SUM(attendees_count), COUNT(id)) as total_pax 
+                         FROM bookings 
+                         WHERE status <> 'canceled' 
+                           AND start_datetime < :re 
+                           AND end_datetime > :rs";
 
-                $bookParams = [':rs' => $rangeStart, ':re' => $rangeEnd];
+                $cParams = [':rs' => $rangeStart, ':re' => $rangeEnd];
                 if ($therapistFilter) {
-                    $bookSql .= " AND b.therapist_id = :tid";
-                    $bookParams[':tid'] = $therapistFilter;
+                    $countSql .= " AND therapist_id = :tid";
+                    $cParams[':tid'] = $therapistFilter;
+                }
+                $countSql .= " GROUP BY therapist_id, start_datetime";
+
+                $bookingCounts = [];
+                $rows = $db->query($countSql, $cParams) ?: [];
+
+                foreach ($rows as $r) {
+                    // Normalize date key to remove potential seconds issues or formatting differences
+                    // We convert DB date to timestamp and back to string to ensure consistency
+                    $keyTime = strtotime($r->start_datetime);
+                    $key = $r->therapist_id . '_' . $keyTime;
+                    $bookingCounts[$key] = (int)$r->total_pax;
                 }
 
-                $bookings = $db->query($bookSql, $bookParams) ?: [];
+                // -------------------------------------------------
+                // STEP 2: GENERATE SESSION CARDS (From Rules)
+                // -------------------------------------------------
 
-                foreach ($bookings as $b) {
-                    $therName = trim(($b->t_fn ?? '') . ' ' . ($b->t_ln ?? ''));
+                // Get Therapists List
+                $targetTids = [];
+                if ($therapistFilter) {
+                    $targetTids[] = $therapistFilter;
+                } else {
+                    $trows = $db->query("SELECT id FROM therapists WHERE is_active = 1") ?: [];
+                    foreach ($trows as $t) $targetTids[] = (int)$t->id;
+                }
 
-                    // Title Logic: Client Name (+Pax) • Package
-                    // Αν είναι > 1 άτομο, δείχνουμε (+X)
-                    $paxInfo = ((int)$b->attendees_count > 1) ? " (+" . ($b->attendees_count - 1) . ")" : "";
-                    $title = trim(($b->client_name ?? '') . $paxInfo . ' • ' . ($b->package_title ?? ''));
+                if (!empty($targetTids)) {
+                    $in = implode(',', $targetTids);
 
-                    // Αν βλέπουμε το γενικό ημερολόγιο (χωρίς φίλτρο guide), δείχνουμε και ποιος το έχει αναλάβει
-                    if (!$therapistFilter && $therName) $title .= " ({$therName})";
+                    // Fetch Rules
+                    $rulesSql = "SELECT r.therapist_id, r.weekday, r.start_time, r.end_time, 
+                                    p.id as pkg_id, p.title as pkg_title, p.max_attendants, p.price
+                             FROM therapist_availability_rules r
+                             LEFT JOIN packages p ON r.package_id = p.id
+                             WHERE r.is_active = 1 AND r.therapist_id IN ($in)";
 
-                    // A. Main Event
-                    $response['data'][] = [
-                        'id' => 'bk_' . $b->id,
-                        'start_datetime' => $b->start_datetime,
-                        'end_datetime' => $b->end_datetime,
-                        'title' => $title,
-                        'status' => 'booked',
-                        'appointment_type' => $b->appointment_type,
-                        'source' => 'booking',
-                        'is_group' => 0,
-                        'therapist_id' => (int)$b->therapist_id,
-                    ];
+                    $rules = $db->query($rulesSql) ?: [];
+                    $ruleMap = [];
+                    foreach ($rules as $r) {
+                        $ruleMap[(int)$r->therapist_id][(int)$r->weekday][] = $r;
+                    }
 
-                    // B. Buffer Event (Grey Background)
-                    if (!empty($b->buffer_minutes) && $b->buffer_minutes > 0) {
-                        $bufStart = $b->end_datetime;
-                        $bufEnd = date('Y-m-d H:i:s', strtotime($bufStart . " +{$b->buffer_minutes} minutes"));
+                    // Iterate Days
+                    $dtStart = new DateTime($rangeStart);
+                    $dtEnd   = new DateTime($rangeEnd);
+                    $dtEnd->modify('+1 second');
+                    $period = new DatePeriod($dtStart, new DateInterval('P1D'), $dtEnd);
 
-                        if ($bufStart < $rangeEnd && $bufEnd > $rangeStart) {
-                            $response['data'][] = [
-                                'id' => 'buf_' . $b->id,
-                                'start_datetime' => $bufStart,
-                                'end_datetime' => $bufEnd,
-                                'title' => 'Buffer',
-                                'source' => 'buffer',
-                                'display' => 'background',
-                                'therapist_id' => (int)$b->therapist_id
-                            ];
+                    foreach ($period as $dt) {
+                        $dateStr = $dt->format('Y-m-d');
+                        $wd = (int)$dt->format('w');
+
+                        foreach ($targetTids as $tid) {
+                            if (empty($ruleMap[$tid][$wd])) continue;
+
+                            foreach ($ruleMap[$tid][$wd] as $rule) {
+                                $startFull = $dateStr . ' ' . $rule->start_time; // e.g., 2023-10-10 09:00:00
+                                $endFull   = $dateStr . ' ' . $rule->end_time;
+
+                                // Generate Key for Count Lookup matches the logic in Step 1
+                                $keyTime = strtotime($startFull);
+                                $lookupKey = $tid . '_' . $keyTime;
+
+                                $currentBooked = isset($bookingCounts[$lookupKey]) ? $bookingCounts[$lookupKey] : 0;
+
+                                // Define Max Capacity (Default 15)
+                                $maxCap = (int)($rule->max_attendants ?? 15);
+                                $title = $rule->pkg_title ?: 'Available Slot';
+
+                                $response['data'][] = [
+                                    'id'               => 'sess_' . $tid . '_' . $keyTime,
+                                    'start_datetime'   => $startFull,
+                                    'end_datetime'     => $endFull,
+                                    'title'            => $title,
+                                    'source'           => 'session',
+                                    'is_group'         => 0,
+                                    'therapist_id'     => $tid,
+                                    'package_id'       => (int)$rule->pkg_id,
+                                    'current_bookings' => $currentBooked,
+                                    'max_capacity'     => $maxCap,
+                                    'price'            => $rule->price,
+                                    'display'          => 'auto'
+                                ];
+                            }
                         }
                     }
                 }
 
                 // -------------------------------------------------
-                // 2) BLOCKS (Hard Blocks - Αμετάβλητο)
+                // STEP 3: GROUP EVENTS (Specific Dates)
                 // -------------------------------------------------
-                $blockSql = "SELECT id, therapist_id, start_datetime, end_datetime, kind, notes 
-                             FROM therapist_time_blocks 
-                             WHERE start_datetime < :re AND end_datetime > :rs AND kind = 'block'";
+                $grpSql = "SELECT 
+                        p.id, p.title, p.start_datetime, p.duration_minutes, 
+                        p.max_attendants, p.manual_bookings,
+                        pt.therapist_id
+                       FROM packages p
+                       LEFT JOIN package_therapists pt ON pt.package_id = p.id
+                       WHERE p.is_group = 1 
+                         AND p.start_datetime < :re 
+                         AND DATE_ADD(p.start_datetime, INTERVAL p.duration_minutes MINUTE) > :rs";
 
-                $blockParams = [':rs' => $rangeStart, ':re' => $rangeEnd];
+                $gParams = [':rs' => $rangeStart, ':re' => $rangeEnd];
                 if ($therapistFilter) {
-                    $blockSql .= " AND therapist_id = :tid";
-                    $blockParams[':tid'] = $therapistFilter;
+                    $grpSql .= " AND pt.therapist_id = :tid";
+                    $gParams[':tid'] = $therapistFilter;
                 }
 
-                $blocks = $db->query($blockSql, $blockParams) ?: [];
+                $groups = $db->query($grpSql, $gParams) ?: [];
+                foreach ($groups as $g) {
+                    $endDT = date('Y-m-d H:i:s', strtotime($g->start_datetime . " +{$g->duration_minutes} minutes"));
+
+                    // Lookup Count
+                    $tid = (int)$g->therapist_id;
+                    $keyTime = strtotime($g->start_datetime);
+                    $lookupKey = $tid . '_' . $keyTime;
+
+                    $dbCount = isset($bookingCounts[$lookupKey]) ? $bookingCounts[$lookupKey] : 0;
+                    $totalBooked = $dbCount + (int)$g->manual_bookings;
+
+                    $response['data'][] = [
+                        'id'               => 'grp_' . $g->id,
+                        'start_datetime'   => $g->start_datetime,
+                        'end_datetime'     => $endDT,
+                        'title'            => $g->title,
+                        'source'           => 'group_event',
+                        'is_group'         => 1,
+                        'therapist_id'     => $tid,
+                        'current_bookings' => $totalBooked,
+                        'max_capacity'     => (int)$g->max_attendants
+                    ];
+                }
+
+                // -------------------------------------------------
+                // STEP 4: BLOCKS
+                // -------------------------------------------------
+                $blockSql = "SELECT id, therapist_id, start_datetime, end_datetime, notes 
+                         FROM therapist_time_blocks 
+                         WHERE kind = 'block' AND start_datetime < :re AND end_datetime > :rs";
+                if ($therapistFilter) {
+                    $blockSql .= " AND therapist_id = " . (int)$therapistFilter;
+                }
+                $blocks = $db->query($blockSql, [':rs' => $rangeStart, ':re' => $rangeEnd]) ?: [];
                 foreach ($blocks as $bl) {
                     $response['data'][] = [
                         'id' => 'bl_' . $bl->id,
@@ -2984,137 +3063,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && Input::get('action', true) && Token
                         'title' => 'Blocked',
                         'notes' => $bl->notes,
                         'source' => 'block',
-                        'is_group' => 0,
-                        'therapist_id' => (int)$bl->therapist_id,
+                        'therapist_id' => (int)$bl->therapist_id
                     ];
-                }
-
-                // -------------------------------------------------
-                // 3) GROUP EVENTS (Specific Date Events)
-                // -------------------------------------------------
-                $grpParams = [':rs' => $rangeStart, ':re' => $rangeEnd];
-                $grpSql = "SELECT 
-                             p.id, p.title, p.type AS appointment_type, 
-                             p.start_datetime,
-                             DATE_ADD(p.start_datetime, INTERVAL p.duration_minutes MINUTE) AS end_datetime,
-                             pt.therapist_id
-                           FROM packages p
-                           LEFT JOIN package_therapists pt ON pt.package_id = p.id
-                           WHERE p.is_group = 1 
-                             AND p.start_datetime IS NOT NULL
-                             AND p.start_datetime < :re 
-                             AND DATE_ADD(p.start_datetime, INTERVAL p.duration_minutes MINUTE) > :rs";
-
-                if ($therapistFilter) {
-                    $grpSql .= " AND pt.therapist_id = :tid";
-                    $grpParams[':tid'] = $therapistFilter;
-                }
-
-                $groups = $db->query($grpSql, $grpParams) ?: [];
-                foreach ($groups as $g) {
-                    $tid = ($g->therapist_id !== null) ? (int)$g->therapist_id : null;
-                    $response['data'][] = [
-                        'id' => $tid ? ('grp_' . $g->id . '_t' . $tid) : ('grp_' . $g->id),
-                        'start_datetime' => $g->start_datetime,
-                        'end_datetime' => $g->end_datetime,
-                        'title' => $g->title,
-                        'status' => 'booked',
-                        'appointment_type' => $g->appointment_type,
-                        'source' => 'group_event',
-                        'is_group' => 1,
-                        'therapist_id' => $tid,
-                    ];
-                }
-
-                // -------------------------------------------------
-                // 4) AVAILABILITY (Recurring Rules)
-                // -------------------------------------------------
-                if ($includeAvailability) {
-                    $targetTids = [];
-                    if ($therapistFilter) {
-                        $targetTids[] = $therapistFilter;
-                    } else {
-                        $trows = $db->query("SELECT id FROM therapists WHERE is_active = 1") ?: [];
-                        foreach ($trows as $t) $targetTids[] = (int)$t->id;
-                    }
-
-                    if (!empty($targetTids)) {
-                        $in = implode(',', $targetTids);
-
-                        // NEW: Φέρνουμε και το τίτλο του Πακέτου (αν υπάρχει assignment)
-                        $rulesSql = "SELECT r.therapist_id, r.weekday, r.start_time, r.end_time, 
-                                            p.title as pkg_title
-                                     FROM therapist_availability_rules r
-                                     LEFT JOIN packages p ON r.package_id = p.id
-                                     WHERE r.is_active = 1 AND r.therapist_id IN ($in)";
-
-                        $rules = $db->query($rulesSql) ?: [];
-                        $ruleMap = [];
-
-                        foreach ($rules as $r) {
-                            $ruleMap[(int)$r->therapist_id][(int)$r->weekday][] = [
-                                'start' => $r->start_time,
-                                'end'   => $r->end_time,
-                                'title' => $r->pkg_title // Αποθηκεύουμε το όνομα του Route
-                            ];
-                        }
-
-                        // Generate Dates Logic
-                        try {
-                            $dtStart = new DateTime($rangeStart);
-                            $dtEnd   = new DateTime($rangeEnd);
-                            $dtEnd->modify('+1 second');
-                            $period = new DatePeriod($dtStart, new DateInterval('P1D'), $dtEnd);
-
-                            foreach ($period as $dt) {
-                                $dateStr = $dt->format('Y-m-d');
-                                $wd = (int)$dt->format('w');
-
-                                foreach ($targetTids as $tid) {
-                                    if (empty($ruleMap[$tid][$wd])) continue;
-
-                                    foreach ($ruleMap[$tid][$wd] as $win) {
-                                        $response['data'][] = [
-                                            'id' => 'av_' . $tid . '_' . $dateStr . '_' . str_replace(':', '', $win['start']),
-                                            'start_datetime' => $dateStr . ' ' . $win['start'],
-                                            'end_datetime'   => $dateStr . ' ' . $win['end'],
-                                            // Δείχνουμε το όνομα του Route στο background event
-                                            'title'          => $win['title'] ?: '',
-                                            'status'         => 'available',
-                                            'source'         => 'availability_bg',
-                                            'is_group'       => 0,
-                                            'therapist_id'   => $tid,
-                                            'display'        => 'background'
-                                        ];
-                                    }
-                                }
-                            }
-                        } catch (Exception $e) {
-                        }
-
-                        // Extra Open Blocks (Εξαιρέσεις που ανοίγουν πρόγραμμα)
-                        $extraSql = "SELECT id, therapist_id, start_datetime, end_datetime 
-                                     FROM therapist_time_blocks 
-                                     WHERE kind = 'extra_open' AND start_datetime < :re AND end_datetime > :rs";
-                        if ($therapistFilter) $extraSql .= " AND therapist_id = " . $therapistFilter;
-
-                        $extra = $db->query($extraSql, [':rs' => $rangeStart, ':re' => $rangeEnd]) ?: [];
-                        foreach ($extra as $e) {
-                            if (in_array((int)$e->therapist_id, $targetTids)) {
-                                $response['data'][] = [
-                                    'id' => 'ex_' . $e->id,
-                                    'start_datetime' => $e->start_datetime,
-                                    'end_datetime' => $e->end_datetime,
-                                    'title' => 'Extra Open',
-                                    'status' => 'available',
-                                    'source' => 'availability_bg',
-                                    'is_group' => 0,
-                                    'therapist_id' => (int)$e->therapist_id,
-                                    'display' => 'background'
-                                ];
-                            }
-                        }
-                    }
                 }
 
                 $response['success'] = true;
@@ -3123,7 +3073,84 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && Input::get('action', true) && Token
             }
 
             header('Content-Type: application/json');
-            exit(json_encode($response));
+            echo json_encode($response);
+            exit;
+            break;
+
+
+        case 'getSessionDetails':
+            $response = ['success' => false, 'attendees' => [], 'manual_count' => 0];
+            $sessionId = $_POST['session_id'] ?? '';
+
+            try {
+                $db = Database::getInstance();
+                $attendees = [];
+                $manualCount = 0;
+
+                // 1. GROUP EVENT (ID starts with "grp_")
+                if (strpos($sessionId, 'grp_') === 0) {
+                    $parts = explode('_', $sessionId);
+                    // Expected format: grp_{PackageID} or grp_{PackageID}_{TherapistID}
+                    // We just need the PackageID which is usually index 1
+                    $pkgId = (int)$parts[1];
+
+                    // Fetch Attendees
+                    $sql = "SELECT b.id as booking_id, b.status, b.payment_status, b.attendees_count,
+                               c.first_name, c.last_name, c.phone,
+                               b.notes
+                        FROM bookings b
+                        LEFT JOIN clients c ON c.id = b.client_id
+                        WHERE b.package_id = :pid AND b.status != 'canceled'";
+
+                    $rows = $db->query($sql, [':pid' => $pkgId]);
+                    if ($rows) $attendees = $rows;
+
+                    // Fetch Manual Count
+                    $pkgRow = $db->query("SELECT manual_bookings FROM packages WHERE id = :pid", [':pid' => $pkgId]);
+                    if ($pkgRow && count($pkgRow) > 0) {
+                        $manualCount = (int)$pkgRow[0]->manual_bookings;
+                    }
+                }
+
+                // 2. REGULAR SESSION (ID starts with "sess_")
+                elseif (strpos($sessionId, 'sess_') === 0) {
+                    $parts = explode('_', $sessionId);
+                    // Expected format: sess_{TherapistID}_{Timestamp}
+                    if (count($parts) >= 3) {
+                        $tid = (int)$parts[1];
+                        $timestamp = (int)$parts[2];
+                        $dateTimeStr = date('Y-m-d H:i:s', $timestamp);
+
+                        $sql = "SELECT b.id as booking_id, b.status, b.payment_status, b.attendees_count,
+                                   c.first_name, c.last_name, c.phone,
+                                   b.notes
+                            FROM bookings b
+                            LEFT JOIN clients c ON c.id = b.client_id
+                            WHERE b.therapist_id = :tid 
+                              AND b.start_datetime = :dt 
+                              AND b.status != 'canceled'";
+
+                        $rows = $db->query($sql, [':tid' => $tid, ':dt' => $dateTimeStr]);
+                        if ($rows) $attendees = $rows;
+                    }
+                }
+
+                // Client Name Fallback
+                foreach ($attendees as &$att) {
+                    $att->client_name = trim(($att->first_name ?? '') . ' ' . ($att->last_name ?? ''));
+                    if (empty($att->client_name)) $att->client_name = '(Unknown Client)';
+                }
+
+                $response['success'] = true;
+                $response['attendees'] = $attendees;
+                $response['manual_count'] = $manualCount;
+            } catch (Exception $e) {
+                $response['error'] = $e->getMessage();
+            }
+
+            header('Content-Type: application/json');
+            echo json_encode($response);
+            exit;
             break;
 
         // --- FIND FIRST AVAILABLE DATE ---

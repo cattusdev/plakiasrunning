@@ -513,7 +513,7 @@ class PageController
                 "sidebar" => false,
                 "showOnMenu" => true,
                 "showOnFooter" => false,
-                "icon" => "fa fa-user-md",
+                "icon" => "fa fa-person-running",
                 "icon_color" => ""
             ],
             'clients' => [

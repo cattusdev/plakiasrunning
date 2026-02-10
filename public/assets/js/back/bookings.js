@@ -45,13 +45,10 @@ function initDataTable() {
                 title: "Πελάτης",
                 render: function (data, type, row) {
                     const full = escapeHtml(`${row.client_fname} ${row.client_lname}`);
-
-                    // Capacity Badge
                     let paxBadge = '';
                     if (row.attendees_count > 1) {
                         paxBadge = ` <span class="badge bg-info text-dark border" title="Σύνολο άτομα: ${row.attendees_count}">+${row.attendees_count - 1}</span>`;
                     }
-
                     return `<div class="fw-bold text-primary">${full}${paxBadge}</div><small class="text-muted">${row.client_phone || ''}</small>`;
                 }
             },
@@ -176,8 +173,8 @@ function loadPackagesForTherapist(tid, preSelectPkgId = null, savedDates = null)
                 } else {
                     label += ` (${p.duration_minutes}')`;
                 }
+                // Store metadata in data attributes
                 const startData = p.start_datetime ? p.start_datetime.replace(' ', 'T') : '';
-
                 html += `<option value="${p.id}" 
                             data-is-group="${p.is_group}" 
                             data-duration="${p.duration_minutes}"
@@ -193,6 +190,8 @@ function loadPackagesForTherapist(tid, preSelectPkgId = null, savedDates = null)
 
         if (preSelectPkgId) {
             pkgSelect.val(preSelectPkgId).trigger('change');
+
+            // Αν έχουμε ήδη αποθηκευμένες ημερομηνίες (περίπτωση Edit)
             if (savedDates && savedDates.start && savedDates.end) {
                 setTimeout(() => {
                     $('#start_datetime').val(savedDates.start);
@@ -207,7 +206,7 @@ function loadPackagesForTherapist(tid, preSelectPkgId = null, savedDates = null)
 
                     if (!isGroup) {
                         $('#package_duration').val(duration);
-                        fetchAvailableSlots(tid, datePart, duration, pkgId); // Pass pkgId
+                        fetchAvailableSlots(tid, datePart, duration, pkgId);
                     }
                 }, 100);
             }
@@ -218,22 +217,37 @@ function loadPackagesForTherapist(tid, preSelectPkgId = null, savedDates = null)
 function setupSmartBookingFlow() {
     $('#therapist_id').on('change', function () { loadPackagesForTherapist($(this).val()); });
 
-    $('#package_id').on('change', function () {
+    $('#package_id').on('change', function (e) {
         const selectedOpt = $(this).find('option:selected');
         const isGroup = selectedOpt.data('is-group') == 1;
         const duration = selectedOpt.data('duration') || 60;
         const price = selectedOpt.data('price');
         const pkgType = selectedOpt.data('type');
 
-        // Χρειαζόμαστε αυτά για το AJAX
         const tid = $('#therapist_id').val();
         const pkgId = $(this).val();
+
+        const isUserChange = !!e.originalEvent;
+        if (isUserChange) {
+            $('#start_datetime').val('');
+            $('#end_datetime').val('');
+            $('.time-slot-btn').removeClass('btn-primary text-white').addClass('btn-outline-primary');
+            $('#btnSlotAttendees')
+                .prop('disabled', true)
+                .addClass('btn-outline-secondary')
+                .removeClass('btn-outline-primary');
+
+            // μόνο αν ΔΕΝ έχει ημερομηνία, τότε άστο άδειο ώστε να τρέξει auto-find
+            if (!$('#slot_date_picker').val()) {
+                $('#slots_container').html('<span class="text-muted small mx-auto">Αναζήτηση διαθεσιμότητας...</span>');
+            }
+        }
 
         if (price) $('#booking_price').val(price);
         $('#package_duration').val(duration);
 
         const typeSelect = $('#appointment_type');
-        typeSelect.find('option').prop('disabled', false); // Reset
+        typeSelect.find('option').prop('disabled', false);
 
         if (pkgType === 'online') {
             typeSelect.val('online');
@@ -242,7 +256,6 @@ function setupSmartBookingFlow() {
             typeSelect.val('inPerson');
             typeSelect.find('option[value="online"]').prop('disabled', true);
         } else {
-            // Mixed: Default to online if nothing selected or invalid
             if (!typeSelect.val()) typeSelect.val('online');
         }
 
@@ -273,8 +286,7 @@ function setupSmartBookingFlow() {
             $('#end_datetime').prop('readonly', false).removeClass('bg-light');
             $('#saveBookingBtn').prop('disabled', false).text('Καταχώρηση');
 
-            // --- ΝΕΟ: ΑΥΤΟΜΑΤΗ ΕΥΡΕΣΗ ΠΡΩΤΗΣ ΔΙΑΘΕΣΙΜΗΣ ---
-            // Αν δεν έχει επιλεγεί ήδη ημερομηνία, ψάξε την πρώτη ελεύθερη
+            // ✅ AUTO-FIND DATE LOGIC (θα τρέξει πλέον και μετά από αλλαγή πακέτου, γιατί το date καθαρίστηκε)
             if (!$('#slot_date_picker').val()) {
                 $('#slots_container').html('<div class="text-center my-3"><div class="spinner-border spinner-border-sm text-primary"></div><div class="small text-muted mt-1">Αναζήτηση διαθεσιμότητας...</div></div>');
 
@@ -286,22 +298,21 @@ function setupSmartBookingFlow() {
                     csrf_token: getCsrfToken()
                 }, function (res) {
                     if (res.success && res.date) {
-                        // Βρέθηκε! Βάζουμε την ημερομηνία και ενεργοποιούμε το change για να φέρει τα slots
                         $('#slot_date_picker').val(res.date).trigger('change');
                     } else {
-                        $('#slots_container').html('<div class="text-danger small fw-bold mt-2 text-center">Δεν βρέθηκε διαθεσιμότητα σύντομα.</div>');
+                        $('#slots_container').html('<div class="text-danger small fw-bold mt-2 text-center">Δεν βρέθηκε διαθεσιμότητα.</div>');
                     }
                 }, 'json');
             } else {
-                // Αν έχει ήδη ημερομηνία, απλά ανανέωσε τα slots
                 $('#slot_date_picker').trigger('change');
             }
         }
     });
 
+
     $('#slot_date_picker').on('change', function () {
         const tid = $('#therapist_id').val();
-        const pid = $('#package_id').val(); // Need Package ID for capacity check
+        const pid = $('#package_id').val();
         const date = $(this).val();
         const duration = parseInt($('#package_duration').val()) || 60;
 
@@ -313,7 +324,10 @@ function setupSmartBookingFlow() {
     $(document).on('click', '.time-slot-btn', function () {
         $('.time-slot-btn').removeClass('btn-primary text-white').addClass('btn-outline-primary');
         $(this).removeClass('btn-outline-primary').addClass('btn-primary text-white');
-        const time = $(this).text().split(' ')[0]; // Handle text like "10:00 (2 left)"
+
+        // Parse time: Παίρνουμε το πρώτο κομμάτι πριν το κενό για να αγνοήσουμε το (15)
+        const time = $(this).text().split(' ')[0].trim();
+
         const date = $('#slot_date_picker').val();
         const duration = parseInt($('#package_duration').val()) || 60;
         const startObj = new Date(`${date}T${time}:00`);
@@ -325,41 +339,52 @@ function setupSmartBookingFlow() {
     });
 }
 
+// ===== ΔΙΟΡΘΩΜΕΝΗ FETCH SLOTS ΓΙΑ BOOKING.JS =====
 function fetchAvailableSlots(tid, date, duration, packageId) {
     const container = $('#slots_container');
     const loader = $('#slots_loader');
     container.addClass('opacity-50');
-    loader.removeClass('d-none');
+    // Ensure loader exists
+    if (container.find('.spinner-border').length === 0) {
+        container.html('<div class="spinner-border spinner-border-sm text-secondary"></div>');
+    }
 
     $.post('includes/admin/ajax.php', {
         action: 'getAvailableSlots',
         therapist_id: tid,
-        package_id: packageId, // Sending this is crucial now
+        package_id: packageId,
         date: date,
         duration: duration,
         csrf_token: getCsrfToken()
     }, function (res) {
-        loader.addClass('d-none');
         container.removeClass('opacity-50');
 
         if (res.success && res.slots && res.slots.length > 0) {
             let html = '';
-            res.slots.forEach(slot => {
-                // slot might be object { start: '10:00', available: 3 } or just string
-                let time = slot;
-                let info = '';
-                if (typeof slot === 'object') {
-                    time = slot.start.substring(11, 16); // Extract HH:mm from YYYY-MM-DD HH:mm:ss
-                    if (slot.available_spots) info = ` <span style="font-size:0.7em">(${slot.available_spots})</span>`;
+            res.slots.forEach(slotItem => {
+                let timeStr = '';
+                let spotsBadge = '';
+
+                // --- FIX: Έλεγχος Object vs String ---
+                if (typeof slotItem === 'object') {
+                    // Extract HH:mm from YYYY-MM-DD HH:mm:ss
+                    timeStr = slotItem.start.substring(11, 16);
+                    if (slotItem.available_spots > 1) {
+                        spotsBadge = ` <span style="font-size:0.75em; opacity:0.8">(${slotItem.available_spots})</span>`;
+                    }
+                } else {
+                    timeStr = slotItem; // Fallback
                 }
-                html += `<button type="button" class="btn btn-outline-primary btn-sm time-slot-btn m-1" style="width: 80px;">${time}${info}</button>`;
+
+                html += `<button type="button" class="btn btn-outline-primary btn-sm time-slot-btn m-1" style="width: auto; min-width: 70px;">
+                            ${timeStr}${spotsBadge}
+                         </button>`;
             });
             container.html(html);
         } else {
             container.html('<span class="text-danger small mx-auto fw-bold"><i class="bi bi-x-circle"></i> Δεν υπάρχουν κενά</span>');
         }
     }, 'json').fail(function () {
-        loader.addClass('d-none');
         container.html('<span class="text-danger small">Error connecting.</span>');
     });
 }
@@ -384,8 +409,8 @@ function loadBookingPayments(bookingId) {
                 const amount = parseFloat(p.amount_paid || p.amount_total);
                 total += amount;
                 const rawDate = p.payed_at || p.created_at;
-                const dateOnly = rawDate.split(' ')[0];
-                const d = new Date(rawDate);
+                const dateOnly = rawDate ? rawDate.split(' ')[0] : '';
+                const d = rawDate ? new Date(rawDate.replace(' ', 'T')) : new Date();
 
                 list.append(`
                     <tr>
@@ -411,7 +436,7 @@ function loadBookingPayments(bookingId) {
 }
 
 // --- ATTENDEES FUNCTION ---
-function showAttendees(packageId,slotDate = null) {
+function showAttendees(packageId, slotDate = null) {
     const modalEl = document.getElementById('attendeesModal');
     const modal = new bootstrap.Modal(modalEl);
     const list = document.getElementById('attendeesList');
@@ -423,9 +448,8 @@ function showAttendees(packageId,slotDate = null) {
         package_id: packageId,
         csrf_token: getCsrfToken()
     };
-    // Αν έχουμε slotDate, το στέλνουμε
     if (slotDate) reqData.date = slotDate;
-    
+
     list.innerHTML = '';
     loader.classList.remove('d-none');
     noMsg.classList.add('d-none');
@@ -442,9 +466,14 @@ function showAttendees(packageId,slotDate = null) {
                     ? '<span class="badge bg-success">Paid</span>'
                     : '<span class="badge bg-warning text-dark">Unpaid</span>';
 
+                let paxBadge = '';
+                if (row.attendees_count > 1) {
+                    paxBadge = ` <span class="badge bg-info text-dark border">+${row.attendees_count - 1}</span>`;
+                }
+
                 list.insertAdjacentHTML('beforeend', `
                     <tr>
-                        <td class="fw-bold">${escapeHtml(row.first_name + ' ' + row.last_name)}</td>
+                        <td class="fw-bold">${escapeHtml(row.first_name + ' ' + row.last_name)}${paxBadge}</td>
                         <td><a href="tel:${row.phone}" class="text-decoration-none text-body">${row.phone || '-'}</a></td>
                         <td>${statusBadge}</td>
                     </tr>
@@ -468,9 +497,9 @@ function setupActionListeners() {
     $('#addNewBooking').click(function () {
         resetForm();
         resetPanels();
-        $('#attendees_count').val(1); // Reset Pax
+        $('#attendees_count').val(1);
         $('#bookingModalTitle').text('Νέα Κράτηση');
-        document.getElementById('slot_date_picker').valueAsDate = new Date();
+        // document.getElementById('slot_date_picker').valueAsDate = new Date(); // Don't set date, let auto-find do it
         $('#slots_container').html('<span class="text-muted small mx-auto">Επιλέξτε Guide</span>');
         $('#tab-payments').prop('disabled', true);
         new bootstrap.Tab(document.querySelector('#tab-details')).show();
@@ -480,8 +509,7 @@ function setupActionListeners() {
     // --- SLOT LIST BUTTON LISTENER ---
     $('#btnSlotAttendees').click(function () {
         const pkgId = $('#package_id').val();
-        // Παίρνουμε την ημερομηνία σε μορφή SQL (YYYY-MM-DD HH:mm:ss) για τη βάση
-        const startVal = $('#start_datetime').val(); // format: YYYY-MM-DDTHH:mm
+        const startVal = $('#start_datetime').val();
 
         if (pkgId && startVal) {
             const sqlDate = startVal.replace('T', ' ') + ':00';
@@ -502,9 +530,7 @@ function setupActionListeners() {
             client_id: $('#client_id').val(),
             therapist_id: $('#therapist_id').val(),
             package_id: $('#package_id').val(),
-
-            attendees_count: $('#attendees_count').val(), // Save Pax
-
+            attendees_count: $('#attendees_count').val(),
             appointment_type: $('#appointment_type').val(),
             start: $('#start_datetime').val(),
             end: $('#end_datetime').val(),
@@ -536,13 +562,12 @@ function setupActionListeners() {
             if (res.success) {
                 const d = res.data;
                 $('#tab-payments').prop('disabled', false);
-                loadBookingPayments(d.id); // Αν έχεις τη function
+                loadBookingPayments(d.id);
 
                 $('#bookingId').val(d.id);
                 $('#bookingModalTitle').text('Επεξεργασία Κράτησης');
                 $('#appointment_type').val(d.appointment_type || 'inPerson');
-
-                $('#attendees_count').val(d.attendees_count || 1); // Load Pax
+                $('#attendees_count').val(d.attendees_count || 1);
 
                 const clientOption = new Option(d.client_text, d.client_id, true, true);
                 $('#client_id').append(clientOption).trigger('change');
@@ -554,7 +579,7 @@ function setupActionListeners() {
                 $('#therapist_id').val(d.therapist_id);
 
                 loadPackagesForTherapist(d.therapist_id, d.package_id || "", { start: d.start_iso, end: d.end_iso });
-               
+
                 $('#btnSlotAttendees').prop('disabled', false).removeClass('btn-outline-secondary').addClass('btn-outline-primary');
 
                 $('#bookingModal').modal('show');
@@ -562,7 +587,6 @@ function setupActionListeners() {
         }, 'json');
     });
 
-    // ... (Delete logic same as before) ...
     $(document).on('click', '.del-booking', function () {
         const id = $(this).data('id');
         if (!confirm('Διαγραφή;')) return;
