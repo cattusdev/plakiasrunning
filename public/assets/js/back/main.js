@@ -712,6 +712,29 @@ function showConfirmationModal(title, message) {
     });
 }
 
+function escapeHtml(text) {
+    if (!text) return "";
+    return text.replace(/[\"&'\/<>]/g, function (a) {
+        return {
+            '"': "&quot;",
+            "&": "&amp;",
+            "'": "&#39;",
+            "/": "&#47;",
+            "<": "&lt;",
+            ">": "&gt;"
+        }[a];
+    });
+}
+async function uiConfirm(title, message) {
+    return await handleNotificationAction(title, message);
+}
+
+function uiAlert(title, message) {
+    // περνάμε safe HTML (γιατί το modal βάζει innerHTML)
+    const safe = escapeHtml(String(message || '')).replace(/\n/g, '<br>');
+    showConfirmationModal(title, safe, { hideActions: true });
+}
+
 async function handleNotificationAction(title = null, message = null) {
     const confirmation = await showConfirmationModal(title, message);
     if (confirmation) {

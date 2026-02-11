@@ -90,7 +90,17 @@ function initDataTable() {
                     let color = 'secondary';
                     if (data === 'booked' || data === 'confirmed') color = 'success';
                     if (data === 'canceled') color = 'danger';
-                    return `<span class="badge bg-${color}">${data}</span>`;
+                    if (data === 'completed') color = 'primary';
+
+                    const map = {
+                        booked: 'Κρατημένο',
+                        confirmed: 'Επιβεβαιωμένο',
+                        canceled: 'Ακυρωμένο',
+                        completed: 'Ολοκληρωμένο'
+                    };
+
+                    const label = map[data] || data || '-';
+                    return `<span class="badge bg-${color}">${label}</span>`;
                 }
             },
             {
@@ -520,7 +530,11 @@ function setupActionListeners() {
     $('#bookingForm').on('submit', function (e) {
         e.preventDefault();
         const btn = $('#saveBookingBtn');
-        if (!$('#client_id').val() || !$('#therapist_id').val()) { alert('Επιλέξτε Πελάτη και Guide.'); return; }
+        if (!$('#client_id').val() || !$('#therapist_id').val()) {
+            if (typeof uiAlert === 'function') uiAlert('Έλεγχος στοιχείων', 'Επιλέξτε Πελάτη και Guide.');
+            return;
+        }
+
 
         btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm"></span>');
 
@@ -547,11 +561,14 @@ function setupActionListeners() {
                 bookingModal.hide();
                 bookingsTable.ajax.reload(null, false);
             } else {
-                alert('Σφάλμα:\n' + (res.errors || []).join('\n'));
+                if (!res.success) {
+                    const msg = (res.errors || []).join('\n') || 'Αποτυχία αποθήκευσης κράτησης.';
+                    if (typeof uiAlert === 'function') uiAlert('Σφάλμα', msg);
+                }
             }
         }, 'json').fail(function () {
             btn.prop('disabled', false).text('Καταχώρηση');
-            alert('Server Error.');
+            if (typeof uiAlert === 'function') uiAlert('Σφάλμα', 'Σφάλμα επικοινωνίας με τον server.');
         });
     });
 
@@ -587,12 +604,28 @@ function setupActionListeners() {
         }, 'json');
     });
 
-    $(document).on('click', '.del-booking', function () {
+    $(document).on('click', '.del-booking', async function () {
         const id = $(this).data('id');
-        if (!confirm('Διαγραφή;')) return;
-        $.post('includes/admin/ajax.php', { action: 'deleteBooking', id: id, csrf_token: getCsrfToken() }, function (res) {
-            if (res.success) bookingsTable.ajax.reload(null, false);
-        }, 'json');
+
+        const ok = (typeof uiConfirm === 'function')
+            ? await uiConfirm('Διαγραφή Κράτησης', 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την κράτηση;')
+            : false;
+
+        if (!ok) return;
+
+        $.post('includes/admin/ajax.php', {
+            action: 'deleteBooking',
+            id: id,
+            csrf_token: getCsrfToken()
+        }, function (res) {
+            if (res.success) {
+                bookingsTable.ajax.reload(null, false);
+            } else {
+                if (typeof uiAlert === 'function') uiAlert('Σφάλμα', 'Αποτυχία διαγραφής.');
+            }
+        }, 'json').fail(function () {
+            if (typeof uiAlert === 'function') uiAlert('Σφάλμα', 'Σφάλμα επικοινωνίας με τον server.');
+        });
     });
 
 
@@ -614,19 +647,32 @@ function setupActionListeners() {
         $('#addPaymentForm').removeClass('d-none');
     });
 
-    $(document).on('click', '.del-payment', function () {
-        if (!confirm('Διαγραφή πληρωμής;')) return;
+    $(document).on('click', '.del-payment', async function () {
+        const ok = (typeof uiConfirm === 'function')
+            ? await uiConfirm('Διαγραφή Πληρωμής', 'Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την πληρωμή;')
+            : false;
+
+        if (!ok) return;
+
         const pid = $(this).data('id');
         const bid = $('#bookingId').val();
+
         $.post('includes/admin/ajax.php', {
-            action: 'delPayment', paymentID: pid, csrf_token: getCsrfToken()
+            action: 'delPayment',
+            paymentID: pid,
+            csrf_token: getCsrfToken()
         }, function (res) {
             if (res.success) {
                 loadBookingPayments(bid);
                 if (res.new_status) updateStatusUI(res.new_status);
+            } else {
+                if (typeof uiAlert === 'function') uiAlert('Σφάλμα', 'Αποτυχία διαγραφής πληρωμής.');
             }
-        }, 'json');
+        }, 'json').fail(function () {
+            if (typeof uiAlert === 'function') uiAlert('Σφάλμα', 'Σφάλμα επικοινωνίας με τον server.');
+        });
     });
+
 
     $('#btnSavePayment').click(function () {
         const bid = $('#bookingId').val();
@@ -647,7 +693,9 @@ function setupActionListeners() {
                     updateStatusUI(res.new_status);
                     bookingsTable.ajax.reload(null, false);
                 }
-            } else { alert('Error saving payment'); }
+            } else {
+                if (typeof uiAlert === 'function') uiAlert('Σφάλμα', 'Αποτυχία αποθήκευσης πληρωμής.');
+            }
         }, 'json');
     });
 

@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         {
             data: "avatar",
-            title: "Photo",
+            title: "Φωτο",
             orderable: false,
             searchable: false,
             width: "60px",
@@ -59,21 +59,22 @@ document.addEventListener("DOMContentLoaded", function () {
         {
             type: "text",
             data: null,
-            title: "Guide Info",
+            title: "Guide",
             width: "30%",
             responsivePriority: 1,
             render: function (data, type, row) {
+                const role = row.title || 'Guide';
                 return `
                     <div class="d-flex flex-column">
                         <span class="fw-bold text-dark fs-6">${row.first_name} ${row.last_name}</span>
-                        <small class="text-primary">${row.title || 'Guide'}</small>
+                        <small class="text-muted">${role}</small>
                     </div>
                 `;
             }
         },
         {
             data: "languages",
-            title: "Languages",
+            title: "Γλώσσες",
             width: "20%",
             render: function (data) {
                 return data ? `<span class="small text-muted"><i class="bi bi-translate me-1"></i>${data}</span>` : '-';
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         {
             data: "pace_range",
-            title: "Pace Range",
+            title: "Ρυθμός (Pace)",
             width: "15%",
             render: function (data) {
                 return data ? `<span class="badge bg-light text-dark border"><i class="bi bi-speedometer2 me-1"></i>${data}</span>` : '-';
@@ -89,15 +90,15 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         {
             data: null,
-            title: "Actions",
+            title: "Ενέργειες",
             className: "text-end",
             orderable: false,
-            render: function (data, type, row) {
+            render: function () {
                 return `
-                    <a href="#" class="btn btn-sm btn-light text-primary border me-1 edit" title="Edit Profile & Schedule">
+                    <a href="#" class="btn btn-sm btn-light text-primary border me-1 edit" title="Επεξεργασία">
                         <i class="bi bi-pencil-square"></i>
                     </a>
-                    <a href="#" class="delTherapist btn btn-sm btn-light text-danger border" title="Delete">
+                    <a href="#" class="delTherapist btn btn-sm btn-light text-danger border" title="Διαγραφή">
                         <i class="bi bi-trash"></i>
                     </a>
                 `;
@@ -114,11 +115,13 @@ document.addEventListener("DOMContentLoaded", function () {
         lengthChange: true,
         autoWidth: false,
         language: {
-            emptyTable: "No guides found.",
-            search: "Search:",
-            lengthMenu: "Show _MENU_",
-            info: "Showing _START_ to _END_ of _TOTAL_",
-            paginate: { next: ">", previous: "<" }
+            emptyTable: "Δεν βρέθηκαν Guides.",
+            search: "Αναζήτηση:",
+            lengthMenu: "Εμφάνιση _MENU_",
+            info: "Εμφάνιση _START_ έως _END_ από _TOTAL_",
+            infoEmpty: "Εμφάνιση 0 έως 0 από 0",
+            zeroRecords: "Δεν βρέθηκαν αποτελέσματα.",
+            paginate: { next: "›", previous: "‹" }
         },
         columns: columnDefs,
         ajax: {
@@ -140,19 +143,16 @@ document.addEventListener("DOMContentLoaded", function () {
     // 3. Modal Actions
     // ==========================================
 
-    // Helper: Generate Rule Row HTML with Package Dropdown
     function getRuleRowHtml(rule = {}) {
         const wd = (rule.weekday ?? 1);
         const st = (rule.start_time ?? '09:00').slice(0, 5);
         const en = (rule.end_time ?? '17:00').slice(0, 5);
-        const pid = rule.package_id || ''; // Selected Package ID
+        const pid = rule.package_id || '';
 
         const wdays = ['Κυριακή', 'Δευτέρα', 'Τρίτη', 'Τετάρτη', 'Πέμπτη', 'Παρασκευή', 'Σάββατο'];
 
-        // Build Package Options
-        let pkgOptions = `<option value="" ${pid == '' ? 'selected' : ''} class="fw-bold text-muted">-- General Availability --</option>`;
+        let pkgOptions = `<option value="" ${pid == '' ? 'selected' : ''} class="fw-bold text-muted">— Γενική Διαθεσιμότητα —</option>`;
 
-        // Populate options from Global List
         if (availablePackagesList && availablePackagesList.length > 0) {
             availablePackagesList.forEach(p => {
                 let sel = (p.id == pid) ? 'selected' : '';
@@ -173,7 +173,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 ${pkgOptions}
             </select>
          </td>
-         <td class="text-end"><button type="button" class="btn btn-sm text-danger delModalRuleBtn"><i class="bi bi-x-lg"></i></button></td>
+         <td class="text-end">
+            <button type="button" class="btn btn-sm text-danger delModalRuleBtn" title="Αφαίρεση">
+                <i class="bi bi-x-lg"></i>
+            </button>
+         </td>
         </tr>`;
     }
 
@@ -184,26 +188,24 @@ document.addEventListener("DOMContentLoaded", function () {
         $("#currentAvatarMsg").hide();
         $("#avatarPreview").attr('src', '');
 
-        // Reset Lists
         availablePackagesList = [];
 
-        $("#nav-item-schedule").hide(); // Cannot add rules before saving profile
+        $("#nav-item-schedule").hide();
         $("#modalRulesTable tbody").empty();
 
         new bootstrap.Tab(document.querySelector('#tab-general-link')).show();
 
         $("#" + genPrefix + "ActionBtn").attr("data-action", "addTherapist").text("Δημιουργία");
-        $("#" + genPrefix + "ModalLongTitle").text("Νέος Guide");
+        $("#" + genPrefix + "ModalLongTitle").text("Νέος Guide / Pacer");
     });
 
-    // B. Edit (ΔΙΟΡΘΩΜΕΝΟ: Φορτώνει ΠΑΚΕΤΑ και μετά RULES)
+    // B. Edit
     $(document).on("click", ".edit", function (e) {
         e.preventDefault();
         let row = $(this).closest("tr");
         let rowData = therapistTable.row(row).data();
         let tid = rowData.id;
 
-        // Fill inputs
         $("#therapistID").val(tid);
         $("#first_name").val(rowData.first_name);
         $("#last_name").val(rowData.last_name);
@@ -225,23 +227,20 @@ document.addEventListener("DOMContentLoaded", function () {
             $("#currentAvatarMsg").hide();
         }
 
-        // Show Schedule Tab
         $("#nav-item-schedule").show();
         const tbody = $("#modalRulesTable tbody");
-        tbody.html('<tr><td colspan="5" class="text-center text-muted"><div class="spinner-border spinner-border-sm"></div> Loading Schedule...</td></tr>');
+        tbody.html('<tr><td colspan="5" class="text-center text-muted"><div class="spinner-border spinner-border-sm"></div> Φόρτωση προγράμματος...</td></tr>');
 
-        // 1. Fetch Packages FIRST
+        // 1) Packages
         $.post("includes/admin/ajax.php", {
-            action: 'getTherapistPackages', // Χρησιμοποιούμε το endpoint που φέρνει πακέτα
+            action: 'getTherapistPackages',
             therapist_id: tid,
             csrf_token: getCsrfToken()
         }, function (pkgRes) {
 
-            // Αποθήκευση στη global list
             availablePackagesList = pkgRes.data || [];
-            console.log("Packages loaded for Therapist:", availablePackagesList);
 
-            // 2. Fetch Rules SECOND (τώρα η λίστα είναι γεμάτη)
+            // 2) Rules
             $.post("includes/admin/ajax.php", {
                 action: 'availabilityRules_get',
                 therapist_id: tid,
@@ -256,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         tbody.append(getRuleRowHtml({ weekday: 1 }));
                     }
                 } else {
-                    tbody.html('<tr><td colspan="5" class="text-danger text-center">Error loading rules.</td></tr>');
+                    tbody.html('<tr><td colspan="5" class="text-danger text-center">Αποτυχία φόρτωσης κανόνων.</td></tr>');
                 }
             }, 'json');
 
@@ -264,16 +263,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         new bootstrap.Tab(document.querySelector('#tab-general-link')).show();
         $("#" + genPrefix + "ActionBtn").attr("data-action", "updTherapist").text("Ενημέρωση");
-        $("#" + genPrefix + "ModalLongTitle").text("Επεξεργασία Guide");
+        $("#" + genPrefix + "ModalLongTitle").text("Επεξεργασία Guide / Pacer");
         $("#" + genPrefix + "Modal").modal('show');
     });
 
-    // Add Rule Row Button
     $("#addModalRuleBtn").click(function () {
         $("#modalRulesTable tbody").append(getRuleRowHtml({}));
     });
 
-    // Remove Rule Row Button
     $(document).on("click", ".delModalRuleBtn", function () {
         $(this).closest("tr").remove();
     });
@@ -288,12 +285,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
         btn.prop("disabled", true).html('<span class="spinner-border spinner-border-sm"></span> Αποθήκευση...');
 
-        // 1. Profile Data
         let formData = new FormData(document.getElementById(genPrefix + "Form"));
         formData.append("action", action);
         formData.append("csrf_token", csrf_token);
 
-        // 2. Rules Data (Only if Updating)
         let rulesJson = null;
         if (action === 'updTherapist' && tid) {
             let rules = [];
@@ -303,7 +298,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     weekday: parseInt(row.find(".rule-weekday").val()),
                     start_time: row.find(".rule-start").val() + ':00',
                     end_time: row.find(".rule-end").val() + ':00',
-                    package_id: row.find(".rule-package").val() || null, // Capture Package ID
+                    package_id: row.find(".rule-package").val() || null,
                     is_active: 1
                 });
             });
@@ -311,7 +306,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         try {
-            // Save Profile
             const profileReq = $.ajax({
                 type: "POST",
                 url: "includes/admin/ajax.php",
@@ -322,7 +316,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const promises = [profileReq];
 
-            // Save Rules (if applicable)
             if (rulesJson) {
                 promises.push($.post("includes/admin/ajax.php", {
                     action: 'availabilityRules_saveBulk',
@@ -333,8 +326,6 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             const results = await Promise.all(promises);
-
-            // Handle Profile Result
             let profileRes = typeof results[0] === 'string' ? JSON.parse(results[0]) : results[0];
 
             if (profileRes.success) {
@@ -342,25 +333,25 @@ document.addEventListener("DOMContentLoaded", function () {
                 therapistTable.ajax.reload(null, false);
 
                 if (typeof setNotification === 'function') {
-                    setNotification("Επιτυχία", "Ο Guide ενημερώθηκε.", "success");
-                } else {
-                    alert("Επιτυχία!");
+                    setNotification("Επιτυχία", "Ο Guide αποθηκεύτηκε.", "success");
+                } else if (typeof uiAlert === 'function') {
+                    uiAlert("Επιτυχία", "Ο Guide αποθηκεύτηκε.");
                 }
             } else {
-                let msg = profileRes.errors ? profileRes.errors.join("\n") : "Error saving profile.";
-                alert(msg);
+                let msg = profileRes.errors ? profileRes.errors.join("\n") : "Αποτυχία αποθήκευσης.";
+                if (typeof uiAlert === 'function') uiAlert("Σφάλμα", msg);
             }
 
         } catch (err) {
             console.error(err);
-            alert("Σφάλμα επικοινωνίας.");
+            if (typeof uiAlert === 'function') uiAlert("Σφάλμα", "Σφάλμα επικοινωνίας με τον server.");
         } finally {
             btn.prop("disabled", false).text("Αποθήκευση");
         }
     });
 
     // ==========================================
-    // 4. Delete Action
+    // 4. Delete Action (uiConfirm)
     // ==========================================
     $(document).on("click", ".delTherapist", async function (e) {
         e.preventDefault();
@@ -368,30 +359,40 @@ document.addEventListener("DOMContentLoaded", function () {
         let rowData = therapistTable.row(row).data();
         let csrf_token = getCsrfToken();
 
-        const actionConfirmed = await handleNotificationAction(
-            "Διαγραφή Guide",
-            `Είστε σίγουροι ότι θέλετε να διαγράψετε τον/την <b>${rowData.first_name} ${rowData.last_name}</b>;`
-        );
+        const ok = (typeof uiConfirm === 'function')
+            ? await uiConfirm(
+                "Διαγραφή Guide",
+                `Είστε σίγουροι ότι θέλετε να διαγράψετε τον/την <b>${rowData.first_name} ${rowData.last_name}</b>;`
+            )
+            : false;
 
-        if (actionConfirmed) {
-            $.ajax({
-                type: "POST",
-                url: "includes/admin/ajax.php",
-                data: {
-                    action: "delTherapist",
-                    therapistID: rowData.id,
-                    csrf_token: csrf_token
-                },
-                success: function (res) {
-                    if (res.success) {
-                        therapistTable.ajax.reload(null, false);
-                        setNotification("Deleted", "Ο Guide διαγράφηκε.", "success");
-                    } else {
-                        setNotification("Error", "Αποτυχία διαγραφής.", "error");
+        if (!ok) return;
+
+        $.ajax({
+            type: "POST",
+            url: "includes/admin/ajax.php",
+            data: {
+                action: "delTherapist",
+                therapistID: rowData.id,
+                csrf_token: csrf_token
+            },
+            success: function (res) {
+                if (res.success) {
+                    therapistTable.ajax.reload(null, false);
+                    if (typeof setNotification === 'function') {
+                        setNotification("Διαγράφηκε", "Ο Guide διαγράφηκε.", "success");
+                    } else if (typeof uiAlert === 'function') {
+                        uiAlert("Διαγράφηκε", "Ο Guide διαγράφηκε.");
+                    }
+                } else {
+                    if (typeof setNotification === 'function') {
+                        setNotification("Σφάλμα", "Αποτυχία διαγραφής.", "error");
+                    } else if (typeof uiAlert === 'function') {
+                        uiAlert("Σφάλμα", "Αποτυχία διαγραφής.");
                     }
                 }
-            });
-        }
+            }
+        });
     });
 
     // ==========================================
@@ -413,39 +414,27 @@ document.addEventListener("DOMContentLoaded", function () {
         return document.getElementsByName("csrf_token")[0]?.getAttribute("content") || '';
     }
 
-    if (typeof handleNotificationAction === 'undefined') {
-        window.handleNotificationAction = function (title, msg) {
-            return new Promise(resolve => resolve(confirm(title + "\n" + msg.replace(/<[^>]*>/g, ''))));
-        };
-    }
-
     // ==========================================
     // 6. SMART RULES: AUTO-CALCULATE END TIME
     // ==========================================
-
-    // Α. Όταν αλλάζει το Πακέτο -> Υπολόγισε το End Time
     $(document).on('change', '.rule-package', function () {
         const tr = $(this).closest('tr');
         const pkgId = $(this).val();
         const startVal = tr.find('.rule-start').val();
 
         if (pkgId && startVal && availablePackagesList.length > 0) {
-            // Βρες το πακέτο στη λίστα για να πάρεις τη διάρκεια
-            // (Χρησιμοποιούμε == για loose equality σε περίπτωση string/int)
             const pkg = availablePackagesList.find(p => p.id == pkgId);
 
             if (pkg && pkg.duration_minutes) {
                 const newEnd = addMinutesToTime(startVal, pkg.duration_minutes);
                 tr.find('.rule-end').val(newEnd);
 
-                // Προαιρετικό: Ένα οπτικό εφέ ότι άλλαξε
                 tr.find('.rule-end').addClass('bg-warning-subtle');
                 setTimeout(() => tr.find('.rule-end').removeClass('bg-warning-subtle'), 500);
             }
         }
     });
 
-    // Β. Όταν αλλάζει η Έναρξη (και υπάρχει επιλεγμένο πακέτο) -> Ενημέρωσε το End Time
     $(document).on('change', '.rule-start', function () {
         const tr = $(this).closest('tr');
         const pkgId = tr.find('.rule-package').val();

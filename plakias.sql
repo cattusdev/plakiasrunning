@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 10, 2026 at 04:08 PM
+-- Generation Time: Feb 11, 2026 at 05:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 7.4.33
 
@@ -50,10 +50,12 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `slot_id`, `client_id`, `therapist_id`, `package_id`, `attendees_count`, `start_datetime`, `end_datetime`, `appointment_type`, `status`, `payment_status`, `notes`, `admin_notes`, `created_at`, `google_event_id`) VALUES
-(37, NULL, 11, 1, 6, 1, '2026-02-08 09:00:00', '2026-02-08 10:00:00', 'inPerson', 'booked', 'paid', '', NULL, '2026-02-09 17:55:49', NULL),
+(37, NULL, 11, 1, 6, 1, '2026-02-08 09:00:00', '2026-02-08 10:00:00', 'inPerson', 'booked', 'unpaid', '', NULL, '2026-02-09 17:55:49', NULL),
 (38, NULL, 32, 2, 5, 1, '2026-03-10 09:00:00', '2026-03-10 10:30:00', 'inPerson', 'booked', 'paid', '', NULL, '2026-02-09 17:58:05', NULL),
 (39, NULL, 33, 2, 5, 1, '2026-03-10 09:00:00', '2026-03-10 10:30:00', 'inPerson', 'booked', 'paid', '', NULL, '2026-02-09 18:35:06', NULL),
-(40, NULL, 9, 1, 6, 1, '2026-03-08 09:00:00', '2026-03-08 10:00:00', 'inPerson', 'booked', 'unpaid', '', NULL, '2026-02-10 15:43:13', NULL);
+(40, NULL, 9, 1, 6, 1, '2026-03-08 09:00:00', '2026-03-08 10:00:00', 'inPerson', 'booked', 'unpaid', '', NULL, '2026-02-10 15:43:13', NULL),
+(41, NULL, 7, 1, 8, 1, '2026-02-18 09:00:00', '2026-02-18 10:00:00', 'inPerson', 'booked', 'unpaid', '', NULL, '2026-02-11 18:03:36', NULL),
+(42, NULL, 11, 2, 5, 1, '2026-03-10 09:00:00', '2026-03-10 10:30:00', 'inPerson', 'booked', 'unpaid', '', NULL, '2026-02-11 18:06:17', NULL);
 
 -- --------------------------------------------------------
 
@@ -267,7 +269,7 @@ CREATE TABLE `packages` (
 INSERT INTO `packages` (`id`, `title`, `category_id`, `description`, `price`, `distance_km`, `elevation_gain`, `difficulty`, `terrain_type`, `meeting_point_url`, `duration_minutes`, `buffer_minutes`, `start_datetime`, `includes`, `gear_requirements`, `type`, `is_group`, `max_attendants`, `manual_bookings`, `created_at`) VALUES
 (3, 'Personal Running Coaching', 1, 'Ατομική προπόνηση τεχνικής και βελτίωσης φυσικής κατάστασης σε άσφαλτο. Ιδανικό για αρχάριους.', 40.00, 5.00, 50, 'Easy', 'Road', 'https://goo.gl/maps/example1', 60, 10, NULL, '[\"Ανάλυση Τεχνικής\",\"Πλάνο Προπόνησης\",\"Νερό\"]', '{\"mandatory\":[],\"optional\":[]}', 'inPerson', 0, 4, 0, '2025-01-09 09:57:17'),
 (4, 'Parnitha Mountain Experience', 2, 'Μια απαιτητική αλλά πανέμορφη διαδρομή στα μονοπάτια της Πάρνηθας. Απευθύνεται σε έμπειρους δρομείς.', 60.00, 12.50, 700, 'Hard', 'Trail', 'https://goo.gl/maps/example2', 120, 15, NULL, '[\"Οδηγός Βουνού\",\"Energy Gel\",\"Μεταφορά\"]', '{\"mandatory\":[],\"optional\":[]}', 'inPerson', 0, 2, 0, '2025-01-09 16:12:29'),
-(5, 'Κυριακάτικο Long Run (Group)', 1, 'Το κλασικό μας ομαδικό τρέξιμο κάθε Κυριακή. Τρέχουμε όλοι μαζί με σταθερό ρυθμό.', 10.00, 15.00, 100, 'Moderate', 'Road', 'https://goo.gl/maps/example3', 90, 0, '2026-03-10 09:00:00', '[\"Pacer\", \"Φωτογραφίες\", \"Snack Τερματισμού\"]', NULL, 'inPerson', 1, 20, 1, '2025-01-09 16:12:53'),
+(5, 'Κυριακάτικο Long Run (Group)', 1, 'Το κλασικό μας ομαδικό τρέξιμο κάθε Κυριακή. Τρέχουμε όλοι μαζί με σταθερό ρυθμό.', 10.00, 15.00, 100, 'Moderate', 'Road', 'https://goo.gl/maps/example3', 90, 0, '2026-03-10 09:00:00', '[\"Pacer\",\"Φωτογραφίες\",\"Snack Τερματισμού\"]', '{\"mandatory\":[],\"optional\":[]}', 'inPerson', 1, 20, 14, '2025-01-09 16:12:53'),
 (6, 'Athens City Center Fun Run', 4, 'Χαλαρό τρέξιμο στο ιστορικό κέντρο της Αθήνας. Στάσεις για φωτογραφίες και καφέ στο τέλος.', 15.00, 5.00, 30, 'Easy', 'Mixed', 'https://goo.gl/maps/example4', 60, 20, NULL, '[\"Ξενάγηση\",\"Καφές\",\"Αναμνηστικό\"]', '{\"mandatory\":[],\"optional\":[]}', 'inPerson', 0, 15, 0, '2025-01-16 18:51:16'),
 (7, 'Προπόνηση Στίβου (Intervals)', 3, 'Εντατική προπόνηση ταχύτητας σε ταρτάν. Βελτιώστε την ταχύτητα και την εκρηκτικότητά σας.', 20.00, 6.00, 0, 'Hard', 'Track', 'https://goo.gl/maps/example5', 75, 0, '2026-01-28 19:00:00', '[\"Χρονόμετρηση\", \"Ασκήσεις Ενδυνάμωσης\", \"Ισοτονικό\"]', NULL, 'inPerson', 1, 10, 7, '2026-01-26 16:58:08'),
 (8, 'Night Urban Trail (Λυκαβηττός)', 2, 'Βραδινό τρέξιμο στα μονοπάτια του Λυκαβηττού με φακούς κεφαλής.', 25.00, 7.00, 250, 'Moderate', 'Trail', 'https://goo.gl/maps/example6', 60, 40, NULL, '[\"Φακός Κεφαλής (Δανεισμός)\",\"Μπίρα Τερματισμού\"]', '{\"mandatory\":[],\"optional\":[]}', 'inPerson', 0, 1, 0, '2026-01-26 18:01:15');
@@ -339,10 +341,7 @@ CREATE TABLE `payments` (
 
 INSERT INTO `payments` (`id`, `client_id`, `reservation_id`, `amount_total`, `fee`, `status`, `payment_method`, `payed_at`, `created_at`, `updated_at`, `token`, `description`, `currency`, `card_type`, `card_holder_name`, `card_name`, `billing_country`, `billing_city`, `note`, `amount_paid`, `paymentRef`, `payer_email`, `billing_zip`, `billing_address`, `date_created`) VALUES
 (587, 32, 0, '22.00', '', 'Captured', 'EveryPay', '0000-00-00 00:00:00', '2026-01-22 08:53:15', NULL, 'pmt_doWW5sPFwTvMoSZExjZLnWa7', '', 'EUR', 'Visa', '', 'Visa •••• 9395 (05/2026)', 'GR', 'asd', '', '22.00', 'EBOOK-pmt_doWW', 'mrkakoliris@gmail.com', '231', 'das', '2026-01-22'),
-(592, 32, 29, '50', '', 'Completed', 'Cash', '2026-01-29 12:00:00', '2026-01-29 15:22:31', '2026-01-29 16:14:24', '', '', '', '', '', '', '', '', '', '50', '', '', '', '', NULL),
-(593, 8, 30, '50', '', 'Completed', 'Cash', '2026-01-29 12:00:00', '2026-01-29 16:18:02', NULL, '', '', '', '', '', '', '', '', '', '50', '', '', '', '', NULL),
-(594, 0, 38, '60', '', 'Completed', 'Cash', '2026-02-09 18:34:35', '2026-02-09 16:04:01', '2026-02-09 16:34:35', '', '', '', '', '', '', '', '', '', '60', '', '', '', '', NULL),
-(595, 11, 37, '60', '', 'Completed', 'Cash', '2026-02-10 12:57:18', '2026-02-10 10:57:18', NULL, '', '', '', '', '', '', '', '', '', '60', '', '', '', '', NULL);
+(594, 0, 38, '60', '', 'Completed', 'Cash', '2026-02-09 18:34:35', '2026-02-09 16:04:01', '2026-02-09 16:34:35', '', '', '', '', '', '', '', '', '', '60', '', '', '', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -463,8 +462,9 @@ CREATE TABLE `therapist_availability_rules` (
 --
 
 INSERT INTO `therapist_availability_rules` (`id`, `therapist_id`, `package_id`, `weekday`, `start_time`, `end_time`, `appointment_type`, `is_active`, `created_at`, `updated_at`) VALUES
-(19, 1, 6, 0, '09:00:00', '10:00:00', NULL, 1, '2026-02-10 15:25:04', NULL),
-(27, 2, 4, 1, '21:00:00', '23:00:00', NULL, 1, '2026-02-10 16:15:45', NULL);
+(27, 2, 4, 1, '21:00:00', '23:00:00', NULL, 1, '2026-02-10 16:15:45', NULL),
+(28, 1, 6, 0, '09:00:00', '10:00:00', NULL, 1, '2026-02-11 17:27:10', NULL),
+(29, 1, 8, 3, '09:00:00', '10:00:00', NULL, 1, '2026-02-11 17:27:10', NULL);
 
 -- --------------------------------------------------------
 
@@ -697,7 +697,7 @@ ALTER TABLE `user_groups`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `categories`
@@ -757,7 +757,7 @@ ALTER TABLE `packages`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=596;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=597;
 
 --
 -- AUTO_INCREMENT for table `product_orders`
@@ -787,7 +787,7 @@ ALTER TABLE `therapists`
 -- AUTO_INCREMENT for table `therapist_availability_rules`
 --
 ALTER TABLE `therapist_availability_rules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `therapist_time_blocks`

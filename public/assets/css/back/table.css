@@ -1,150 +1,58 @@
+/* ============================================================
+   DataTables - Modern Clean Table Skin (Bootstrap-friendly)
+   - Safe: δεν αλλάζει IDs / JS hooks
+   - Uses your CSS vars if available (fallbacks included)
+   ============================================================ */
+
+/* ---------- Base tokens (fallbacks) ---------- */
+:root {
+  --dt-surface: var(--bg-color-primary, #ffffff);
+  --dt-surface-2: var(--bg-color-secondary, #f6f7f9);
+  --dt-header: var(--bg-table-optional, #f3f4f6);
+
+  --dt-text: var(--text-color, #1f2937);
+  --dt-muted: rgba(31, 41, 55, 0.72);
+
+  --dt-border: rgba(31, 41, 55, 0.10);
+  --dt-border-2: rgba(31, 41, 55, 0.08);
+
+  --dt-link: var(--a-color, #0d6efd);
+  --dt-accent: #0d6efd;
+
+  --dt-radius: 12px;
+  --dt-radius-sm: 10px;
+
+  --dt-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  --dt-shadow-sm: 0 6px 16px rgba(0, 0, 0, 0.06);
+
+  --dt-row-hover: rgba(13, 110, 253, 0.04);
+  --dt-row-selected: rgba(13, 110, 253, 0.10);
+}
+
+/* ============================================================
+   Buttons (DT Buttons extension)
+   ============================================================ */
 button.dt-button,
 div.dt-button,
 a.dt-button,
 input.dt-button {
-  color: #17a2b8 !important;
-  background: none !important;
-  background-color: rgb(246 246 246) !important;
-  font-size: 0.8em;
-}
-thead th:first-child {
-  border-top-left-radius: 4px;
-}
-
-thead th:first-child {
-  border-left: none;
-  border-top-left-radius: 4px;
-  -webkit-border-top-left-radius: 4px;
-  -moz-border-radius-topleft: 4px;
+  background: #fff !important;
+  color: var(--dt-link) !important;
+  border: 1px solid var(--dt-border) !important;
+  border-radius: 999px !important;
+  padding: 6px 10px !important;
+  font-size: 0.85rem !important;
+  line-height: 1 !important;
+  box-shadow: none !important;
+  transition: background 150ms ease, border-color 150ms ease, transform 80ms ease;
 }
 
-thead th:visible:last-child {
-  border-right: none;
-  border-top-right-radius: 4px !important;
-  -webkit-border-top-right-radius: 4px !important;
-  -moz-border-radius-topright: 4px !important;
-}
-
-table {
-  border-top-left-radius: 4px !important;
-  border-top-right-radius: 4px !important;
-}
-
-th:first-child {
-  border-top-left-radius: 4px;
-}
-
-th:last-child {
-  border-top-right-radius: 4px;
-}
-
-tbody {
-  border-bottom-width: 1px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-}
-
-tbody {
-  border-bottom: 1px;
-  border-bottom-left-radius: 4px;
-  border-bottom-right-radius: 4px;
-  -webkit-border-bottom-left-radius: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  -webkit-border-bottom-right-radius: 4px;
-  -moz-border-radius-bottomright: 4px;
-}
-
-thead.subtable {
-  background-color: #cbdede;
-  /* border-radius: 5px; */
-  /* border: none !important; */
-  color: #181818;
-}
-
-table.dataTable.no-footer {
-  border-bottom: none !important;
-}
-
-.dataTables_length label {
-  color: #7b7b7b !important;
-  font-size: 14px !important;
-}
-
-.dataTables_paginate {
-  margin-top: 7px !important;
-}
-th.sorting {
-  font-size: medium !important;
-  color: #5b5b5b !important;
-}
-
-table.dataTable tbody > tr.selected,
-table.dataTable tbody > tr > .selected {
-  background-color: #ededed !important;
-  color: #5d5d5d !important;
-}
-.table-striped tbody tr:nth-of-type(odd) {
-  background-color: transparent !important;
-}
-
-table.dataTable tbody tr {
-  background-color: var(--bg-color-primary);
-  color: var(--text-color);
-}
-
-table.dataTable tbody tr:hover {
-  background-color: var(--bg-color-secondary);
-  color: var(--text-color);
-}
-
-table.dataTable tbody th,
-table.dataTable tbody td {
-  font-size: 0.97em !important;
-  /* font-size: 1.11rem !important; */
-  cursor: pointer !important;
-  vertical-align: middle;
-  padding: 15px 10px !important;
-}
-
-table.dataTable {
-  /* border-collapse: collapse; */
-}
-.dataTables_wrapper .dataTables_filter input {
-  font-size: medium !important;
-  border-radius: 4px !important;
-  border: 1px solid #aaaaaa5c !important;
-  color: #7a777d !important;
-  background-color: var(--bg-color-primary);
-  outline: none;
-}
-.dataTables_wrapper .dataTables_filter {
-  color: var(--text-color);
-  margin-bottom: 5px;
-}
-
-table.dataTable thead th,
-table.dataTable thead td {
-  background-color: var(--bg-table-optional);
-  /* border-bottom: 1px solid gray; */
-  border-bottom: none;
-  color: var(--text-color) !important;
-}
-
-table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control,
-table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
-  padding-left: 32px !important;
-}
-
-table.dataTable th.dt-center,
-table.dataTable td.dt-center,
-table.dataTable td.dataTables_empty {
-  color: #b61414 !important;
-  padding: 60px !important;
-}
-
-.dataTables_wrapper .dataTables_info {
-  font-size: initial;
-  color: var(--text-color);
+button.dt-button:hover,
+div.dt-button:hover,
+a.dt-button:hover,
+input.dt-button:hover {
+  background: var(--dt-surface-2) !important;
+  border-color: rgba(13,110,253,.25) !important;
 }
 
 button.dt-button:active:not(.disabled),
@@ -155,223 +63,276 @@ a.dt-button:active:not(.disabled),
 a.dt-button.active:not(.disabled),
 input.dt-button:active:not(.disabled),
 input.dt-button.active:not(.disabled) {
-  box-shadow: inset 1px 1px 3px #99999978 !important;
+  transform: translateY(1px);
+  box-shadow: none !important;
 }
 
-table.dataTable > tbody > tr.child {
-  background-color: var(--bg-color-secondary);
+button.dt-button.buttons-columnVisibility.active {
+  background: rgba(13,110,253,.08) !important;
+  border-color: rgba(13,110,253,.35) !important;
+  color: var(--dt-text) !important;
+}
+
+/* Collection dropdown */
+div.dt-button-collection {
+  background: #fff !important;
+  border: 1px solid var(--dt-border) !important;
+  border-radius: var(--dt-radius-sm) !important;
+  box-shadow: var(--dt-shadow-sm) !important;
+  padding: 8px !important;
+  min-width: 260px !important;
+}
+
+div.dt-button-collection button.dt-button {
+  width: 100% !important;
+  border-radius: 10px !important;
+  justify-content: flex-start !important;
+  margin: 4px 0 !important;
+}
+
+/* ============================================================
+   Table wrapper / layout
+   ============================================================ */
+table.dataTable {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  background: var(--dt-surface);
+  color: var(--dt-text);
+  border: 1px solid var(--dt-border);
+  border-radius: var(--dt-radius);
+  overflow: hidden;
+}
+
+table.dataTable.no-footer {
+  border-bottom: 1px solid var(--dt-border) !important;
+}
+
+/* Header */
+table.dataTable thead th,
+table.dataTable thead td {
+  /* background: var(--dt-header) !important; */
+  color: var(--dt-muted) !important;
+  font-weight: 650;
+  font-size: 0.86rem;
+  letter-spacing: 0.2px;
+  border-bottom: 1px solid var(--dt-border) !important;
+  padding: 12px 14px !important;
+  white-space: nowrap;
+}
+
+/* Rounded corners */
+table.dataTable thead th:first-child {
+  border-top-left-radius: var(--dt-radius) !important;
+}
+table.dataTable thead th:last-child {
+  border-top-right-radius: var(--dt-radius) !important;
+}
+table.dataTable tbody tr:last-child td:first-child {
+  border-bottom-left-radius: var(--dt-radius) !important;
+}
+table.dataTable tbody tr:last-child td:last-child {
+  border-bottom-right-radius: var(--dt-radius) !important;
+}
+
+/* Body */
+table.dataTable tbody tr {
+  background: var(--dt-surface);
+  transition: background 140ms ease;
+}
+
+table.dataTable tbody tr:hover {
+  background: var(--dt-row-hover) !important;
+}
+
+table.dataTable tbody th,
+table.dataTable tbody td {
+  font-size: 0.93rem !important;
+  padding: 14px 14px !important;
+  border-bottom: 1px solid var(--dt-border-2);
+  vertical-align: middle;
+}
+
+/* Remove bootstrap striped forcing */
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: transparent !important;
+}
+
+/* Selected row */
+table.dataTable tbody > tr.selected,
+table.dataTable tbody > tr > .selected {
+  background: var(--dt-row-selected) !important;
+  color: var(--dt-text) !important;
+}
+
+/* Empty state */
+table.dataTable td.dataTables_empty {
+  color: rgba(180, 20, 20, 0.9) !important;
+  padding: 48px 12px !important;
+  font-weight: 600;
+}
+
+/* ============================================================
+   DataTables controls (length / filter / info / paginate)
+   ============================================================ */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+  margin: 8px 0;
+  color: var(--dt-muted);
+}
+
+.dataTables_wrapper .dataTables_length label,
+.dataTables_wrapper .dataTables_filter label {
+  font-size: 0.92rem !important;
+  color: var(--dt-muted) !important;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+  font-size: 0.95rem !important;
+  border-radius: 10px !important;
+  border: 1px solid var(--dt-border) !important;
+  background: var(--dt-surface) !important;
+  color: var(--dt-text) !important;
+  padding: 8px 10px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: border-color 150ms ease, background 150ms ease;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+  border-color: rgba(13,110,253,.35) !important;
+  background: #fff !important;
+}
+
+.dataTables_wrapper .dataTables_info {
+  font-size: 0.92rem;
+  color: var(--dt-muted);
+  margin-top: 8px;
+}
+
+/* Pagination */
+.dataTables_wrapper .dataTables_paginate {
+  margin-top: 10px !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+  border: 1px solid transparent !important;
+  background: transparent !important;
+  color: var(--dt-link) !important;
+  padding: 5px 10px !important;
+  margin: 0 2px !important;
+  border-radius: 10px !important;
+  cursor: pointer !important;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  background: var(--dt-surface-2) !important;
+  border-color: var(--dt-border) !important;
+  text-decoration: none !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  background: rgba(13,110,253,.10) !important;
+  border-color: rgba(13,110,253,.25) !important;
+  color: var(--dt-text) !important;
+}
+
+/* Disabled */
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover {
+  opacity: 0.55;
+  cursor: default !important;
+  background: transparent !important;
+  border-color: transparent !important;
+}
+
+/* ============================================================
+   Responsive control icon (dtr-control)
+   ============================================================ */
+table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control,
+table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control {
+  padding-left: 42px !important;
+  position: relative;
 }
 
 table.dataTable.dtr-inline.collapsed > tbody > tr > td.dtr-control:before,
 table.dataTable.dtr-inline.collapsed > tbody > tr > th.dtr-control:before {
-  /* top: 30% !important; */
   display: flex !important;
   align-items: center;
   justify-content: center;
-  height: 1.2em !important;
-  width: 1.2em !important;
-  color: #212529 !important;
-  border: 0.1em solid #b3aad3 !important;
-  border-radius: 1em;
+  height: 1.25em !important;
+  width: 1.25em !important;
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--dt-text) !important;
+  border: 1px solid rgba(13,110,253,.25) !important;
+  border-radius: 999px;
   box-shadow: none !important;
   box-sizing: content-box;
   text-align: center;
   text-indent: 0 !important;
   font-family: "bootstrap-icons" !important;
-  line-height: 1.3em !important;
-  content: "\f282" !important;
-  background-color: unset !important;
-}
-table.dataTable.dtr-inline.collapsed
-  > tbody
-  > tr.parent
-  > td.dtr-control:before,
-table.dataTable.dtr-inline.collapsed
-  > tbody
-  > tr.parent
-  > th.dtr-control:before {
-  content: "\f286" !important;
-  background-color: #f0a52c !important;
-  border-color: #ababab !important;
-}
-button.dt-button.buttons-columnVisibility.active {
-  background-color: #63996f !important;
-  color: ghostwhite !important;
-}
-div.dt-button-collection {
-  background-color: #343a40 !important;
-  width: 260px !important;
+  line-height: 1.25em !important;
+  content: "\f282" !important; /* plus */
+  background: #fff !important;
 }
 
-button.dt-button.buttons-columnVisibility.active:hover {
-  background-color: brown !important;
-}
-button.dt-button.buttons-columnVisibility:hover {
-  background-color: #63996f !important;
-  color: ghostwhite !important;
-}
-
-label {
-  font-size: 1.09rem !important;
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td.dtr-control:before,
+table.dataTable.dtr-inline.collapsed > tbody > tr.parent > th.dtr-control:before {
+  content: "\f286" !important; /* dash/minus */
+  background: rgba(13,110,253,.10) !important;
+  border-color: rgba(13,110,253,.35) !important;
 }
 
-table tr > td > .edit-actions a {
+/* Child row */
+table.dataTable > tbody > tr.child {
+  background: var(--dt-surface-2) !important;
+}
+
+/* ============================================================
+   Borders - keep your “clean” look with soft separators
+   ============================================================ */
+.table-bordered > :not(caption) > * {
+  border-width: 1px 0;
+  border-color: transparent;
+  border-bottom-color: var(--dt-border-2);
+}
+.table-bordered > :not(caption) > * > * {
+  border-width: 0 0px;
+}
+
+/* ============================================================
+   Actions: keep your hover-reveal pattern but DRY
+   ============================================================ */
+table tr > td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) a,
+table tr > td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) .edit,
+table tr > td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) .delete {
   color: transparent !important;
-  transition: ease-out 100ms;
-  text-decoration: none;
-}
-table tr > td > .edit-actions .edit {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-table tr:hover td > .edit-actions .edit {
-  color: rgb(24, 24, 24) !important;
-  transition: ease-in 100ms;
-}
-table tr > td > .edit-actions .delete {
-  color: transparent !important;
-  transition: ease-out 100ms;
+  transition: color 120ms ease;
+  text-decoration: none !important;
 }
 
-table tr:hover td > .edit-actions .delete {
-  color: rgb(24, 24, 24) !important;
-  transition: ease-in 100ms;
-}
-table tr:hover td > .edit-actions .delete a {
-  color: #dd6664 !important;
-  transition: ease-in 100ms;
-}
-table tr > td > .edit-actions .delete a:hover {
-  color: rgb(155, 155, 155) !important;
-  transition: ease-out 100ms;
-}
-table tr:hover td > .edit-actions a {
-  color: var(--a-color) !important;
-  transition: ease-in 100ms;
+table tr:hover td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) a,
+table tr:hover td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) .edit,
+table tr:hover td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) .delete {
+  color: var(--dt-link) !important;
 }
 
-table tr > td > .edit-actions a:hover {
-  color: rgb(155, 155, 155) !important;
-  transition: ease-out 100ms;
+table tr:hover td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) .delete a,
+table tr:hover td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) .delete {
+  color: #dc3545 !important;
 }
 
-table tr > td > .edit-rates a {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-table tr > td > .edit-rates .edit {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-table tr:hover td > .edit-rates .edit {
-  color: rgb(24, 24, 24) !important;
-  transition: ease-in 100ms;
-}
-table tr > td > .edit-rates .delete {
-  color: transparent !important;
-  transition: ease-out 100ms;
+table tr > td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) a:hover {
+  color: rgba(31,41,55,.65) !important;
 }
 
-table tr:hover td > .edit-rates .delete {
-  color: rgb(24, 24, 24) !important;
-  transition: ease-in 100ms;
-}
-table tr:hover td > .edit-rates .delete a {
-  color: rgb(202, 33, 33) !important;
-  transition: ease-in 100ms;
-}
-table tr > td > .edit-rates .delete a:hover {
-  color: rgb(155, 155, 155) !important;
-  transition: ease-out 100ms;
-}
-table tr:hover td > .edit-rates a {
-  color: rgb(59, 122, 173) !important;
-  transition: ease-in 100ms;
-}
-
-table tr > td > .edit-rates a:hover {
-  color: rgb(155, 155, 155) !important;
-  transition: ease-out 100ms;
-}
-
-table tr > td > .edit-reservation a {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-table tr > td > .edit-reservation .edit {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-table tr:hover td > .edit-reservation .edit {
-  color: rgb(24, 24, 24) !important;
-  transition: ease-in 100ms;
-}
-table tr > td > .edit-reservation .delete {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-
-table tr:hover td > .edit-reservation .delete {
-  color: rgb(24, 24, 24) !important;
-  transition: ease-in 100ms;
-}
-table tr:hover td > .edit-reservation .delete a {
-  color: rgb(202, 33, 33) !important;
-  transition: ease-in 100ms;
-}
-table tr > td > .edit-reservation .delete a:hover {
-  color: rgb(155, 155, 155) !important;
-  transition: ease-out 100ms;
-}
-table tr:hover td > .edit-reservation a {
-  color: rgb(59, 122, 173) !important;
-  transition: ease-in 100ms;
-}
-
-table tr > td > .edit-reservation a:hover {
-  color: rgb(155, 155, 155) !important;
-  transition: ease-out 100ms;
-}
-
-table tr > td > .edit-offSeason a {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-table tr > td > .edit-offSeason .edit {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-table tr:hover td > .edit-offSeason .edit {
-  color: rgb(24, 24, 24) !important;
-  transition: ease-in 100ms;
-}
-table tr > td > .edit-offSeason .delete {
-  color: transparent !important;
-  transition: ease-out 100ms;
-}
-
-table tr:hover td > .edit-offSeason .delete {
-  color: rgb(24, 24, 24) !important;
-  transition: ease-in 100ms;
-}
-table tr:hover td > .edit-offSeason .delete a {
-  color: rgb(202, 33, 33) !important;
-  transition: ease-in 100ms;
-}
-table tr > td > .edit-offSeason .delete a:hover {
-  color: rgb(155, 155, 155) !important;
-  transition: ease-out 100ms;
-}
-table tr:hover td > .edit-offSeason a {
-  color: rgb(59, 122, 173) !important;
-  transition: ease-in 100ms;
-}
-
-table tr > td > .edit-offSeason a:hover {
-  color: rgb(155, 155, 155) !important;
-  transition: ease-out 100ms;
-}
-
+/* ============================================================
+   Utility leftovers you already use
+   ============================================================ */
 .user-thumb {
   width: 50px;
   height: 50px;
@@ -380,96 +341,39 @@ table tr > td > .edit-offSeason a:hover {
   overflow: hidden;
   background-repeat: no-repeat;
   background-position: center center;
-  border: 1px solid rgb(66 66 66 / 23%);
-  background-size: contain;
-  background-color: #f1f1f1ba;
-  background-origin: content-box;
-  padding: 5px;
+  border: 1px solid rgba(31,41,55,.12);
+  background-size: cover;
+  background-color: rgba(31,41,55,.04);
 }
 
 table#users_table {
   width: 99.5% !important;
 }
 
-div[id$="_paginate"] > span > a.paginate_button {
-  background-color: none !important;
-}
-
-div[id$="_paginate"] > span > a.paginate_button.current {
-  background: var(--bg-color-btn-primary) !important;
-  background-color: none !important;
-  border: none !important;
-}
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-  color: var(--text-color-btn-primary) !important;
-}
-.dataTables_wrapper .dataTables_paginate a > .paginate_button:hover {
-  text-decoration: underline !important;
-  color: teal !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-  padding: 2px 8px !important;
-  border: none !important;
-  cursor: pointer !important;
-}
-
-.dataTables_wrapper .dataTables_paginate .paginate_button.enabled,
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
-.dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
-  color: var(--a-color) !important;
-}
-
-a.paginate_button:hover {
-  background: #00808075 !important;
-  /* background-color: teal !important; */
-  border: none !important;
-  /* padding: 0.5em 0.2em !important; */
-}
-
-.table-bordered > :not(caption) > * {
-  border-width: 1px 0;
-  border-color: transparent;
-  border-bottom-color: var(--bg-color-primary-faded);
-}
-.table-bordered > :not(caption) > * > * {
-  border-width: 0 0px;
-}
-
-.dataTables_wrapper .dataTables_length {
-  margin: 5px 0px;
-}
-
-@media all and (max-width: 767px) {
+/* ============================================================
+   Mobile tweaks
+   ============================================================ */
+@media (max-width: 767px) {
   div.dt-button-collection {
     position: absolute !important;
     top: 50% !important;
     transform: translate(0, -50%) !important;
     left: 5% !important;
   }
-  table tr > td > .edit-actions a {
-    color: rgb(59, 122, 173) !important;
-    transition: ease-out 100ms;
-  }
-  table tr td > .edit-actions .delete {
-    color: rgb(24, 24, 24) !important;
-    transition: ease-in 100ms;
-  }
-  table tr td > .edit-actions .edit {
-    color: rgb(24, 24, 24) !important;
-    transition: ease-in 100ms;
-  }
-  .form-group {
-    width: auto;
-  }
 
   .dataTables_wrapper .dataTables_length,
   .dataTables_wrapper .dataTables_filter {
-    /* float: unset !important; */
     text-align: right !important;
   }
 
   .dataTables_wrapper .dataTables_length {
     float: left !important;
+  }
+
+  /* On mobile, show actions always (if you rely on hover reveal) */
+  table tr > td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) a,
+  table tr > td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) .edit,
+  table tr > td > :is(.edit-actions,.edit-rates,.edit-reservation,.edit-offSeason) .delete {
+    color: var(--dt-link) !important;
   }
 }

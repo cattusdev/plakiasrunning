@@ -797,11 +797,16 @@
     /* 3. SESSIONS / GROUP EVENTS (Λευκή Κάρτα με αριστερή μπάρα) */
     .fc-event.bg-session,
     .fc-event.bg-group-event {
-        background-color: #ffffff !important;
+        background-color: #fbfffc !important;
         border: 1px solid #e9ecef !important;
         border-left: 4px solid #6610f2 !important;
         /* Indigo */
         color: #212529 !important;
+    }
+
+    .fc-v-event .fc-event-main {
+        color: unset;
+        height: 100%;
     }
 
     /* 4. BOOKINGS (Ατομικά Ραντεβού - Μπλε) */

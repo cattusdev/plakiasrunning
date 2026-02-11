@@ -43,6 +43,10 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die("Access Denied");
 
             <div class="modal-header bg-white border-bottom-0 pb-0">
                 <h5 class="modal-title fw-bold text-primary" id="packagesModalLongTitle">Στοιχεία Διαδρομής</h5>
+                <div class="d-flex gap-2 mt-2">
+                    <span class="badge bg-light text-dark border" id="uiBadgeMode">Recurring</span>
+                    <span class="badge bg-light text-dark border" id="uiBadgeType">Route</span>
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
@@ -249,6 +253,100 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die("Access Denied");
     </div>
 </div>
 
+
+<style>
+    /* -----------------------------
+   Packages Modal - clean polish
+------------------------------ */
+
+    #packagesModal .modal-dialog {
+        max-width: 980px;
+    }
+
+    #packagesModal .modal-content {
+        border-radius: 18px;
+        overflow: hidden;
+    }
+
+    #packagesModal .modal-header {
+        padding: 18px 18px 10px 18px;
+    }
+
+    #packagesModal .modal-title {
+        letter-spacing: .2px;
+    }
+
+    #packagesModal .modal-body {
+        padding: 18px;
+        background: #fff;
+    }
+
+    #packagesModal .modal-footer {
+        padding: 14px 18px;
+        background: #fff;
+        border-top: 1px solid rgba(0, 0, 0, .06);
+    }
+
+    /* Section headings */
+    #packagesModal h6 {
+        font-size: .78rem;
+        letter-spacing: .08em;
+        margin-bottom: .75rem;
+    }
+
+    /* Inputs consistent */
+    #packagesModal .form-control,
+    #packagesModal .form-select {
+        border-radius: 12px;
+    }
+
+    /* Softer group blocks */
+    #packagesModal .card.bg-light {
+        border-radius: 14px;
+    }
+
+    #packagesModal .card.bg-light .card-body {
+        padding: 12px 12px;
+    }
+
+    /* Event toggle block */
+    #packagesModal .p-3.bg-light.rounded-3 {
+        border-radius: 16px !important;
+        border: 1px solid rgba(0, 0, 0, .06) !important;
+    }
+
+    /* List groups look cleaner */
+    #packagesModal .list-group {
+        border-radius: 14px;
+        overflow: hidden;
+    }
+
+    #packagesModal .list-group-item {
+        border-color: rgba(0, 0, 0, .06);
+        padding: 8px 10px;
+    }
+
+    /* Small inputs in lists keep same rounding */
+    #packagesModal .form-control-sm {
+        border-radius: 12px;
+    }
+
+    /* Make footer sticky (optional, nice) */
+    #packagesModal .modal-footer {
+        position: sticky;
+        bottom: 0;
+        z-index: 3;
+    }
+
+    /* Guides checkboxes spacing */
+    #therapistsCheckboxes .form-check {
+        margin: 0;
+    }
+
+    #therapistsCheckboxes .form-check-input {
+        cursor: pointer;
+    }
+</style>
 <?php
 function hook_end_scripts()
 {

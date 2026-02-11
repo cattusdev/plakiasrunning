@@ -1450,6 +1450,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && Input::get('action', true) && Token
 
             break;
 
+        // --- CLIENT HISTORY ---
+        case 'fetchClientHistory':
+            $clientId = (int)Input::get('client_id');
+            if (!$clientId) {
+                echo json_encode(['success' => false, 'history' => []]);
+                exit;
+            }
+
+            $db = Database::getInstance();
+
+            // FIX: Χρησιμοποιούμε το amount_paid αντί για amount
+            // FIX: Χρησιμοποιούμε το reservation_id για τη σύνδεση με το bookings (αντί για booking_id αν έτσι το έχεις)
+            // Σημείωση: Στο payments table βλέπω 'reservation_id'. Αν αυτό αντιστοιχεί στο booking.id, τότε το JOIN είναι σωστό.
+
+            $sql = "SELECT 
+            b.id, b.start_datetime, b.status, b.payment_status,
+            p.title as package_title,
+            p.price as package_price,
+            p.is_group as package_is_group,
+            p.start_datetime as package_start_datetime,
+            (SELECT SUM(amount_paid) FROM payments WHERE reservation_id = b.id) as total_paid,
+            t.first_name as t_fname, t.last_name as t_lname
+        FROM bookings b
+        LEFT JOIN packages p ON b.package_id = p.id
+        LEFT JOIN therapists t ON b.therapist_id = t.id
+        WHERE b.client_id = ?
+        ORDER BY b.start_datetime DESC";
+
+
+            $history = $db->query($sql, [$clientId]);
+
+            echo json_encode(['success' => true, 'history' => $history ?: []]);
+            exit;
+            break;
+
         case 'searchClientsSelect2':
             // Εδώ δεν χρειάζεται απαραίτητα admin permission αν το κάνουν και οι απλοί χρήστες, 
             // αλλά ας το αφήσουμε admin based στο permission system σου.

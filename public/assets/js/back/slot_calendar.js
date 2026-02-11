@@ -676,17 +676,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 // HTML Structure
                 let html = `
                 <div class="p-1 h-100 d-flex flex-column justify-content-center">
-                    
+                    <div class="fw-bold text-truncate text-dark mb-1" style="font-size:0.85em;">
+                        ${arg.event.title}
+                    </div>
+
                     <div class="d-flex justify-content-between align-items-center mb-1" style="line-height:1;">
                         <span class="badge bg-light text-secondary border shadow-sm" style="font-size:0.7em;">
                             ${tInfo.time} <span class="fw-normal opacity-75 ms-1">(${tInfo.period})</span>
                         </span>
                     </div>
 
-                    <div class="fw-bold text-truncate text-dark mb-1" style="font-size:0.85em;">
-                        ${arg.event.title}
-                    </div>
-                    
                     <div class="d-flex align-items-center" style="gap: 6px;">
                         <div class="progress flex-grow-1 bg-light border" style="height: 5px;">
                             <div class="progress-bar ${barColor}" role="progressbar" style="width: ${percentage}%"></div>
@@ -888,7 +887,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const btnEdit = document.getElementById('btnEditSessionDetails');
         if (pkgId) {
             btnEdit.classList.remove('d-none');
-            btnEdit.onclick = function () { window.location.href = `/packages.php?id=${pkgId}`; };
+            btnEdit.onclick = function () { window.location.href = `/packages?id=${pkgId}`; };
         } else {
             btnEdit.classList.add('d-none');
         }
