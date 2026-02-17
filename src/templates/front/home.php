@@ -1,814 +1,675 @@
 <?php
 if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
 ?>
-
-<header class="hero-puzzle-section" id="home">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-
-            <div class="col-lg-5 hero-text-area">
-
-                <div class="label-wrapper fade-item">
-                    <span class="line-dash d-none d-md-blocl"></span>
-                    <span class="mini-tag">ΚΕΝΤΡΟ ΨΥΧΟΛΟΓΙΑΣ & ΑΝΑΠΤΥΞΗΣ</span>
-                </div>
-
-                <h1 class="hero-header fade-item">
-                    Συνθέτουμε μαζί<br>
-                    τα κομμάτια του<br>
-                    <span class="highlight-stitch">Εαυτού σας.</span>
-                </h1>
-
-                <div class="hero-desc-wrapper fade-item">
-                    <p class="hero-paragraph">
-                        Όπως το "Άλμα" ενώνει το σώμα με το πνεύμα, έτσι κι εμείς βοηθάμε να ενώσετε σκέψεις και συναισθήματα. Μια διαδικασία επούλωσης, αποδοχής και επανασύνδεσης.
-                    </p>
-                </div>
-
-                <div class="hero-action-btns fade-item">
-                    <a href="/services" class="btn-alma-solid">
-                        <span>Κλείστε Συνεδρία</span>
-                    </a>
-                    <a href="#about" class="btn-alma-outline">
-                        <span>Η Ομάδα</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-lg-6 offset-lg-1 hero-visual-area">
-
-                <canvas id="connectionCanvas"></canvas>
-
-                <div class="assembly-composition">
-
-                    <div class="shard-img-wrapper" id="shard1">
-                        <img src="/assets/images/icons/1_.png" alt="Skevi" class="floating-img">
-                        <span class="img-label">Σκέψη</span>
-                    </div>
-
-                    <div class="shard-img-wrapper" id="shard2">
-                        <img src="/assets/images/icons/expression1.png" alt="Synaisthima" class="floating-img">
-                        <span class="img-label">Συναίσθημα</span>
-                    </div>
-
-                    <div class="shard-img-wrapper" id="shard3">
-                        <img src="/assets/images/icons/feelings.png" alt="Ekfrasi" class="floating-img">
-                        <span class="img-label">Έκφραση</span>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-    </div>
-</header>
+<!-- 29c1c2 -->
 
 <style>
-    /* ========================
-   HERO SECTION: COMPLETE & RESPONSIVE
-   ======================== */
+    :root {
+        --text-color: #ffffff;
+        --accent-color: #29c1c2;
+        /* Mint Green */
+        --dark-bg: #0f172a;
+    }
 
-    .hero-puzzle-section {
+    /* HERO WRAPPER */
+    .hero-wrapper {
         position: relative;
+        height: 100vh;
         width: 100%;
-        min-height: 100vh;
-        padding-top: 140px;
         overflow: hidden;
+        background-color: var(--dark-bg);
         display: flex;
         align-items: center;
+        justify-content: center;
+        padding-top: 80px;
     }
 
-    /* --- LEFT COLUMN: EDITORIAL STYLE --- */
-    .hero-text-area {
-        position: relative;
-        z-index: 5;
-        padding-right: 40px;
-        /* Λίγο αέρα δεξιά στο desktop */
-
-        /* Αρχική κατάσταση για το JS animation */
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    /* Label with Dash */
-    .label-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 25px;
-    }
-
-    .line-dash {
-        width: 40px;
-        height: 1px;
-        background-color: var(--alma-orange);
-    }
-
-    .mini-tag {
-        font-size: 0.85rem;
-        color: var(--alma-nav-text);
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin: 0;
-    }
-
-    /* Heading */
-    .hero-header {
-        font-family: 'Playfair Display', serif;
-        font-size: 3.6rem;
-        line-height: 1.15;
-        color: var(--alma-text);
-        font-weight: 400;
-        margin-bottom: 35px;
-    }
-
-    .highlight-stitch {
-        color: var(--alma-nav-text);
-        position: relative;
-        white-space: nowrap;
-        font-style: italic;
-        padding-right: 5px;
-    }
-
-    .highlight-stitch::after {
-        content: '';
+    /* BACKGROUND IMAGE (Bright Beach) */
+    .hero-bg-image {
         position: absolute;
-        bottom: 8px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: repeating-linear-gradient(to right, var(--alma-orange) 0, var(--alma-orange) 5px, transparent 5px, transparent 10px);
+        top: -10%;
+        left: -10%;
+        width: 120%;
+        height: 120%;
+        background-image: url('/assets/images/used/hero.jpg');
+        background-size: cover;
+        background-position: center;
+        /* Κρατάμε λίγο brightness drop για να ξεχωρίζουν τα λευκά γράμματα */
+        filter: brightness(0.7) contrast(1.1);
+        z-index: 1;
+        will-change: transform;
     }
 
-    /* Paragraph */
-    .hero-desc-wrapper {
-        border-left: 3px solid rgba(51, 76, 71, 0.1);
-        padding-left: 25px;
-        margin-bottom: 45px;
-    }
-
-    .hero-paragraph {
-        font-size: 1.15rem;
-        color: #555;
-        line-height: 1.7;
-        max-width: 480px;
-        margin: 0;
-        font-weight: 400;
-    }
-
-    /* Buttons */
-    .hero-action-btns {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        flex-wrap: wrap;
-    }
-
-    .btn-alma-solid {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        background-color: var(--alma-bg-button-main);
-        color: #fff;
-        padding: 16px 38px;
-        border-radius: 50px;
-        font-weight: 600;
-        letter-spacing: 0.5px;
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        box-shadow: 0 10px 25px rgba(51, 76, 71, 0.2);
-    }
-
-    .btn-alma-solid:hover {
-        background-color: var(--alma-orange);
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px rgba(245, 134, 52, 0.25);
-        color: #fff;
-    }
-
-    .btn-alma-outline {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        color: var(--alma-nav-text);
-        font-weight: 600;
-        font-size: 1rem;
-        padding: 10px 20px;
-        border-radius: 50px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-alma-outline i {
-        font-size: 1.2rem;
-        transition: transform 0.3s ease;
-    }
-
-    .btn-alma-outline:hover {
-        color: var(--alma-orange);
-        background-color: rgba(255, 255, 255, 0.5);
-    }
-
-    .btn-alma-outline:hover i {
-        transform: translateX(5px);
-    }
-
-    /* --- RIGHT COLUMN (Visual) --- */
-    .hero-visual-area {
-        position: relative;
-        height: 600px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #connectionCanvas {
+    /* GRAIN */
+    .grain-overlay {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 1;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
         pointer-events: none;
+        z-index: 2;
+        mix-blend-mode: overlay;
     }
 
-    .assembly-composition {
-        position: relative;
+    /* GRID LINES */
+    .grid-lines {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
         height: 100%;
-        z-index: 2;
+        z-index: 5;
         pointer-events: none;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 15%;
     }
 
-    .shard-img-wrapper {
+    .line {
+        width: 1px;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        /* Λίγο πιο έντονο για να φαίνεται στον ήλιο */
+    }
+
+    /* UI LAYER */
+    .hero-ui-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 15;
+        pointer-events: none;
+        padding: 40px;
+    }
+
+    .ui-data {
+        font-family: 'Courier New', monospace;
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.8);
+        /* Πιο λευκό για contrast */
+        text-transform: uppercase;
+        letter-spacing: 2px;
         position: absolute;
         display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .ui-top-left {
+        top: 120px;
+        left: 40px;
+    }
+
+    .ui-bottom-left {
+        bottom: 40px;
+        left: 40px;
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        background-color: var(--accent-color);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--accent-color);
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        50% {
+            opacity: 0.5;
+            transform: scale(0.8);
+        }
+
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    /* CONTAINER */
+    .hero-container {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        max-width: 1600px;
+        padding: 0 20px;
+        display: flex;
         flex-direction: column;
+        justify-content: end;
+        align-items: start;
+        text-align: start;
+        padding-top: 15vh;
+    }
+
+    .text-reveal-wrapper {
+        margin-bottom: -1vh;
+        overflow: hidden;
+    }
+
+    .hero-badge-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 6px 16px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50px;
+        font-size: 0.8rem;
+        color: white;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(5px);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .hero-badge-pill i {
+        color: var(--accent-color);
+        margin-right: 8px;
+    }
+
+    .hero-big-text {
+        font-size: clamp(3.5rem, 10vw, 7rem);
+        font-weight: 800;
+        line-height: 1;
+        text-transform: uppercase;
+        color: white;
+        letter-spacing: -0.03em;
+        transform: translateY(120%);
+        display: block;
+        white-space: nowrap;
+    }
+
+    .hero-big-text span {
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.6);
+    }
+
+    .hero-big-text.highlight {
+        color: var(--accent-color);
+        -webkit-text-stroke: 0;
+    }
+
+    .hero-sub {
+        font-size: clamp(1rem, 1.2vw, 1.25rem);
+        color: rgba(255, 255, 255, 0.9);
+        max-width: 550px;
+        margin-top: 30px;
+        line-height: 1.6;
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    /* BUTTON */
+    .magnetic-wrap {
+        display: inline-block;
+        position: relative;
+        margin-top: 50px;
+        z-index: 20;
+    }
+
+    .btn-magnetic {
+        position: relative;
+        display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 10;
-        opacity: 0;
-        transform: scale(0);
-    }
-
-    .floating-img {
-        width: 190px;
-        height: auto;
-        filter: drop-shadow(0 15px 25px rgba(51, 76, 71, 0.15));
-        transition: transform 0.3s ease;
-    }
-
-    .img-label {
-        margin-top: 15px;
-        font-family: 'Manrope', sans-serif;
-        font-size: 0.85rem;
+        width: 160px;
+        height: 160px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 50%;
+        color: white;
         font-weight: 700;
-        color: var(--alma-nav-text);
-        letter-spacing: 1px;
         text-transform: uppercase;
-        background: rgba(255, 255, 255, 0.9);
-        padding: 6px 16px;
-        border-radius: 20px;
+        font-size: 1rem;
+        background: rgba(0, 0, 0, 0.2);
         backdrop-filter: blur(5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+        text-decoration: none;
+        overflow: hidden;
     }
 
-    /* Positions Desktop */
-    #shard1 {
-        top: 60px;
-        left: 20px;
-    }
-
-    #shard2 {
-        bottom: 80px;
+    .btn-fill {
+        position: absolute;
+        top: 50%;
         left: 50%;
-        margin-left: -65px;
+        width: 0%;
+        height: 0%;
+        background: var(--accent-color);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        transition: width 0.6s ease, height 0.6s ease;
     }
 
-    #shard3 {
-        top: 90px;
-        right: 20px;
+    .btn-magnetic:hover {
+        border-color: var(--accent-color);
+        transform: scale(1.05);
     }
 
-    /* --- RESPONSIVE & MOBILE --- */
-    @media (max-width: 991px) {
-        .hero-puzzle-section {
-            display: flex;
-            flex-direction: column;
-            /* Κάθετη στοίβαξη */
-            height: auto;
-            padding-top: 150px;
-            padding-bottom: 60px;
-            text-align: center;
-            /* Κεντράρισμα */
+    .btn-magnetic:hover .btn-fill {
+        width: 150%;
+        height: 150%;
+    }
+
+    .btn-text {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* ========================
+       DARK GLASS CARD (FIXED VISIBILITY)
+       ======================== */
+    .hero-featured-card {
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
+        background: rgb(127 144 145 / 4%);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-top: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 20px 25px;
+        border-radius: 8px;
+        min-width: 260px;
+        z-index: 100;
+        cursor: pointer;
+        text-align: left;
+        pointer-events: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        opacity: 0;
+    }
+
+    .hero-featured-card:hover {
+        background: rgb(15 23 42 / 8%);
+        transform: translateY(-5px);
+        border-color: var(--accent-color);
+    }
+
+    .feat-content-wrap {
+        opacity: 1;
+        transition: opacity 0.4s ease;
+    }
+
+    .feat-content-wrap.fade-out {
+        opacity: 0;
+    }
+
+    .feat-label {
+        font-size: 0.7rem;
+        color: var(--accent-color);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .feat-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        line-height: 1.3;
+    }
+
+    .feat-meta {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 5px;
+    }
+
+    .scroll-line {
+        position: absolute;
+        bottom: 0;
+        right: 50%;
+        width: 1px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.2);
+        overflow: hidden;
+        z-index: 3;
+    }
+
+    .scroll-line::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--accent-color);
+        transform: translateY(-100%);
+        animation: scrollDrop 2.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
+    }
+
+    @keyframes scrollDrop {
+        0% {
+            transform: translateY(-100%);
         }
 
-        /* Text Area Mobile Fixes */
-        .hero-text-area {
-            padding-right: 0;
-            padding-left: 0;
-            margin-bottom: 50px;
-            width: 100%;
-            max-width: 600px;
-            /* Περιορισμός πλάτους */
-            margin-left: auto;
-            margin-right: auto;
-            padding: 0 20px;
-            /* Padding ασφαλείας */
-
-            /* Reset transform for mobile initial state handled by JS */
-            /* transform: translateY(20px); */
+        50% {
+            transform: translateY(0%);
         }
 
-        .label-wrapper {
-            justify-content: center;
-            /* Κέντρο label */
-            margin-bottom: 20px;
+        100% {
+            transform: translateY(100%);
+        }
+    }
+
+    @media (max-width: 768px) {
+
+        .grid-lines,
+        .ui-top-left {
+            display: none;
         }
 
-        .hero-header {
-            font-size: 2.8rem;
-            /* Μικρότερη γραμματοσειρά */
-            margin-bottom: 25px;
+        .hero-featured-card {
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            min-width: auto;
         }
 
-        /* Αφαίρεση της αριστερής γραμμής στο mobile */
-        .hero-desc-wrapper {
-            border-left: none;
-            padding-left: 0;
-            margin: 0 auto 35px auto;
+        .ui-bottom-left {
+            top: 100px;
+            bottom: auto;
+            left: 20px;
         }
 
-        .hero-paragraph {
-            font-size: 1.05rem;
-        }
-
-        .hero-action-btns {
-            justify-content: center;
-            gap: 15px;
-        }
-
-        /* Visual Area Mobile Fixes */
-        .hero-visual-area {
-            height: 420px;
-            /* Μικρότερο ύψος */
-            width: 100%;
-            margin-top: 0;
-        }
-
-        .floating-img {
-            width: 100px;
-        }
-
-        /* Mobile Positions for Icons */
-        #shard1 {
-            top: 20px;
-            left: 10px;
-        }
-
-        #shard2 {
-            bottom: 40px;
-            margin-left: -50px;
-        }
-
-        #shard3 {
-            top: 40px;
-            right: 10px;
+        .btn-magnetic {
+            width: 120px;
+            height: 120px;
+            font-size: 0.9rem;
         }
     }
 </style>
 
+<section class="hero-wrapper" id="heroSection">
+    <div class="grain-overlay"></div>
+    <div class="hero-bg-image" id="heroBg"></div>
 
-
-
-<section class="services-stack-section" id="services">
-
-    <div class="container text-center mb-5" style="position: relative; z-index: 10;">
-        <span class="mini-tag">ΘΕΡΑΠΕΥΤΙΚΑ ΜΟΝΟΠΑΤΙΑ</span>
-        <h2 class="section-title">
-            Ένα ταξίδι προς την <span class="serif-italic">εσωτερική σύνδεση.</span>
-        </h2>
+    <div class="grid-lines">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
     </div>
 
-    <div class="stack-wrapper">
+    <div class="hero-ui-layer">
+        <div class="ui-data ui-top-left">
+            <i class="bi bi-geo-alt"></i> 35.19° N, 24.39° E
+        </div>
+        <div class="ui-data ui-bottom-left">
+            <div class="status-dot"></div>
+            <span>LIVE: SUNDAY RUN OPEN</span>
+        </div>
+    </div>
 
-        <div class="service-card-gsap card-1">
-            <div class="card-inner-content">
-                <div class="row h-100 align-items-center">
-                    <div class="col-lg-6 mb-4 mb-lg-0">
-                        <div class="service-img-wrapper">
-                            <img src="/assets/images/icons/isession.png" alt="Individual Therapy" class="service-img">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 offset-lg-1">
-                        <div class="service-meta">
-                            <span class="meta-line"></span>
-                            <span class="meta-number">01</span>
-                        </div>
-                        <h3 class="service-title">Ατομική Ψυχοθεραπεία</h3>
-                        <p class="service-desc">
-                            Ένα ασφαλές περιβάλλον εμπιστοσύνης για την κατανόηση και διαχείριση συναισθημάτων. Στόχος η ανακούφιση από άγχος, φοβίες και η προσωπική αυτοβελτίωση.
-                        </p>
-                        <div class="service-tags">
-                            <span class="tag-pill">Αυτογνωσία</span>
-                            <span class="tag-pill">Διαχείριση Άγχους</span>
-                            <span class="tag-pill">Προσωπική Ανάπτυξη</span>
-                        </div>
-                        <a href="/services#individual" class="btn-circle-action">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
+    <div class="hero-container">
+        <div class="text-reveal-wrapper">
+            <div class="hero-badge-pill">
+                <i class="bi bi-trophy-fill"></i> Crete's Finest Trails
             </div>
         </div>
+        <div class="text-reveal-wrapper">
+            <h1 class="hero-big-text">DISCOVER</h1>
+        </div>
+        <div class="text-reveal-wrapper">
+            <h1 class="hero-big-text"><span>PLAKIAS</span></h1>
+        </div>
+        <div class="text-reveal-wrapper">
+            <h1 class="hero-big-text highlight">RUNNING.</h1>
+        </div>
+        <p class="hero-sub">
+            Join the movement. Exclusive trails, small groups, and the raw beauty of Crete.
+        </p>
+        <div class="magnetic-wrap" id="magneticBtnWrap">
+            <a href="/book" class="btn-magnetic" id="magneticBtn">
+                <span class="btn-text">Book Run</span>
+                <div class="btn-fill"></div>
+            </a>
+        </div>
+    </div>
 
-        <div class="service-card-gsap card-2">
-            <div class="card-inner-content">
-                <div class="row h-100 align-items-center flex-row-reverse">
-                    <div class="col-lg-6 mb-4 mb-lg-0">
-                        <div class="service-img-wrapper">
-                            <img src="/assets/images/icons/gsession.png" alt="Kids & Teens" class="service-img">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 offset-lg-1">
-                        <div class="service-meta">
-                            <span class="meta-line"></span>
-                            <span class="meta-number">02</span>
-                        </div>
-                        <h3 class="service-title">Παιδιά & Έφηβοι</h3>
-                        <p class="service-desc">
-                            Υποστήριξη στη διαχείριση συμπεριφορικών δυσκολιών και Ομάδες Δεξιοτήτων. Ενίσχυση της συνεργασίας, της επικοινωνίας και της αυτοπεποίθησης μέσω βιωματικών ασκήσεων.
-                        </p>
-                        <div class="service-tags">
-                            <span class="tag-pill">Διαχείριση Συμπεριφοράς</span>
-                            <span class="tag-pill">Συναισθηματική Νοημοσύνη</span>
-                            <span class="tag-pill">Ομάδες Παιδιών</span>
-                        </div>
-                        <a href="/services#kids" class="btn-circle-action">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
+    <a href="/routes" class="hero-featured-card" id="heroCard">
+        <div class="feat-content-wrap" id="cardContent">
+            <div class="feat-label">
+                <span id="cardLabel">TRENDING</span> <i class="bi bi-arrow-right-short"></i>
+            </div>
+            <h3 class="feat-title" id="cardTitle">Sunset Gorge Run</h3>
+            <div class="feat-meta" id="cardMeta">ONLY 3 SPOTS LEFT</div>
+        </div>
+    </a>
+
+    <div class="scroll-line"></div>
+</section>
+
+
+
+<style>
+    /* ========================
+   SECTION 2: MARQUEE (The Energy Bar)
+   ======================== */
+    .marquee-section {
+        position: relative;
+        background: var(--accent-color);
+        padding: 20px 0;
+        overflow: hidden;
+        z-index: 5;
+        transform: skewY(-2deg);
+        margin-top: -36px;
+        /* Καβαλάει λίγο το Hero */
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .marquee-content {
+        display: flex;
+        width: fit-content;
+        animation: scrollText 20s linear infinite;
+    }
+
+    .marquee-item {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: #0f172a;
+        /* Dark text on Green */
+        text-transform: uppercase;
+        white-space: nowrap;
+        padding: 0 40px;
+        display: flex;
+        align-items: center;
+        letter-spacing: -1px;
+    }
+
+    .marquee-item i {
+        font-size: 1rem;
+        margin: 0 20px;
+        opacity: 0.6;
+    }
+
+    @keyframes scrollText {
+        0% {
+            transform: translateX(0);
+        }
+
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+
+    /* ========================
+   SECTION 3: THE MANIFESTO (Intro)
+   ======================== */
+    .intro-section {
+        position: relative;
+        background-color: #f8fafc;
+        /* Light Clean Background */
+        color: #0f172a;
+        padding: 150px 0 100px 0;
+        z-index: 4;
+    }
+
+    .intro-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 20px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        /* Asymmetrical Layout */
+        gap: 80px;
+        align-items: center;
+    }
+
+    /* Left: Typography */
+    .intro-text-wrap h2 {
+        font-size: clamp(2.5rem, 5vw, 5rem);
+        line-height: 1;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+        letter-spacing: -0.03em;
+    }
+
+    .intro-text-wrap h2 span {
+        display: block;
+        color: transparent;
+        -webkit-text-stroke: 1px #0f172a;
+        /* Outline effect */
+    }
+
+    .intro-desc {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #64748b;
+        max-width: 500px;
+        margin-bottom: 40px;
+    }
+
+    /* Feature List (Icons) */
+    .intro-features {
+        display: flex;
+        gap: 30px;
+        border-top: 1px solid #e2e8f0;
+        padding-top: 30px;
+    }
+
+    .feat-box h4 {
+        font-size: 1.5rem;
+        font-weight: 800;
+        margin: 0 0 5px 0;
+    }
+
+    .feat-box p {
+        font-size: 0.85rem;
+        color: #64748b;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Right: Image Reveal */
+    .intro-img-wrap {
+        position: relative;
+        height: 600px;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    .intro-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.2);
+        /* Zoomed in αρχικά */
+    }
+
+    /* The Curtain (Mask) */
+    .img-curtain {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--accent-color);
+        z-index: 2;
+        transform-origin: bottom;
+    }
+
+    /* Mobile */
+    @media (max-width: 992px) {
+        .intro-container {
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+
+        .intro-img-wrap {
+            height: 400px;
+        }
+
+        .marquee-section {
+            transform: skewY(0deg);
+            margin-top: 0;
+        }
+    }
+</style>
+<div class="marquee-section">
+    <div class="marquee-content">
+        <div class="marquee-item">EXPLORE THE UNSEEN <i class="bi bi-circle-fill"></i></div>
+        <div class="marquee-item">RUN WITH SAFETY <i class="bi bi-circle-fill"></i></div>
+        <div class="marquee-item">SMALL GROUPS <i class="bi bi-circle-fill"></i></div>
+        <div class="marquee-item">EXPLORE THE UNSEEN <i class="bi bi-circle-fill"></i></div>
+        <div class="marquee-item">RUN WITH SAFETY <i class="bi bi-circle-fill"></i></div>
+        <div class="marquee-item">SMALL GROUPS <i class="bi bi-circle-fill"></i></div>
+    </div>
+</div>
+
+<section class="intro-section">
+    <div class="intro-container">
+
+        <div class="intro-text-wrap">
+            <h2 class="reveal-text">
+                More Than <br>
+                <span>Just Running.</span>
+            </h2>
+            <p class="intro-desc reveal-opacity">
+                We believe running is the best way to see the world.
+                Escape the treadmill and discover Plakias through hidden trails,
+                coastal paths, and local history.
+            </p>
+
+            <div class="intro-features reveal-opacity">
+                <div class="feat-box">
+                    <h4 style="color: var(--accent-color);">MAX 10</h4>
+                    <p>Runners per Group</p>
+                </div>
+                <div class="feat-box">
+                    <h4>100%</h4>
+                    <p>Safety & Fun</p>
                 </div>
             </div>
+
+            <a href="/about" class="btn-magnetic mt-5 reveal-opacity" style="border-color: #0f172a; color: #0f172a; width: 140px; height: 140px;">
+                <span class="btn-text">Our Story</span>
+                <div class="btn-fill"></div>
+            </a>
         </div>
 
-        <div class="service-card-gsap card-3">
-            <div class="card-inner-content">
-                <div class="row h-100 align-items-center">
-                    <div class="col-lg-6 mb-4 mb-lg-0">
-                        <div class="service-img-wrapper">
-                            <img src="/assets/images/icons/couple2.png" alt="Parents Counseling" class="service-img">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 offset-lg-1">
-                        <div class="service-meta">
-                            <span class="meta-line"></span>
-                            <span class="meta-number">03</span>
-                        </div>
-                        <h3 class="service-title">Συμβουλευτική Γονέων</h3>
-                        <p class="service-desc">
-                            Καθοδήγηση για την ενδυνάμωση του γονεϊκού ρόλου. Ατομική υποστήριξη και Ομάδες Γονέων για τη διαχείριση ορίων, την εφηβεία και τη βελτίωση της επικοινωνίας.
-                        </p>
-                        <div class="service-tags">
-                            <span class="tag-pill">Ενδυνάμωση Ρόλου</span>
-                            <span class="tag-pill">Όρια & Κανόνες</span>
-                            <span class="tag-pill">Ομάδες Υποστήριξης</span>
-                        </div>
-                        <a href="/services#parents" class="btn-circle-action">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="service-card-gsap card-4">
-            <div class="card-inner-content">
-                <div class="row h-100 align-items-center flex-row-reverse">
-                    <div class="col-lg-6 mb-4 mb-lg-0">
-                        <div class="service-img-wrapper">
-                            <img src="/assets/images/icons/shealth1.png" alt="Psychosexual Therapy" class="service-img">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 offset-lg-1">
-                        <div class="service-meta">
-                            <span class="meta-line bg-white"></span>
-                            <span class="meta-number">04</span>
-                        </div>
-                        <h3 class="service-title">Ψυχοσεξουαλική Υγεία</h3>
-                        <p class="service-desc text-muted">
-                            Εξειδικευμένη θεραπεία (ατομική ή ζεύγους) για ζητήματα σεξουαλικής υγείας και δυσλειτουργιών. Κατανόηση των αιτιών και ενίσχυση της οικειότητας.
-                        </p>
-                        <div class="service-tags">
-                            <span class="tag-pill dark-mode-pill">Σεξουαλική Υγεία</span>
-                            <span class="tag-pill dark-mode-pill">Λειτουργικότητα</span>
-                            <span class="tag-pill dark-mode-pill">Ενίσχυση Οικειότητας</span>
-                        </div>
-                        <a href="/services#psychosexual" class="btn-circle-action btn-circle-white">
-                            <i class="bi bi-arrow-right"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <div class="intro-img-wrap">
+            <div class="img-curtain"></div> <img src="/assets/images/used/use1.png" alt="Trail Running" class="intro-img">
         </div>
 
     </div>
 </section>
 
-<style>
-    /* ========================
-   SERVICES STACK SECTION
-   ======================== */
-
-    .services-stack-section {
-        padding-top: 100px;
-        padding-bottom: 100px;
-        overflow: hidden;
-    }
-
-    /* Typography */
-    .section-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 3rem;
-        color: var(--alma-text);
-    }
-
-    .serif-italic {
-        font-family: 'Playfair Display', serif;
-        font-style: italic;
-        color: var(--alma-nav-text);
-    }
-
-    .mini-tag {
-        font-size: 0.85rem;
-        color: var(--alma-nav-text);
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-    }
-
-    /* Stacking Wrapper */
-    .stack-wrapper {
-        position: relative;
-        width: 100%;
-        padding-bottom: 50px;
-        z-index: 1;
-    }
-
-    /* Card Base */
-    .service-card-gsap {
-        width: 100%;
-        height: 550px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 40px;
-        box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-        position: relative;
-        margin-top: 20px;
-        background-color: #fff;
-    }
-
-    .card-inner-content {
-        width: 100%;
-        padding: 0 50px;
-    }
-
-    /* Colors */
-    .card-1 {
-        background-color: #fffcf6;
-        z-index: 1;
-    }
-
-    .card-2 {
-        background-color: #f4f1ea;
-        z-index: 2;
-    }
-
-    .card-3 {
-        background-color: #faf7eb;
-        z-index: 3;
-    }
-
-    .card-4 {
-        background-color: #f7efe9;
-        z-index: 4;
-    }
-
-    /* New Editorial Elements */
-    .service-meta {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    .meta-line {
-        width: 30px;
-        height: 1px;
-        background-color: var(--alma-nav-text);
-        opacity: 0.5;
-    }
-
-    .meta-number {
-        font-family: 'Manrope', sans-serif;
-        font-weight: 700;
-        font-size: 0.9rem;
-        color: var(--alma-nav-text);
-    }
-
-    .service-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 2.5rem;
-        margin-bottom: 20px;
-    }
-
-    .service-desc {
-        font-size: 1.1rem;
-        line-height: 1.7;
-        color: #666;
-        margin-bottom: 30px;
-    }
-
-    /* Pills Tags */
-    .service-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-bottom: 40px;
-    }
-
-    .tag-pill {
-        padding: 8px 16px;
-        background-color: rgba(0, 0, 0, 0.05);
-        border-radius: 50px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--alma-nav-text);
-        transition: all 0.3s ease;
-        cursor: default;
-    }
-
-    .tag-pill:hover {
-        background-color: var(--alma-nav-text);
-        color: #fff;
-    }
-
-    /* Circle Button */
-    .btn-circle-action {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        background-color: var(--alma-bg-button-main);
-        color: #fff;
-        font-size: 1.5rem;
-        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-        text-decoration: none;
-    }
-
-    .btn-circle-action:hover {
-        background-color: var(--alma-orange);
-        transform: scale(1.1);
-        color: #fff;
-    }
-
-    /* Dark Mode Utils (Card 4) */
-    .text-white {
-        color: #fff !important;
-    }
-
-    .text-white-50 {
-        color: rgba(255, 255, 255, 0.7) !important;
-    }
-
-    .bg-white {
-        background-color: #fff !important;
-    }
-
-    .dark-mode-pill {
-        background-color: rgb(149 145 122);
-        color: #fff;
-    }
-
-    .dark-mode-pill:hover {
-        background-color: #fff;
-        color: var(--alma-nav-text);
-    }
-
-    .btn-circle-white {
-        background-color: #fff;
-        color: var(--alma-nav-text);
-    }
-
-    .btn-circle-white:hover {
-        background-color: var(--alma-orange);
-        color: #fff;
-    }
-
-    /* Image */
-    .service-img-wrapper {
-        height: 400px;
-        width: 100%;
-        border-radius: 20px;
-        overflow: hidden;
-    }
-
-    .service-img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-        /* Change to contain if icons are PNGs with transparency */
-        transition: transform 0.6s ease;
-    }
-
-    .service-card-gsap:hover .service-img {
-        transform: scale(1.05);
-    }
-
-    /* Footer Z-Index Safety */
-    footer,
-    .next-section,
-    #footer {
-        position: relative;
-        z-index: 100;
-        background-color: transparent;
-    }
-
-    /* --- RESPONSIVE (MOBILE) --- */
-    @media (max-width: 991px) {
-        .services-stack-section {
-            padding-top: 80px;
-        }
-
-        .stack-wrapper {
-            padding-bottom: 0;
-        }
-
-        .service-card-gsap {
-            height: 75vh;
-            min-height: 500px;
-            width: 100%;
-            flex-direction: column;
-            justify-content: flex-start;
-            padding: 0;
-            border-radius: 25px 25px 0 0;
-            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
-        }
-
-        .card-inner-content {
-            padding: 30px 20px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .row.h-100 {
-            height: auto !important;
-            display: block;
-        }
-
-        .service-img-wrapper {
-            width: 100%;
-            height: 220px;
-            margin-bottom: 25px;
-            border-radius: 15px;
-        }
-
-        .service-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-        }
-
-        .service-desc {
-            font-size: 1rem;
-            margin-bottom: 20px;
-        }
-
-        /* Force stack order on mobile */
-        .flex-row-reverse {
-            flex-direction: column !important;
-        }
-
-        .btn-circle-action {
-            width: 50px;
-            height: 50px;
-            font-size: 1.2rem;
-            /* Push to bottom of content if needed */
-            margin-top: auto;
-        }
-
-        /* Ensure footer covers cards */
-        footer,
-        .next-section {
-            z-index: 999 !important;
-            position: relative;
-        }
-    }
-</style>
 
 <section class="team-section" id="about">
     <div class="container">
@@ -2010,229 +1871,6 @@ function hook_end_scripts()
             centeredSlidesBounds: true,
         });
 
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const canvas = document.getElementById('connectionCanvas');
-            if (!canvas) return;
-
-            const ctx = canvas.getContext('2d');
-            const visualArea = document.querySelector('.hero-visual-area');
-
-            // --- CONFIGURATION ---
-            const config = {
-                lineColor: '#334c47',
-                lineWidth: 1.5,
-                gravity: 50,
-                stiffness: 0.05,
-                damping: 0.9,
-                mouseForce: 40,
-                mouseRadius: 150
-            };
-
-            let width, height;
-            let mouse = {
-                x: -1000,
-                y: -1000
-            };
-
-            // --- CLASS: ELASTIC LINE ---
-            class ElasticLine {
-                constructor(startElId, endElId) {
-                    this.startEl = document.getElementById(startElId);
-                    this.endEl = document.getElementById(endElId);
-
-                    this.cp = {
-                        x: 0,
-                        y: 0
-                    };
-                    this.vel = {
-                        x: 0,
-                        y: 0
-                    };
-                    this.progress = 0;
-                }
-
-                getCenter(el) {
-                    const rect = el.getBoundingClientRect();
-                    const areaRect = visualArea.getBoundingClientRect();
-                    return {
-                        x: (rect.left - areaRect.left) + (rect.width / 2),
-                        y: (rect.top - areaRect.top) + (rect.height / 2)
-                    };
-                }
-
-                update() {
-                    if (!this.startEl || !this.endEl) return;
-
-                    const p1 = this.getCenter(this.startEl);
-                    const p2 = this.getCenter(this.endEl);
-
-                    // Calculate current endpoint based on progress
-                    const currentP2 = {
-                        x: p1.x + (p2.x - p1.x) * this.progress,
-                        y: p1.y + (p2.y - p1.y) * this.progress
-                    };
-
-                    // Physics Target
-                    const targetX = (p1.x + currentP2.x) / 2;
-                    const targetY = ((p1.y + currentP2.y) / 2) + config.gravity;
-
-                    // Mouse Interaction
-                    const dx = mouse.x - targetX;
-                    const dy = mouse.y - targetY;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-
-                    let forceX = 0;
-                    let forceY = 0;
-
-                    if (dist < config.mouseRadius) {
-                        const force = (config.mouseRadius - dist) / config.mouseRadius;
-                        const angle = Math.atan2(dy, dx);
-                        forceX = -Math.cos(angle) * force * config.mouseForce;
-                        forceY = -Math.sin(angle) * force * config.mouseForce;
-                    }
-
-                    // Spring Physics
-                    const ax = (targetX + forceX - this.cp.x) * config.stiffness;
-                    const ay = (targetY + forceY - this.cp.y) * config.stiffness;
-
-                    this.vel.x += ax;
-                    this.vel.y += ay;
-                    this.vel.x *= config.damping;
-                    this.vel.y *= config.damping;
-
-                    if (this.progress < 0.05) {
-                        this.cp.x = targetX;
-                        this.cp.y = targetY;
-                    } else {
-                        this.cp.x += this.vel.x;
-                        this.cp.y += this.vel.y;
-                    }
-
-                    // Render
-                    if (this.progress > 0) {
-                        ctx.beginPath();
-                        ctx.strokeStyle = config.lineColor;
-                        ctx.lineWidth = config.lineWidth;
-                        ctx.lineCap = "round";
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.quadraticCurveTo(this.cp.x, this.cp.y, currentP2.x, currentP2.y);
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            // Initialize Lines
-            const line1 = new ElasticLine('shard1', 'shard2');
-            const line2 = new ElasticLine('shard2', 'shard3');
-
-            // --- SETUP ---
-            function resize() {
-                width = visualArea.clientWidth;
-                height = visualArea.clientHeight;
-                const dpr = window.devicePixelRatio || 1;
-                canvas.width = width * dpr;
-                canvas.height = height * dpr;
-                ctx.scale(dpr, dpr);
-            }
-            resize();
-            window.addEventListener('resize', resize);
-
-            // Mouse
-            visualArea.addEventListener('mousemove', (e) => {
-                const rect = visualArea.getBoundingClientRect();
-                mouse.x = e.clientX - rect.left;
-                mouse.y = e.clientY - rect.top;
-            });
-
-            visualArea.addEventListener('mouseleave', () => {
-                mouse.x = -1000;
-                mouse.y = -1000;
-            });
-
-            // Render Loop
-            function render() {
-                ctx.clearRect(0, 0, width, height);
-                line1.update();
-                line2.update();
-                requestAnimationFrame(render);
-            }
-            render();
-
-            // --- ANIMATION SEQUENCE (GSAP - CALM FLOW) ---
-            function runSequence() {
-                const tl = gsap.timeline({
-                    delay: 0.2
-                });
-
-                // 1. Text Reveal (Παραμένει απαλό)
-                tl.to(".hero-text-area", {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1.6,
-                    ease: "power3.out"
-                });
-
-                tl.from(".fade-item", {
-                    y: 20,
-                    opacity: 0,
-                    duration: 1.2,
-                    stagger: 0.15,
-                    ease: "power3.out"
-                }, "<");
-
-                // 2. Poof Image 1 (Logic)
-                // Λίγο πιο αργό poof για να μην είναι απότομο
-                tl.to("#shard1", {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 1.0,
-                    ease: "back.out(1.2)" // Λιγότερο "πεταχτό" bounce
-                }, "-=1.0");
-
-                // 3. Draw Line 1 -> CALM TRAVEL
-                // Αυξήσαμε το duration από 1.4 σε 2.0
-                tl.to(line1, {
-                    progress: 1,
-                    duration: 2.0,
-                    ease: "power1.inOut" // Πιο γραμμική/ήρεμη κίνηση
-                }, "-=0.6"); // Ξεκινάει αφού η εικόνα 1 έχει σχεδόν εμφανιστεί
-
-                // 4. Poof Image 2 (Emotion)
-                tl.to("#shard2", {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 1.0,
-                    ease: "back.out(1.2)"
-                }, "-=0.8"); // Εμφανίζεται απαλά καθώς πλησιάζει η γραμμή
-
-                // 5. Draw Line 2 -> CALM TRAVEL
-                tl.to(line2, {
-                    progress: 1,
-                    duration: 2.0,
-                    ease: "power1.inOut"
-                }, "-=0.6");
-
-                // 6. Poof Image 3 (Expression)
-                tl.to("#shard3", {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 1.0,
-                    ease: "back.out(1.2)"
-                }, "-=0.8");
-
-                // 7. Float
-                tl.to(".assembly-composition", {
-                    y: -10,
-                    duration: 6, // Πιο αργή αιώρηση
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut"
-                }, "-=0.2");
-            }
-
-            runSequence();
-        });
 
         document.addEventListener("DOMContentLoaded", function() {
 
@@ -2413,6 +2051,186 @@ function hook_end_scripts()
             }
         });
     </script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // 1. Text Animations
+            gsap.to(".hero-big-text", {
+                y: 0,
+                duration: 1.4,
+                stagger: 0.15,
+                ease: "power4.out",
+                delay: 0.2
+            });
+
+            gsap.to(".hero-sub", {
+                opacity: 1,
+                y: 0,
+                duration: 1.4,
+                delay: 1,
+                ease: "power2.out"
+            });
+
+            gsap.from(".btn-magnetic", {
+                scale: 0,
+                opacity: 0,
+                duration: 1,
+                delay: 1.2,
+                ease: "elastic.out(1, 0.5)"
+            });
+
+            // 2. UI Elements Animation (ΞΕΧΩΡΙΣΤΑ ΓΙΑ ΤΗΝ ΚΑΡΤΑ)
+            gsap.from(".ui-data, .grid-lines, .hero-badge-pill", {
+                opacity: 0,
+                duration: 2,
+                delay: 1.5,
+                ease: "power2.out"
+            });
+
+            // *** FORCE CARD VISIBILITY ***
+            gsap.to(".hero-featured-card", {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 1.8,
+                ease: "power2.out",
+                startAt: {
+                    y: 20,
+                    opacity: 0
+                } // Ορίζουμε ρητά το αρχικό state
+            });
+
+            // 3. Parallax
+            const heroBg = document.getElementById('heroBg');
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth - 0.5) * 15;
+                const y = (e.clientY / window.innerHeight - 0.5) * 15;
+                gsap.to(heroBg, {
+                    x: -x,
+                    y: -y,
+                    duration: 1,
+                    ease: "power2.out"
+                });
+            });
+
+            // 4. Magnetic Button
+            const btnWrap = document.getElementById('magneticBtnWrap');
+            const btn = document.getElementById('magneticBtn');
+            if (btnWrap && btn) {
+                btnWrap.addEventListener('mousemove', (e) => {
+                    const rect = btnWrap.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(btn, {
+                        x: x * 0.4,
+                        y: y * 0.4,
+                        duration: 0.3
+                    });
+                });
+                btnWrap.addEventListener('mouseleave', () => {
+                    gsap.to(btn, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.5,
+                        ease: "elastic.out(1, 0.3)"
+                    });
+                });
+            }
+
+            // 5. Card Rotator
+            const cardData = [{
+                    label: "TRENDING",
+                    title: "Sunset Gorge Run",
+                    meta: "ONLY 3 SPOTS LEFT"
+                },
+                {
+                    label: "POPULAR",
+                    title: "Coastal Morning",
+                    meta: "BEGINNER FRIENDLY"
+                },
+                {
+                    label: "ADVENTURE",
+                    title: "Mountain Trail",
+                    meta: "SUNDAY 08:00 AM"
+                }
+            ];
+            let currentIndex = 0;
+            const labelEl = document.getElementById('cardLabel');
+            const titleEl = document.getElementById('cardTitle');
+            const metaEl = document.getElementById('cardMeta');
+            const contentWrap = document.getElementById('cardContent');
+
+            if (contentWrap) {
+                setInterval(() => {
+                    contentWrap.classList.add('fade-out');
+                    setTimeout(() => {
+                        currentIndex = (currentIndex + 1) % cardData.length;
+                        const item = cardData[currentIndex];
+                        labelEl.textContent = item.label;
+                        titleEl.textContent = item.title;
+                        metaEl.textContent = item.meta;
+                        contentWrap.classList.remove('fade-out');
+                    }, 400);
+                }, 5000);
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // 1. Reveal Heading (Lines coming up)
+            gsap.from(".reveal-text", {
+                scrollTrigger: {
+                    trigger: ".intro-section",
+                    start: "top 80%", // Όταν το section φτάσει στο 80% της οθόνης
+                },
+                y: 100,
+                opacity: 0,
+                duration: 1,
+                ease: "power4.out"
+            });
+
+            // 2. Reveal Paragraphs & Stats
+            gsap.from(".reveal-opacity", {
+                scrollTrigger: {
+                    trigger: ".intro-section",
+                    start: "top 70%",
+                },
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                delay: 0.3
+            });
+
+            // 3. IMAGE REVEAL (The Curtain Effect)
+            // Πρώτα φεύγει η κουρτίνα (curtain) προς τα πάνω
+            gsap.to(".img-curtain", {
+                scrollTrigger: {
+                    trigger: ".intro-img-wrap",
+                    start: "top 75%",
+                },
+                height: "0%", // Μαζεύει προς τα πάνω
+                duration: 1.2,
+                ease: "power3.inOut"
+            });
+
+            // Ταυτόχρονα η εικόνα κάνει ελαφρύ zoom out (scale down) για βάθος
+            gsap.to(".intro-img", {
+                scrollTrigger: {
+                    trigger: ".intro-img-wrap",
+                    start: "top 75%",
+                    scrub: 1, // Συνδέεται με το scroll!
+                },
+                scale: 1, // Από 1.2 πάει στο 1
+                ease: "none"
+            });
+        });
+    </script>
+
+
 <?php
 }
 ?>
