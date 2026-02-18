@@ -2,98 +2,112 @@
     <i class="fas fa-arrow-up"></i>
 </button>
 
-<footer class="site-footer mt-auto">
-    <div class="container">
+<footer class="epic-footer mt-auto">
+    <div class="footer-container">
 
-        <div class="row mb-5 pb-5 border-bottom-soft align-items-end">
-            <div class="col-lg-8">
-                <h2 class="footer-title">
-                    Κάντε το πρώτο βήμα για εσάς <br>και την <span class="serif-italic">υγεία σας.</span>
-                </h2>
-            </div>
-            <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
-                <a href="contact" class="btn-alma-solid">Κλείστε Ραντεβού</a>
-            </div>
-        </div>
+        <div class="footer-top">
 
-        <div class="row py-5">
-
-            <div class="col-lg-4 mb-5 mb-lg-0">
-                <img src="/assets/images/logo/logo.png" class="footer-logo mb-4" alt="Logo">
-
-                <div class="address-block">
-                    <a href="<?= $mainSettings->companySettings->mapUrl ?>" target="_blank" class="address-link">
-                        <?= $mainSettings->companySettings->physicalAddress ?>
-                    </a>
-                    <p class="hours-text mt-2">
-                        <span class="label">ΩΡΑΡΙΟ:</span><br>
-                        <?= $mainSettings->companySettings->businessHours ?>
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-lg-4 mb-5 mb-lg-0">
-                <span class="footer-label">ΕΠΙΚΟΙΝΩΝΙΑ</span>
-                <ul class="footer-contact-list">
-                    <li>
-                        <a href="mailto:<?= $mainSettings->companySettings->contactEmail ?>" class="big-contact-link">
-                            <?= $mainSettings->companySettings->contactEmail ?>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="tel:<?= $mainSettings->companySettings->contactPhoneNumber ?>" class="big-contact-link">
-                            <?= $mainSettings->companySettings->contactPhoneNumber ?>
-                        </a>
-                    </li>
-                </ul>
-
-                <div class="social-links mt-4">
-                    <?php if (!empty($mainSettings->companySettings->socialFacebook)): ?>
-                        <a href="<?= $mainSettings->companySettings->socialFacebook ?>" class="social-icon"><i class="bi bi-facebook"></i></a>
-                    <?php endif; ?>
-
-                    <?php if (!empty($mainSettings->companySettings->socialInstagram)): ?>
-                        <a href="<?= $mainSettings->companySettings->socialInstagram ?>" class="social-icon"><i class="bi bi-instagram"></i></a>
-                    <?php endif; ?>
-
-                    <?php if (!empty($mainSettings->companySettings->socialTwitter)): ?>
-                        <a href="<?= $mainSettings->companySettings->socialTwitter ?>" class="social-icon"><i class="bi bi-tiktok"></i></a>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <div class="col-lg-3 offset-lg-1">
-                <span class="footer-label">NEWSLETTER</span>
-                <p class="footer-desc mb-4">
-                    Εγγραφείτε για άρθρα, νέα και συμβουλές ψυχικής υγείας.
+            <div class="footer-brand gs-reveal">
+                <a href="/">
+                    <img src="/assets/images/logo/logo.png" alt="Plakias Running Logo" class="footer-logo mb-4">
+                </a>
+                <p>
+                    Experience the raw beauty of Crete step by step. Exclusive trails, expert guiding, and memories that last a lifetime.
                 </p>
 
-                <form id="newsletterForm" class="minimal-form">
+                <div class="footer-meta mt-4">
+                    <?php if (!empty($mainSettings->companySettings->physicalAddress)): ?>
+                        <a href="<?= $mainSettings->companySettings->mapUrl ?>" target="_blank" class="meta-link">
+                            <i class="bi bi-geo-alt"></i> <?= $mainSettings->companySettings->physicalAddress ?>
+                        </a>
+                    <?php endif; ?>
+
+                    <?php if (!empty($mainSettings->companySettings->businessHours)): ?>
+                        <p class="meta-text mt-2">
+                            <span class="meta-label">HOURS:</span> <?= $mainSettings->companySettings->businessHours ?>
+                        </p>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <div class="footer-col gs-reveal">
+                <h5 class="footer-heading">Explore</h5>
+                <ul class="footer-links">
+                    <li><a href="#routes">The Routes</a></li>
+                    <li><a href="#private-coaching">Private Coaching</a></li>
+                    <li><a href="#experience">What's Included</a></li>
+                    <li><a href="/about">Our Story</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col gs-reveal">
+                <h5 class="footer-heading">Connect</h5>
+                <ul class="footer-links">
+                    <?php if (!empty($mainSettings->companySettings->socialInstagram)): ?>
+                        <li><a href="<?= $mainSettings->companySettings->socialInstagram ?>" target="_blank">Instagram</a></li>
+                    <?php endif; ?>
+
+                    <?php if (!empty($mainSettings->companySettings->socialFacebook)): ?>
+                        <li><a href="<?= $mainSettings->companySettings->socialFacebook ?>" target="_blank">Facebook</a></li>
+                    <?php endif; ?>
+                    <li><a href="#" target="_blank">Strava Club</a></li>
+
+                    <li class="mt-3" style="pointer-events: none;"><span class="meta-label">CONTACT</span></li>
+
+                    <?php if (!empty($mainSettings->companySettings->contactEmail)): ?>
+                        <li><a href="mailto:<?= $mainSettings->companySettings->contactEmail ?>"><?= $mainSettings->companySettings->contactEmail ?></a></li>
+                    <?php endif; ?>
+
+                    <?php if (!empty($mainSettings->companySettings->contactPhoneNumber)): ?>
+                        <li><a href="tel:<?= $mainSettings->companySettings->contactPhoneNumber ?>"><?= $mainSettings->companySettings->contactPhoneNumber ?></a></li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+
+            <div class="footer-col gs-reveal">
+                <h5 class="footer-heading">Join the Pack</h5>
+                <p class="footer-desc mb-3" style="color: rgba(255,255,255,0.5); font-size: 0.85rem; line-height: 1.5;">
+                    Subscribe for exclusive trails, tips, and runner news. No spam.
+                </p>
+                <form id="newsletterForm" class="minimal-form mt-2">
                     <div class="input-group">
-                        <input type="email" class="form-control minimal-input" id="newsletterEmail" name="newsletterEmail" placeholder="Το email σας" required>
+                        <input type="email" class="form-control minimal-input" id="newsletterEmail" name="newsletterEmail" placeholder="Your email address" required>
                         <button type="submit" class="btn-minimal-submit"><i class="bi bi-arrow-right"></i></button>
                     </div>
                 </form>
+            </div>
 
-                <div class="mt-5">
-                    <img src="/assets/images/payments.png" class="img-fluid opacity-50" alt="Payments" style="max-width:180px;">
+            <div class="footer-col gs-reveal">
+                <h5 class="footer-heading">Legal Info</h5>
+                <ul class="footer-links">
+                    <li><a href="legal">Privacy Policy</a></li>
+                    <li><a href="cookies-policy">Cookies Policy</a></li>
+                    <li><a href="terms">Terms & Conditions</a></li>
+                    <li><a href="cancellation-policy">Cancellation Policy</a></li>
+                </ul>
+                <div class="mt-4 pt-2">
+                    <img src="/assets/images/payments.png" alt="Secure Payments" class="footer-payments-img">
                 </div>
             </div>
 
         </div>
 
-        <div class="row pt-4 copyright-row">
-            <div class="col-md-6 mb-3 mb-md-0">
-                <div class="legal-links">
-                    <a href="legal"><?= TRS('privacy') ?></a>
-                    <span class="separator">/</span>
-                    <a href="cookies-policy"><?= TRS('cookies_policy') ?></a>
-                    <span class="separator">/</span>
-                    <a href="payments-policy">Πολιτική Πληρωμών</a>
-                </div>
+        <div class="footer-massive">
+            <svg viewBox="0 0 1600 180" class="massive-svg-text" preserveAspectRatio="xMidYMid meet">
+                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle">PLAKIAS RUNNING</text>
+            </svg>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="copyright">
+                &copy; <?= date('Y') ?> Plakias Running. All rights reserved.
             </div>
-            <div class="col-md-6 text-md-end">
-                <small class="text-muted">Design/Development <a href="https://hankatt.com" class="credits-link">hankatt</a></small>
+
+            <div class="credits">
+                <span class="credits-text">Digital Experience by</span>
+                <a href="https://hankatt.com" class="hankatt-badge" target="_blank">
+                    <span class="hk-dot"></span> HANKATT
+                </a>
             </div>
         </div>
 
@@ -102,212 +116,361 @@
 
 <style>
     /* ========================
-   ALMA FOOTER STYLES
+   EPIC FOOTER STYLES
    ======================== */
-    .site-footer {
-        background-color: var(--alma-accent);
-        /* ή var(--alma-bg) αν έχεις το μπεζ */
-        padding: 100px 0 40px 0;
-        color: var(--alma-text);
-        border-top: 1px solid rgba(0, 0, 0, 0.05);
+    .epic-footer {
+        background-color: #050505;
+        color: white;
+        padding: 100px 0 30px 0;
+        position: relative;
+        overflow: hidden;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
     }
 
-    /* --- TOP SECTION --- */
-    .footer-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 3rem;
-        line-height: 1.2;
-        color: var(--alma-text);
-        margin: 0;
+    .footer-container {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 0 40px;
     }
 
-    .border-bottom-soft {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    /* --- TOP GRID --- */
+    .footer-top {
+        display: grid;
+        /* 5 Στήλες: Brand είναι διπλό, Newsletter 1.5, τα άλλα 1 */
+        grid-template-columns: 2fr 1fr 1fr 1.5fr 1fr;
+        gap: 40px;
+        padding-bottom: 80px;
     }
 
-    /* --- INFO COLUMNS --- */
     .footer-logo {
-        height: 80px;
-        /* Προσαρμογή ύψους για κομψότητα */
+        height: 132px;
         width: auto;
         object-fit: contain;
+        display: block;
+        margin-bottom: 20px;
+        /* Αν το logo σου είναι σκούρο, άσε το. Αν είναι ήδη λευκό/έγχρωμο ΣΒΗΣΕ την παρακάτω γραμμή: */
+        filter: brightness(0) invert(1);
     }
 
-    .address-link {
-        font-size: 1.1rem;
-        color: #555;
-        text-decoration: none;
+    .footer-brand p {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 0.95rem;
         line-height: 1.6;
-        display: block;
+        max-width: 340px;
+        margin-bottom: 0;
+    }
+
+    .meta-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-size: 0.9rem;
         transition: color 0.3s ease;
     }
 
-    .address-link:hover {
-        color: var(--alma-orange);
+    .meta-link:hover {
+        color: var(--accent-color, #29c285);
     }
 
-    .hours-text {
-        font-size: 0.95rem;
-        color: #888;
-        line-height: 1.6;
+    .meta-text {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.5);
     }
 
-    .hours-text .label {
+    .meta-label {
         font-weight: 700;
-        font-size: 0.75rem;
+        color: white;
         letter-spacing: 1px;
-        color: var(--alma-text);
+        font-size: 0.75rem;
     }
 
-    .footer-label {
-        display: block;
+    /* Headings & Links */
+    .footer-heading {
+        font-family: 'Courier New', monospace;
         font-size: 0.75rem;
         font-weight: 700;
-        letter-spacing: 1.5px;
-        color: #999;
+        color: var(--accent-color, #29c285);
+        letter-spacing: 2px;
+        text-transform: uppercase;
         margin-bottom: 25px;
     }
 
-    /* --- BIG CONTACT LINKS --- */
-    .footer-contact-list {
+    .footer-links {
         list-style: none;
         padding: 0;
         margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
 
-    .big-contact-link {
-        font-family: 'Playfair Display', serif;
-        font-size: 1.6rem;
-        /* Μεγάλα γράμματα */
-        color: var(--alma-text);
+    .footer-links li a {
+        color: rgba(255, 255, 255, 0.85);
         text-decoration: none;
-        display: block;
-        margin-bottom: 8px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        display: inline-flex;
+        position: relative;
+        padding-bottom: 4px;
         transition: color 0.3s ease;
     }
 
-    .big-contact-link:hover {
-        color: var(--alma-orange);
+    .footer-links li a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: var(--accent-color, #29c285);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     }
 
-    /* --- SOCIALS --- */
-    .social-links {
-        display: flex;
-        gap: 15px;
+    .footer-links li a:hover {
+        color: white;
     }
 
-    .social-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--alma-text);
-        text-decoration: none;
+    .footer-links li a:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    /* Payments Image */
+    .footer-payments-img {
+        max-width: 160px;
+        height: auto;
+        opacity: 0.3;
+        filter: grayscale(100%);
         transition: all 0.3s ease;
     }
 
-    .social-icon:hover {
-        background-color: var(--alma-text);
-        color: #fff;
-        border-color: var(--alma-text);
+    .footer-payments-img:hover {
+        opacity: 0.9;
+        filter: grayscale(0%);
     }
 
-    /* --- MINIMAL FORM --- */
+
+    /* --- MINIMAL NEWSLETTER FORM --- */
     .minimal-form .input-group {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        transition: border-color 0.3s ease;
+        padding-bottom: 5px;
+    }
+
+    .minimal-form:hover .input-group {
+        border-color: var(--accent-color, #29c285);
     }
 
     .minimal-input {
-        border: none;
-        background: transparent;
+        background: transparent !important;
+        border: none !important;
+        color: white !important;
         padding: 10px 0;
-        border-radius: 0;
+        width: 100%;
+        outline: none !important;
         box-shadow: none !important;
+        font-size: 0.95rem;
     }
 
-    .minimal-input:focus {
-        background: transparent;
+    .minimal-input::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+        font-weight: 400;
     }
 
     .btn-minimal-submit {
         background: transparent;
         border: none;
-        color: var(--alma-text);
+        color: var(--accent-color, #29c285);
         font-size: 1.2rem;
+        cursor: pointer;
         transition: transform 0.3s ease;
+        padding: 0 10px;
     }
 
     .btn-minimal-submit:hover {
         transform: translateX(5px);
-        color: var(--alma-orange);
     }
 
-    /* --- BOTTOM BAR --- */
-    .copyright-row {
-        border-top: 1px solid rgba(0, 0, 0, 0.08);
-        font-size: 0.9rem;
+
+    /* --- MIDDLE: MASSIVE SVG TEXT (NEVER CUTS OFF) --- */
+    .footer-massive {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 40px;
+        width: 100%;
     }
 
-    .legal-links a {
-        color: #666;
+    .massive-svg-text {
+        width: 100%;
+        height: auto;
+        max-height: 180px;
+        /* Όριο ύψους για πολύ μεγάλες οθόνες */
+        display: block;
+    }
+
+    .massive-svg-text text {
+        fill: transparent;
+        stroke: rgba(255, 255, 255, 0.15);
+        stroke-width: 3px;
+        /* Λίγο πιο παχύ για να φαίνεται τέλεια στις κινητές οθόνες */
+        font-family: inherit;
+        font-weight: 900;
+        font-size: 150px;
+        /* Μεγαλώσαμε το font-size γιατί μεγαλώσαμε το κουτί */
+        letter-spacing: 5px;
+        /* Έξτρα αέρας στα γράμματα */
+        transition: stroke 0.4s ease;
+    }
+
+    .footer-massive:hover .massive-svg-text text {
+        stroke: rgba(255, 255, 255, 0.5);
+        /* Φωτίζει στο hover */
+    }
+
+
+    /* --- BOTTOM: COPYRIGHT & HANKATT CREDIT --- */
+    .footer-bottom {
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.4);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* Το νέο εντυπωσιακό Credit */
+    .credits {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .credits-text {
+        font-size: 0.75rem;
+    }
+
+    .hankatt-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: white;
+        font-weight: 800;
         text-decoration: none;
-        transition: color 0.2s ease;
+        letter-spacing: 1px;
+        padding: 6px 14px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        background: rgba(255, 255, 255, 0.03);
+        transition: all 0.3s ease;
     }
 
-    .legal-links a:hover {
-        color: var(--alma-orange);
+    .hankatt-badge:hover {
+        border-color: var(--accent-color, #29c285);
+        background: rgba(41, 194, 133, 0.1);
+        transform: translateY(-2px);
+        color: white;
     }
 
-    .separator {
-        margin: 0 8px;
-        color: #ccc;
+    /* Το πράσινο λαμπάκι */
+    .hk-dot {
+        width: 6px;
+        height: 6px;
+        background-color: var(--accent-color, #29c285);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--accent-color, #29c285);
+        animation: pulse-hk 2s infinite;
     }
 
-    .credits-link {
-        color: var(--alma-text);
-        text-decoration: none;
-        font-weight: 600;
-    }
-
-    .opacity-50 {
-        opacity: 0.5;
-        filter: grayscale(100%);
-        transition: all 0.3s;
-    }
-
-    .opacity-50:hover {
-        opacity: 1;
-        filter: grayscale(0%);
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 991px) {
-        .site-footer {
-            padding: 60px 0 30px 0;
+    @keyframes pulse-hk {
+        0% {
+            transform: scale(0.95);
+            opacity: 0.8;
         }
 
-        .footer-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
+        50% {
+            transform: scale(1.3);
+            opacity: 1;
         }
 
-        .big-contact-link {
-            font-size: 1.3rem;
+        100% {
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+    }
+
+
+    /* --- RESPONSIVE FIXES --- */
+    @media (max-width: 1200px) {
+        .footer-top {
+            grid-template-columns: 2fr 1fr 1fr;
         }
 
-        .col-lg-4,
-        .col-lg-3 {
-            margin-bottom: 40px;
+        .footer-brand,
+        .footer-col:nth-child(4),
+        .footer-col:nth-child(5) {
+            grid-column: span 3;
+            margin-top: 20px;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .epic-footer {
+            padding: 80px 0 20px 0;
         }
 
-        .text-lg-end {
-            text-align: left !important;
+        .footer-container {
+            padding: 0 20px;
+        }
+
+        .footer-top {
+            grid-template-columns: 1fr;
+            gap: 40px;
+            padding-bottom: 50px;
+        }
+
+        .footer-brand,
+        .footer-col {
+            grid-column: span 1 !important;
+            margin-top: 0;
+        }
+
+        .footer-bottom {
+            flex-direction: column;
+            gap: 20px;
+            text-align: center;
+        }
+
+        .credits {
+            flex-direction: column;
+            gap: 5px;
         }
     }
 </style>
+<script>
+    const backToTopBtn = document.getElementById('backToTop');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

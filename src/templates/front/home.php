@@ -6,7 +6,8 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
 <style>
     :root {
         --text-color: #ffffff;
-        --accent-color: #29c1c2;
+        /* --accent-color: #29c1c2; */
+        --accent-color: #34cdce;
         /* Mint Green */
         --dark-bg: #0f172a;
     }
@@ -21,7 +22,7 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
         display: flex;
         align-items: center;
         justify-content: center;
-        padding-top: 80px;
+        padding-top: 120px;
     }
 
     /* BACKGROUND IMAGE (Bright Beach) */
@@ -273,8 +274,7 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
         background: rgb(127 144 145 / 4%);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-top: 1px solid rgba(255, 255, 255, 0.4);
+        border-left: 3px solid rgb(230 105 38 / 69%);
         padding: 20px 25px;
         border-radius: 8px;
         min-width: 260px;
@@ -323,7 +323,7 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
 
     .feat-meta {
         font-size: 0.8rem;
-        color: rgba(255, 255, 255, 0.6);
+        color: #fff8dc;
         margin-top: 5px;
     }
 
@@ -389,6 +389,9 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
             height: 120px;
             font-size: 0.9rem;
         }
+
+
+
     }
 </style>
 
@@ -671,1011 +674,1379 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
 </section>
 
 
-<section class="team-section" id="about">
-    <div class="container">
-
-        <div class="row mb-5">
-            <div class="col-lg-6">
-                <span class="mini-tag">Η ΟΜΑΔΑ ΜΑΣ</span>
-                <h2 class="section-title">
-                    Άνθρωποι που <br>σας <span class="serif-italic">καταλαβαίνουν.</span>
-                </h2>
-            </div>
-            <div class="col-lg-5 offset-lg-1 d-flex align-items-end">
-                <p class="section-desc mb-0">
-                    Μια διεπιστημονική ομάδα ψυχολόγων και συμβούλων, αφοσιωμένη στη δημιουργία ενός ασφαλούς πλαισίου για τη δική σας εξέλιξη.
-                </p>
-            </div>
-        </div>
-
-        <div class="team-accordion-wrapper">
-
-            <div class="team-img-cursor" id="teamCursor">
-                <div class="cursor-inner">
-                    <img src="/assets/images/used/opti_anastasia2.jpg" class="team-img img-1" alt="Αναστασία Μαυρία">
-                    <img src="/assets/images/used/opti_lefteris.jpg" class="team-img img-2" alt="Ελευθέριος Λιώνας">
-                </div>
-            </div>
-
-            <div class="team-item" data-img="img-1">
-                <div class="team-header">
-                    <div class="member-info">
-                        <div class="member-avatar mobile-only">
-                            <img src="/assets/images/used/opti_anastasia2.jpg" alt="Αναστασία Μαυρία">
-                        </div>
-
-                        <div class="info-text">
-                            <span class="member-role">Κλινική Ψυχολόγος, MSc</span>
-                            <h3 class="member-name">Αναστασία Μαυρία</h3>
-                        </div>
-                    </div>
-
-                    <div class="accordion-btn">
-                        <i class="bi bi-plus-lg"></i>
-                    </div>
-                </div>
-
-                <div class="team-body">
-                    <div class="body-inner">
-                        <p class="member-bio">
-                            Απόφοιτη Ψυχολογίας (ΕΚΠΑ) με μεταπτυχιακό στην Κλινική Ψυχολογία (Leiden University) και εκπαίδευση στη Γνωσιακή Συμπεριφορική Θεραπεία (CBT).
-                            Η προσέγγισή της εστιάζει στον σεβασμό της μοναδικότητας, βοηθώντας το άτομο να κατανοήσει τον εαυτό του και να χτίσει ισορροπημένες σχέσεις μέσω της αποδοχής και της συνεργασίας.
-                        </p>
-                        <div class="specialties-grid">
-                            <span class="spec-dot">Κλινική Ψυχολογία</span>
-                            <span class="spec-dot">CBT</span>
-                            <span class="spec-dot">Αυτογνωσία</span>
-                            <span class="spec-dot">Διαπροσωπικές Σχέσεις</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="team-item" data-img="img-2">
-                <div class="team-header">
-                    <div class="member-info">
-                        <div class="member-avatar mobile-only">
-                            <img src="/assets/images/used/opti_lefteris.jpg" alt="Λιώνας Ελευθέριος">
-                        </div>
-                        <div class="info-text">
-                            <span class="member-role">Ψυχολόγος, MSc Ψυχοσεξουαλικής Θεραπείας</span>
-                            <h3 class="member-name">Ελευθέριος Λιώνας</h3>
-                        </div>
-                    </div>
-
-                    <div class="accordion-btn">
-                        <i class="bi bi-plus-lg"></i>
-                    </div>
-                </div>
-
-                <div class="team-body">
-                    <div class="body-inner">
-                        <p class="member-bio">
-                            Απόφοιτος Ψυχολογίας (ΕΚΠΑ) με εξειδίκευση στη Ψυχοσεξουαλική Θεραπεία (University of Lancashire).
-                            Με ενσυναίσθηση και σεβασμό στη διαφορετικότητα, παρέχει ολιστική υποστήριξη σε άτομα και ζευγάρια, εστιάζοντας στη σεξουαλική υγεία, την επικοινωνία και τη συναισθηματική σύνδεση.
-                        </p>
-                        <div class="specialties-grid">
-                            <span class="spec-dot">Ψυχοσεξουαλική Υγεία</span>
-                            <span class="spec-dot">Θεραπεία Ζεύγους</span>
-                            <span class="spec-dot">Σεξουαλικές Δυσκολίες</span>
-                            <span class="spec-dot">Συναισθηματική Σύνδεση</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</section>
-
 <style>
     /* ========================
-   TEAM SECTION (ACCORDION + HOVER REVEAL)
+   SECTION: ROUTES SHOWCASE (CLEAN)
    ======================== */
-
-    .team-section {
+    .routes-section {
         padding: 120px 0;
-        background-color: #fff;
-        position: relative;
-        z-index: 10;
-    }
-
-    /* Typography */
-    .section-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 3rem;
-        color: var(--alma-text);
-    }
-
-    .serif-italic {
-        font-family: 'Playfair Display', serif;
-        font-style: italic;
-        color: var(--alma-nav-text);
-    }
-
-    .section-desc {
-        font-size: 1.1rem;
-        color: #666;
-        line-height: 1.6;
-    }
-
-    .team-accordion-wrapper {
-        margin-top: 60px;
-        position: relative;
-    }
-
-    /* --- COMMON ITEM STYLES --- */
-    .team-item {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        background-color: #f8fafc;
+        /* Απαλό, καθαρό γκρι */
         position: relative;
         overflow: hidden;
-        /* Important for accordion height anim */
     }
 
-    .team-item:first-child {
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    /* Header (The Trigger) */
-    .team-header {
+    .section-header {
+        max-width: 1600px;
+        margin: 0 auto 60px auto;
+        padding: 0 40px;
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        /* Padding varies by device */
+        align-items: flex-end;
     }
 
-    .member-info {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .member-role {
-        display: block;
-        font-size: 0.8rem;
+    .section-title {
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 800;
+        line-height: 1;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--alma-orange);
-        margin-bottom: 5px;
-        font-weight: 600;
-    }
-
-    .member-name {
-        font-family: 'Playfair Display', serif;
-        color: var(--alma-text);
+        color: var(--run-dark, #0f172a);
         margin: 0;
-        transition: color 0.3s ease, transform 0.3s ease;
+        letter-spacing: -0.03em;
     }
 
-    /* Accordion Button (Plus) */
-    .accordion-btn {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        display: flex;
+    .section-title span {
+        color: transparent;
+        -webkit-text-stroke: 1px var(--run-dark, #0f172a);
+    }
+
+    .section-subtitle {
+        font-size: 1.1rem;
+        color: #64748b;
+        max-width: 400px;
+        margin: 0;
+        text-align: right;
+    }
+
+    /* ========================
+   SWIPER SLIDER ADAPTATION
+   ======================== */
+    .swiper-container {
+        width: 100%;
+        padding: 0 40px 60px 40px;
+        /* Χώρος για σκιές και margin */
+        overflow: visible;
+        /* ΣΗΜΑΝΤΙΚΟ: Για να φαίνονται οι κάρτες που βγαίνουν έξω από την οθόνη */
+    }
+
+    /* Fix για να μην κόβονται οι σκιές αριστερά-δεξιά */
+    .routes-section {
+        overflow: hidden;
+        /* Αυτό παραμένει στο section */
+    }
+
+    .swiper-wrapper {
         align-items: center;
-        justify-content: center;
-        color: var(--alma-text);
-        transition: all 0.4s ease;
-        flex-shrink: 0;
-        /* Μην ζουλιέται */
+        /* Κεντράρει τις κάρτες κάθετα αν χρειαστεί */
     }
 
-    .accordion-btn i {
-        font-size: 1.2rem;
+    .swiper-slide {
+        width: auto;
+        /* Επιτρέπει στην κάρτα να πάρει το πλάτος της (.route-card) */
+        height: auto;
+    }
+
+    /* Η Κάρτα σου (Παραμένει Ίδια, απλά αφαιρέσαμε το flex: 0 0 auto) */
+    .route-card {
+        width: 380px;
+        height: 520px;
+        border-radius: 24px;
+        position: relative;
+        overflow: hidden;
+        background: #e2e8f0;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        user-select: none;
+        /* transition για ομαλό scale αν θέλουμε effect στο ενεργό slide */
         transition: transform 0.4s ease;
     }
 
-    /* Accordion Body */
-    .team-body {
-        height: 0;
-        overflow: hidden;
-        transition: height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-
-    .member-bio {
-        font-size: 1.05rem;
-        color: #555;
-        line-height: 1.7;
-        margin-bottom: 20px;
-    }
-
-    /* Specialties Chips */
-    .specialties-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-
-    .spec-dot {
-        display: inline-flex;
-        align-items: center;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--alma-nav-text);
-        background-color: #f4f1ea;
-        padding: 8px 16px;
-        border-radius: 50px;
-    }
-
-    .spec-dot::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        background-color: var(--alma-orange);
-        border-radius: 50%;
-        margin-right: 8px;
-    }
-
-    /* Active State (Open Accordion) */
-    .team-item.active .accordion-btn {
-        background-color: var(--alma-nav-text);
-        color: #fff;
-        border-color: var(--alma-nav-text);
-    }
-
-    .team-item.active .accordion-btn i {
-        transform: rotate(45deg);
-    }
-
-    /* Turns to X */
-    .team-item.active .member-name {
-        color: var(--alma-nav-text);
-    }
-
-
-    /* ============================
-   DESKTOP STYLES (Hover Image + No Avatar)
-   ============================ */
-    @media (min-width: 992px) {
-
-        /* Hide Static Avatar on Desktop */
-        .mobile-only {
-            display: none !important;
-        }
-
-        .team-header {
-            padding: 40px 0;
-        }
-
-        .member-name {
-            font-size: 2.2rem;
-        }
-
-        /* Indent body to align with text */
-        .body-inner {
-            padding: 0 100px 40px 0;
-            max-width: 800px;
-        }
-
-        /* Hover Interaction */
-        .team-header:hover .member-name {
-            transform: translateX(15px);
-            color: var(--alma-nav-text);
-        }
-
-        .team-header:hover .accordion-btn {
-            background-color: var(--alma-nav-text);
-            color: #fff;
-            transform: rotate(90deg);
-            /* Little spin */
-        }
-
-        /* --- FLOATING CURSOR STYLES --- */
-        .team-img-cursor {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 300px;
-            height: 400px;
-            /* Λίγο πιο compact */
-            z-index: 20;
-            pointer-events: none;
-            /* Το ποντίκι περνάει από μέσα */
-            opacity: 0;
-            transform: scale(0.8);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .cursor-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            border-radius: 10px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .team-img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0;
-            transition: opacity 0.3s ease, transform 0.5s ease;
-            transform: scale(1.1);
-        }
-
-        .team-img.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        .team-img-cursor.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
-    /* ============================
-   MOBILE STYLES (Avatar + Accordion)
-   ============================ */
-    @media (max-width: 991px) {
-
-        /* Hide Desktop Cursor */
-        .team-img-cursor {
-            display: none !important;
-        }
-
-        .team-header {
-            padding: 25px 0;
-        }
-
-        .member-name {
-            font-size: 1.4rem;
-        }
-
-        /* Avatar Styling */
-        .member-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .member-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Body Padding (No indent, full width) */
-        .body-inner {
-            padding: 0 0 30px 0;
-        }
-
-        .accordion-btn {
-            width: 40px;
-            height: 40px;
-        }
-    }
-</style>
-
-
-
-
-<section class="process-section" id="process">
-    <div class="container">
-
-        <div class="row justify-content-center text-center mb-5 fade-in-up">
-            <div class="col-lg-8">
-                <span class="mini-tag">Η ΔΙΑΔΙΚΑΣΙΑ</span>
-                <h2 class="section-title">
-                    Ξεκινήστε το ταξίδι σας <br>σε <span class="serif-italic">3 απλά βήματα.</span>
-                </h2>
-            </div>
-        </div>
-
-        <div class="process-steps-wrapper">
-
-            <div class="process-line">
-                <div class="line-fill"></div>
-            </div>
-
-            <div class="row">
-
-                <div class="col-lg-4 col-md-4 mb-5 mb-md-0">
-                    <div class="step-item fade-in-up">
-                        <div class="step-number">01</div>
-                        <h3 class="step-title">Επιλογή</h3>
-                        <p class="step-desc">
-                            Εξερευνήστε τις υπηρεσίες μας και βρείτε το κατάλληλο πλαίσιο υποστήριξης για εσάς.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4 mb-5 mb-md-0">
-                    <div class="step-item fade-in-up" data-delay="0.2">
-                        <div class="step-number">02</div>
-                        <h3 class="step-title">Κράτηση</h3>
-                        <p class="step-desc">
-                            Δείτε τη διαθεσιμότητα, επιλέξτε αν επιθυμείτε συνεδρία <strong>στο γραφείο μας</strong> ή <strong>online</strong> και ολοκληρώστε την κράτηση.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-4">
-                    <div class="step-item fade-in-up" data-delay="0.4">
-                        <div class="step-number">03</div>
-                        <h3 class="step-title">Συνεδρία</h3>
-                        <p class="step-desc">
-                            Σας υποδεχόμαστε στον χώρο μας ή συνδεόμαστε διαδικτυακά μέσω της πλατφόρμας που προτιμάτε.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="row mt-5 text-center">
-            <div class="col-12">
-                <a href="/services" class="btn-alma-solid">
-                    <span>Κλείστε Ραντεβού</span>
-                </a>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-<style>
-    /* ========================
-   PROCESS SECTION (TIMELINE)
-   ======================== */
-    .process-section {
-        padding: 100px 0;
-        background-color: var(--alma-bg);
-        /* Επιστροφή στο απαλό χρώμα για contrast με το λευκό team */
+    /* CLEAN ROUTE CARD */
+    .route-card {
+        flex: 0 0 auto;
+        width: 380px;
+        height: 520px;
+        border-radius: 24px;
         position: relative;
-        z-index: 5;
         overflow: hidden;
+        scroll-snap-align: start;
+        background: #e2e8f0;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        /* Disable text selection while dragging */
+        user-select: none;
     }
 
-    .process-steps-wrapper {
-        position: relative;
-        padding-top: 40px;
-        /* Χώρος για τους αριθμούς */
-        margin-top: 60px;
-    }
-
-    /* --- THE ANIMATED LINE --- */
-    .process-line {
-        position: absolute;
-        top: 55px;
-        left: 15%;
-        width: 70%;
-        height: 1px;
-        background-color: rgba(0, 0, 0, 0.08);
-        /* Το αχνό γκρι background της γραμμής */
-        z-index: 0;
-        overflow: hidden;
-        /* Για να κόβει το fill */
-    }
-
-    .line-fill {
-        width: 0%;
-        /* Ξεκινάει άδεια */
-        height: 100%;
-        background-color: var(--alma-orange);
-        /* Το χρώμα που γεμίζει */
+    .route-img {
         position: absolute;
         top: 0;
         left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
     }
 
-
-    /* Προαιρετικά: Αν θες να γεμίζει η γραμμή με animation, 
-   θα το κάνουμε με JS, αλλιώς άστο απλό background */
-
-    /* --- STEP ITEM --- */
-    .step-item {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-        padding: 0 20px;
+    /* White Info Panel at the bottom */
+    .route-info-panel {
+        position: absolute;
+        bottom: -60px;
+        left: 0;
+        width: 100%;
+        background: #3737379e;
+        padding: 30px;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(145px);
+        transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
     }
 
-    .step-number {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        width: 110px;
-        height: 110px;
-        background-color: var(--alma-bg);
-        /* Κρύβει τη γραμμή από πίσω */
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        /* Πολύ απαλό border */
-        border-radius: 50%;
-
-        font-family: 'Playfair Display', serif;
-        font-size: 2.5rem;
-        color: var(--alma-nav-text);
-        font-style: italic;
-
-        margin-bottom: 25px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
-        /* Ελαφριά σκιά για βάθος */
-        transition: transform 0.3s ease;
-    }
-
-    .step-item:hover .step-number {
-        transform: translateY(-10px);
-        border-color: var(--alma-orange);
-        color: var(--alma-orange);
-    }
-
-    .step-title {
-        font-family: 'Manrope', sans-serif;
-        /* Sans serif για καθαρότητα */
-        font-weight: 700;
-        font-size: 1.25rem;
-        margin-bottom: 15px;
-        color: var(--alma-text);
+    .route-badge {
+        background: var(--accent-color, #29c285);
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 0.65rem;
+        font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 1px;
+        display: inline-block;
+        margin-bottom: 12px;
     }
 
-    .step-desc {
-        font-size: 1rem;
-        color: #666;
-        line-height: 1.6;
-        max-width: 300px;
-        margin: 0 auto;
-    }
-
-    /* --- RESPONSIVE --- */
-    @media (max-width: 991px) {
-        .process-line {
-            /* Στο mobile η γραμμή είναι κάθετη */
-            width: 1px;
-            height: 80%;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .line-fill {
-            width: 100%;
-            height: 0%;
-            /* Στο mobile γεμίζει προς τα κάτω */
-        }
-
-        .process-steps-wrapper {
-            padding-top: 0;
-        }
-
-        .step-item {
-            margin-bottom: 50px;
-            /* Μεγαλύτερο κενό κάθετα */
-            background-color: var(--alma-bg);
-            /* Για να καλύπτει τη γραμμή */
-            padding: 20px 0;
-            /* Λίγο padding πάνω κάτω */
-        }
-
-        /* Τελευταίο βήμα χωρίς margin */
-        .col-lg-4:last-child .step-item {
-            margin-bottom: 0;
-        }
-
-        .step-number {
-            width: 90px;
-            height: 90px;
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-    }
-</style>
-
-<section class="faq-focus-section" id="faq">
-    <div class="container">
-
-        <div class="row mb-5">
-            <div class="col-12 text-center">
-                <span class="mini-tag">ΑΠΟΡΙΕΣ</span>
-                <h2 class="section-title">Συχνές ερωτήσεις</h2>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-lg-5 d-none d-lg-block">
-                <div class="faq-nav-list">
-
-                    <div class="faq-nav-item active" data-index="0">
-                        <h3 class="nav-text">Διάρκεια Συνεδρίας</h3>
-                    </div>
-
-                    <div class="faq-nav-item" data-index="1">
-                        <h3 class="nav-text">Πολιτική Ακυρώσεων</h3>
-                    </div>
-
-                    <div class="faq-nav-item" data-index="2">
-                        <h3 class="nav-text">Online Θεραπεία</h3>
-                    </div>
-
-                    <div class="faq-nav-item" data-index="3">
-                        <h3 class="nav-text">Απόρρητο & Δεοντολογία</h3>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="col-lg-6 offset-lg-1 d-none d-lg-block position-relative">
-                <div class="focus-glow-blob"></div>
-
-                <div class="faq-display-card">
-                    <div class="faq-content-stack">
-
-                        <div class="faq-content-item active">
-                            <i class="bi bi-clock display-icon"></i>
-                            <h4 class="display-title">Χρόνος για εσάς.</h4>
-                            <p class="display-desc">
-                                Η ατομική συνεδρία διαρκεί συνήθως <strong>50 λεπτά</strong>.
-                                <br><br>
-                                Αυτός ο χρόνος είναι αποκλειστικά δικός σας. Για ζεύγη, ο χρόνος ενδέχεται να είναι 60-90 λεπτά.
-                            </p>
-                        </div>
-
-                        <div class="faq-content-item">
-                            <i class="bi bi-calendar-x display-icon"></i>
-                            <h4 class="display-title">Ευελιξία & Σεβασμός.</h4>
-                            <p class="display-desc">
-                                Παρακαλούμε για ενημέρωση τουλάχιστον <strong>24 ώρες πριν</strong>, ώστε να αποφευχθεί η χρέωση και να δοθεί η ευκαιρία σε κάποιον άλλο να αξιοποιήσει τον χρόνο.
-                            </p>
-                        </div>
-
-                        <div class="faq-content-item">
-                            <i class="bi bi-wifi display-icon"></i>
-                            <h4 class="display-title">Σύνδεση από παντού.</h4>
-                            <p class="display-desc">
-                                Οι online συνεδρίες πραγματοποιούνται μέσω ασφαλών πλατφορμών. Έρευνες επιβεβαιώνουν ότι η θεραπευτική συμμαχία χτίζεται εξίσου δυνατά και διαδικτυακά.
-                            </p>
-                        </div>
-
-                        <div class="faq-content-item">
-                            <i class="bi bi-shield-check display-icon"></i>
-                            <h4 class="display-title">Απόλυτη εχεμύθεια.</h4>
-                            <p class="display-desc">
-                                Τηρούμε αυστηρά τον Κώδικα Δεοντολογίας των Ψυχολόγων. Όσα λέγονται εδώ, μένουν εδώ (με εξαίρεση τις νομικές προβλέψεις για κίνδυνο ζωής).
-                            </p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 d-lg-none">
-
-                <div class="mobile-swipe-container">
-
-                    <button class="mob-nav-btn prev-btn hidden" id="mobPrev">
-                        <i class="bi bi-chevron-left"></i>
-                    </button>
-
-                    <div class="mobile-swipe-wrapper" id="mobSwipeWrapper">
-
-                        <div class="mob-swipe-card">
-                            <div class="mob-card-header">
-                                <h3 class="mob-title">Διάρκεια</h3>
-                                <div class="mob-line"></div>
-                            </div>
-                            <p class="mob-desc">
-                                Η ατομική συνεδρία διαρκεί συνήθως <strong>50 λεπτά</strong>. Για ζεύγη, ο χρόνος ενδέχεται να είναι 60-90 λεπτά.
-                            </p>
-                            <i class="bi bi-clock mob-icon-bg"></i>
-                        </div>
-
-                        <div class="mob-swipe-card">
-                            <div class="mob-card-header">
-                                <h3 class="mob-title">Ακύρωση</h3>
-                                <div class="mob-line"></div>
-                            </div>
-                            <p class="mob-desc">
-                                Παρακαλούμε για ενημέρωση τουλάχιστον <strong>24 ώρες πριν</strong> το ραντεβού σας, ώστε να αποφευχθεί η χρέωση.
-                            </p>
-                            <i class="bi bi-calendar-x mob-icon-bg"></i>
-                        </div>
-
-                        <div class="mob-swipe-card">
-                            <div class="mob-card-header">
-                                <h3 class="mob-title">Online</h3>
-                                <div class="mob-line"></div>
-                            </div>
-                            <p class="mob-desc">
-                                Ναι, είναι εξίσου αποτελεσματική. Πραγματοποιείται μέσω ασφαλών πλατφορμών (Zoom/Skype).
-                            </p>
-                            <i class="bi bi-laptop mob-icon-bg"></i>
-                        </div>
-
-                        <div class="mob-swipe-card">
-                            <div class="mob-card-header">
-                                <h3 class="mob-title">Απόρρητο</h3>
-                                <div class="mob-line"></div>
-                            </div>
-                            <p class="mob-desc">
-                                Τηρούμε αυστηρά το ιατρικό απόρρητο και τον Κώδικα Δεοντολογίας. Όλα είναι αυστηρά εμπιστευτικά.
-                            </p>
-                            <i class="bi bi-shield-lock mob-icon-bg"></i>
-                        </div>
-
-                    </div>
-
-                    <button class="mob-nav-btn next-btn" id="mobNext">
-                        <i class="bi bi-chevron-right"></i>
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<style>
-    /* ========================
-   FAQ FOCUS SECTION (FINAL)
-   ======================== */
-    .faq-focus-section {
-        padding: 120px 0;
-        background-color: #fcfcfc;
-        position: relative;
-        overflow: hidden;
-    }
-
-    /* --- DESKTOP LEFT (NAVIGATION) --- */
-    .faq-nav-list {
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
-        padding-top: 40px;
-    }
-
-    .faq-nav-item {
-        display: flex;
-        align-items: center;
-        padding: 15px 0;
-        cursor: pointer;
-        opacity: 0.5;
-        transition: all 0.3s ease;
-        border-left: 3px solid transparent;
-        padding-left: 0;
-    }
-
-    .faq-nav-item.active {
-        opacity: 1;
-        border-left-color: var(--alma-orange);
-        padding-left: 25px;
-        /* Shift right effect */
-    }
-
-    .faq-nav-item:hover {
-        opacity: 1;
-        padding-left: 10px;
-        /* Small shift on hover */
-    }
-
-    .nav-text {
-        font-family: 'Playfair Display', serif;
-        font-size: 2.2rem;
-        color: var(--alma-text);
+    .route-name {
+        color: var(--run-light, #efefef);
+        font-size: 1.8rem;
+        font-weight: 800;
         margin: 0;
         line-height: 1.1;
     }
 
-    /* --- DESKTOP RIGHT (GLASS CARD) --- */
-    .faq-display-card {
-        background: #fff;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        border-radius: 30px;
-        padding: 60px;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
-        height: 450px;
-        width: 100%;
-        position: relative;
-        z-index: 2;
-        overflow: hidden;
+    /* Specs (Hidden by default) */
+    .route-specs {
+        margin-top: 25px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
     }
 
-    /* The Glow Blob behind the card */
-    .focus-glow-blob {
+    .spec-item {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 10px 0;
+        color: #dedede;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        font-weight: 600;
+    }
+
+    .spec-item span {
+        font-weight: 800;
+        color: var(--run-gray);
+    }
+
+    .route-book-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background: var(--run-blue-dark);
+        color: white;
+        padding: 14px 0;
+        border-radius: 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-top: 20px;
+        text-decoration: none;
+        transition: background 0.3s;
+    }
+
+    .route-book-btn:hover {
+        background: var(--run-blue);
+        color: #fff;
+    }
+
+    /* --- HOVER EFFECTS --- */
+    .route-card:hover .route-img {
+        transform: scale(1.05);
+    }
+
+    .route-card:hover .route-info-panel {
+        transform: translateY(-60px);
+    }
+
+    .route-card:hover .route-specs {
+        opacity: 1;
+        transition-delay: 0.1s;
+    }
+
+
+    /* ========================
+   SECTION: VIP PRIVATE SESSION (LIGHT & CLEAN)
+   ======================== */
+    .vip-section {
+        background-color: #ffffff;
+        /* Ολόλευκο, καθαρό */
+        padding: 120px 40px;
+        color: var(--run-dark, #0f172a);
+        position: relative;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .vip-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 80px;
+        align-items: center;
+    }
+
+    .vip-img-wrap {
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        height: 650px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        /* Απαλή σκιά */
+    }
+
+    .vip-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Ένα διακριτικό πράσινο στοιχείο διακόσμησης */
+    .vip-accent-shape {
+        position: absolute;
+        bottom: -20px;
+        left: -20px;
+        width: 200px;
+        height: 200px;
+        background: var(--accent-color, #29c285);
+        border-radius: 50%;
+        z-index: -1;
+        opacity: 0.1;
+    }
+
+    .vip-tag {
+        font-family: 'Courier New', monospace;
+        color: var(--accent-color, #29c285);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        display: block;
+        font-weight: 600;
+    }
+
+    .vip-title {
+        font-size: clamp(2.5rem, 4vw, 4rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 30px;
+        letter-spacing: -0.02em;
+    }
+
+    .vip-desc {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: #64748b;
+        margin-bottom: 40px;
+        max-width: 500px;
+    }
+
+    .vip-features {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 50px 0;
+    }
+
+    .vip-features li {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--run-dark, #0f172a);
+    }
+
+    .vip-features i {
+        color: var(--accent-color, #29c285);
+        font-size: 1.4rem;
+    }
+
+    /* Light Theme Magnetic Button */
+    .btn-magnetic-light {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 150px;
+        height: 150px;
+        border: 1px solid #cbd5e1;
+        border-radius: 50%;
+        color: var(--run-dark, #0f172a);
+        font-weight: 700;
+        text-transform: uppercase;
+        background: transparent;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        text-decoration: none;
+    }
+
+    .btn-fill-light {
         position: absolute;
         top: 50%;
         left: 50%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, var(--alma-orange) 0%, rgba(255, 255, 255, 0) 70%);
-        opacity: 0.15;
+        width: 0%;
+        height: 0%;
+        background: var(--run-dark, #0f172a);
         border-radius: 50%;
         transform: translate(-50%, -50%);
-        filter: blur(60px);
-        z-index: 1;
-        transition: all 1s ease;
+        transition: width 0.5s ease, height 0.5s ease;
+        z-index: -1;
     }
 
-    /* Content Stacking */
-    .faq-content-item {
-        position: absolute;
-        top: 60px;
-        left: 60px;
-        right: 60px;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(20px);
+    .btn-magnetic-light:hover {
+        color: white;
+        border-color: var(--run-dark, #0f172a);
     }
 
-    /* Active State for Content */
-    .faq-content-item.active {
+    .btn-magnetic-light:hover .btn-fill-light {
+        width: 150%;
+        height: 150%;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        .section-subtitle {
+            text-align: left;
+        }
+
+        .routes-slider {
+            padding: 0 20px 40px 20px;
+            gap: 15px;
+        }
+
+        .route-card {
+            width: 320px;
+            height: 480px;
+        }
+
+        .vip-container {
+            grid-template-columns: 1fr;
+            gap: 50px;
+        }
+
+        .vip-section {
+            padding: 80px 20px;
+        }
+
+        .vip-img-wrap {
+            height: 400px;
+            order: -1;
+        }
+    }
+
+    /* ========================
+   SWIPER PAGINATION & HINTS
+   ======================== */
+
+    /* Το animated hint (κρύβεται στο desktop) */
+    .mobile-swipe-hint {
+        display: none;
+        text-align: center;
+        font-size: 0.75rem;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+
+    .mobile-swipe-hint i {
+        display: inline-block;
+        margin-right: 5px;
+        animation: swipeAnim 1.5s infinite ease-in-out;
+    }
+
+    @keyframes swipeAnim {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        50% {
+            transform: translateX(-5px);
+        }
+    }
+
+    /* Custom Premium Pagination Dots */
+    .swiper-pagination {
+        position: relative !important;
+        margin-top: 30px;
+        bottom: 0 !important;
+    }
+
+    .swiper-pagination-bullet {
+        background: #cbd5e1;
+        opacity: 0.6;
+        width: 8px;
+        height: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .swiper-pagination-bullet-active {
+        background: var(--accent-color, #29c285);
         opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
+        width: 24px;
+        /* Το ενεργό dot γίνεται μακρόστενο (Premium effect) */
+        border-radius: 4px;
     }
 
-    /* Typography inside card */
-    .display-icon {
-        font-size: 2.5rem;
-        color: var(--alma-orange);
-        margin-bottom: 25px;
+    /* ========================
+   MOBILE FIXES FOR SLIDER
+   ======================== */
+    @media (max-width: 992px) {
+        .mobile-swipe-hint {
+            display: block;
+            /* Εμφανίζεται μόνο στο κινητό */
+        }
+
+        .routes-slider {
+            padding: 0 0 20px 0;
+            /* Αφαιρούμε το padding γιατί το κεντράρει το Swiper */
+        }
+
+        .route-card {
+            width: 80vw;
+            /* Η κάρτα πιάνει το 80% της οθόνης, ώστε να φαίνονται οι δίπλα */
+            height: 480px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+    }
+
+    /* ========================
+   SECTION: ROUTES SHOWCASE (ELEVATED)
+   ======================== */
+    .routes-section {
+        padding: 140px 0 120px 0;
+        /* Λίγο περισσότερος χώρος πάνω */
+        background-color: #f8fafc;
+        position: relative;
+        overflow: hidden;
+        /* Κρατάμε τα πάντα μέσα */
+    }
+
+    /* 1. TOPO BACKGROUND & OVERSIZED TEXT */
+    .bg-oversized-text {
+        position: absolute;
+        top: 15%;
+        left: -5%;
+        font-size: 28vw;
+        /* ΤΕΡΑΣΤΙΑ ΓΡΑΜΜΑΤΑ */
+        font-weight: 900;
+        line-height: 1;
+        color: #0f172a;
+        opacity: 0.02;
+        /* Σχεδόν αόρατο, μοιάζει με watermark */
+        white-space: nowrap;
+        pointer-events: none;
+        z-index: 0;
+        user-select: none;
+        will-change: transform;
+    }
+
+    .topo-pattern {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 60%;
+        height: 100%;
+        /* Ένα minimal inline SVG pattern που μοιάζει με υψομετρικές καμπύλες / Grid */
+        background-image: radial-gradient(circle at center, transparent 0%, #f8fafc 70%), repeating-radial-gradient(circle at 100% 0%, transparent 0, transparent 40px, rgba(15, 23, 42, 0.03) 40px, rgba(15, 23, 42, 0.03) 41px);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* 2. TECHNICAL HEADER */
+    .section-header {
+        position: relative;
+        z-index: 5;
+        /* Πάνω από το background */
+        max-width: 1600px;
+        margin: 0 auto 60px auto;
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    /* Tech Badges */
+    .tech-badge {
+        font-family: 'Courier New', monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--accent-color, #29c285);
+        letter-spacing: 2px;
+        margin-bottom: 15px;
         display: block;
     }
 
-    .display-title {
-        font-family: 'Manrope', sans-serif;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--alma-text);
-        margin-bottom: 20px;
+    .tech-divider {
+        width: 60px;
+        height: 3px;
+        background: var(--run-dark, #0f172a);
+        margin: 20px 0;
     }
 
-    .display-desc {
-        font-size: 1.1rem;
-        color: #666;
-        line-height: 1.7;
+    .tech-counter {
+        font-family: 'Courier New', monospace;
+        font-size: 0.8rem;
+        color: #64748b;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        text-align: right;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #cbd5e1;
     }
 
+    /* 3. CUSTOM DRAG CURSOR */
+    .routes-slider {
+        cursor: none !important;
+        /* Κρύβουμε τον κλασικό κέρσορα όταν είσαι πάνω στο slider */
+        position: relative;
+        z-index: 10;
+    }
 
-    /* =================================
-   MOBILE STYLES (SWIPE + ARROWS)
-   ================================= */
-    @media (max-width: 991px) {
-        .faq-focus-section {
-            padding: 60px 0;
+    .custom-drag-cursor {
+        position: fixed;
+        /* Ακολουθεί την οθόνη */
+        top: 0;
+        left: 0;
+        width: 80px;
+        height: 80px;
+        background-color: var(--accent-color, #29c285);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+        pointer-events: none;
+        /* Δεν μπλοκάρει τα κλικ */
+        z-index: 9999;
+        opacity: 0;
+        transform: scale(0);
+        /* Κρυμμένο αρχικά */
+        transition: transform 0.2s ease, background 0.2s ease;
+        /* Blend mode για να κάνει ωραίο effect πάνω από τις φώτος */
+        mix-blend-mode: hard-light;
+    }
+
+    .custom-drag-cursor.active {
+        transform: scale(0.8) !important;
+        background-color: white;
+        color: black;
+    }
+
+    /* (Τα υπόλοιπα styles των καρτών παραμένουν ίδια) */
+    @media (max-width: 992px) {
+        .bg-oversized-text {
+            font-size: 40vw;
+            top: 5%;
         }
 
-        /* Container for positioning arrows */
-        .mobile-swipe-container {
-            position: relative;
-            width: 100%;
-        }
-
-        /* Scrollable Wrapper */
-        .mobile-swipe-wrapper {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 30px;
-            /* Space for shadow */
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            padding-left: 5vw;
-            padding-right: 5vw;
-            scroll-behavior: smooth;
-        }
-
-        /* Hide Scrollbar */
-        .mobile-swipe-wrapper::-webkit-scrollbar {
+        .tech-counter,
+        .custom-drag-cursor {
             display: none;
         }
 
-        .mobile-swipe-wrapper {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+        /* Κρύβουμε τον cursor στα κινητά */
+        .routes-slider {
+            cursor: grab !important;
         }
 
-        /* The Card */
-        .mob-swipe-card {
-            min-width: 85vw;
-            /* Almost full width */
-            background: #fff;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            scroll-snap-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(0, 0, 0, 0.03);
+        /* Επαναφέρουμε το native swipe hint */
+    }
+</style>
+<section class="routes-section" id="routes">
+    <div class="topo-pattern"></div>
+    <div class="bg-oversized-text" id="bgTextParallax">EXPLORE</div>
+
+    <div class="section-header">
+        <div>
+            <span class="tech-badge gs-reveal">[ 02 // THE STAGES ]</span>
+            <h2 class="section-title gs-reveal">CHOOSE YOUR <br><span>PATH.</span></h2>
+            <div class="tech-divider gs-reveal"></div>
+            <p class="section-subtitle gs-reveal">
+                From easy coastal breezes to demanding mountain technical trails.
+                All groups are limited to 10 runners.
+            </p>
+        </div>
+
+        <div class="tech-counter gs-reveal">
+            AVAILABLE ROUTES: 04 <br>
+            <span style="font-size: 0.65rem; opacity: 0.5;">SCROLL TO DISCOVER</span>
+        </div>
+    </div>
+
+    <div class="swiper swiper-container gs-reveal">
+        <div class="mobile-swipe-hint">
+            <i class="bi bi-arrow-left-right"></i> Swipe to explore
+        </div>
+
+        <div class="swiper-wrapper">
+
+            <div class="swiper-slide">
+                <div class="route-card">
+                    <img src="https://images.unsplash.com/photo-1502904550040-7534597429ae?q=80&w=800&auto=format&fit=crop" alt="Coastal Run" class="route-img" draggable="false">
+                    <div class="route-info-panel">
+                        <span class="route-badge">BEGINNER</span>
+                        <h3 class="route-name">Coastal Escape</h3>
+
+                        <div class="route-specs">
+                            <div class="spec-item">Terrain <span>Asphalt & Path</span></div>
+                            <div class="spec-item">Distance <span>5km / 10km</span></div>
+                            <div class="spec-item">Elevation <span>Flat</span></div>
+                            <a href="/book?route=coastal" class="route-book-btn">Book Run</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="route-card">
+                    <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=800&auto=format&fit=crop" alt="Mountain Trail" class="route-img" draggable="false">
+                    <div class="route-info-panel">
+                        <span class="route-badge" style="background: #e63946;">ADVANCED</span>
+                        <h3 class="route-name">Mountain Trail</h3>
+
+                        <div class="route-specs">
+                            <div class="spec-item">Terrain <span>Rocky / Technical</span></div>
+                            <div class="spec-item">Distance <span>8km</span></div>
+                            <div class="spec-item">Elevation <span>High Gain</span></div>
+                            <a href="/book?route=mountain" class="route-book-btn">Book Run</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="route-card">
+                    <img src="https://plus.unsplash.com/premium_photo-1698513454953-dd944ad9f1a9?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Sunset Gorge" class="route-img" draggable="false">
+                    <div class="route-info-panel">
+                        <span class="route-badge" style="background: #ffb703; color: #000;">TRENDING</span>
+                        <h3 class="route-name">Sunset Gorge</h3>
+
+                        <div class="route-specs">
+                            <div class="spec-item">Terrain <span>Mixed</span></div>
+                            <div class="spec-item">Distance <span>6km</span></div>
+                            <div class="spec-item">Vibe <span>Nature & Views</span></div>
+                            <a href="/book?route=sunset" class="route-book-btn">Book Run</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="swiper-slide">
+                <div class="route-card">
+                    <img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=800&auto=format&fit=crop" alt="History Run" class="route-img" draggable="false">
+                    <div class="route-info-panel">
+                        <span class="route-badge">CULTURE</span>
+                        <h3 class="route-name">History Run</h3>
+
+                        <div class="route-specs">
+                            <div class="spec-item">Terrain <span>Village Streets</span></div>
+                            <div class="spec-item">Highlights <span>Monasteries</span></div>
+                            <div class="spec-item">Pace <span>Easy & Chatty</span></div>
+                            <a href="/book?route=history" class="route-book-btn">Book Run</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
+
+<div class="custom-drag-cursor" id="dragCursor">DRAG</div>
+
+<section class="vip-section" id="private-coaching">
+    <div class="vip-accent-shape"></div>
+
+    <div class="vip-container">
+        <div class="vip-text">
+            <span class="vip-tag">// 1-ON-1 COACHING</span>
+            <h2 class="vip-title gs-reveal">MORE THAN A RUN.<br>A PRIVATE EXPERIENCE.</h2>
+            <p class="vip-desc gs-reveal">
+                Want to run at your own pace? Need marathon advice? Or simply prefer a private guide to show you the hidden gems of Plakias? Book a session tailored exactly to your needs and fitness level.
+            </p>
+
+            <ul class="vip-features gs-reveal">
+                <li><i class="bi bi-check-circle-fill"></i> Flexible Timing & Hotel Pickup</li>
+                <li><i class="bi bi-check-circle-fill"></i> Tailor-made Pace & Distance</li>
+                <li><i class="bi bi-check-circle-fill"></i> Pro Tips from experienced Runners</li>
+            </ul>
+
+            <div class="magnetic-wrap gs-reveal" id="magBtnWrapLight">
+                <a href="mailto:info@plakiasrunning.com" class="btn-magnetic-light" id="magBtnLight">
+                    <span class="btn-text">Request <br>Session</span>
+                    <div class="btn-fill-light"></div>
+                </a>
+            </div>
+        </div>
+
+        <div class="vip-img-wrap gs-reveal">
+            <img src="https://images.unsplash.com/photo-1530143311094-34d807799e8f?q=80&w=800&auto=format&fit=crop" alt="Private Running Coach" class="vip-img" id="vipParallaxImg">
+        </div>
+    </div>
+</section>
+
+
+
+<style>
+    /* ========================
+   SECTION: THE BENTO BOX (EXPERIENCE)
+   ======================== */
+    .bento-section {
+        padding: 120px 0;
+        background-color: var(--run-dark, #0f172a);
+        /* Γυρνάμε σε dark για contrast με το προηγούμενο */
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .bento-header {
+        max-width: 1400px;
+        margin: 0 auto 60px auto;
+        padding: 0 40px;
+    }
+
+    .bento-badge {
+        font-family: 'Courier New', monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--accent-color, #29c285);
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .bento-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: -0.02em;
+    }
+
+    .bento-subtitle {
+        font-size: 1.1rem;
+        color: #94a3b8;
+        max-width: 500px;
+        margin: 20px 0 0 0;
+    }
+
+    /* --- THE GRID SYSTEM --- */
+    .bento-grid {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
+        display: grid;
+        /* 4 στήλες. Κάθε κουτί θα πιάνει όσες του πούμε */
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(2, 320px);
+        /* 2 σειρές των 320px */
+        gap: 25px;
+    }
+
+    /* Το κάθε κουτί */
+    .bento-box {
+        border-radius: 24px;
+        position: relative;
+        overflow: hidden;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        /* Κείμενο στο κάτω μέρος */
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+        cursor: default;
+    }
+
+    .bento-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .bento-bg-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+        z-index: 1;
+    }
+
+    .bento-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.2) 60%, transparent 100%);
+        z-index: 2;
+    }
+
+    .bento-content {
+        position: relative;
+        z-index: 3;
+    }
+
+    .bento-box:hover .bento-bg-img {
+        transform: scale(1.05);
+    }
+
+    /* Typography μέσα στα κουτιά */
+    .bento-box h3 {
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 0 10px 0;
+        line-height: 1.2;
+        text-transform: uppercase;
+        color: var(--run-gray);
+    }
+
+    .bento-box p {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    .bento-icon {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        font-size: 1.8rem;
+        color: var(--run-gray);
+        z-index: 3;
+    }
+
+    /* --- SPECIFIC BOX SIZING --- */
+    /* Box 1: Ο Οδηγός (Μεγάλο κάθετο) */
+    .box-guide {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .box-guide h3 {
+        font-size: 2.5rem;
+    }
+
+    /* Box 2: Φωτογραφίες (Οριζόντιο) */
+    .box-photos {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+
+    /* Box 3: Νερό/Σνακ (Τετράγωνο) */
+    .box-fuel {
+        grid-column: span 1;
+        grid-row: span 1;
+        background-color: var(--accent-color, #29c285);
+        color: #0f172a;
+    }
+
+    .box-fuel .bento-overlay {
+        display: none;
+    }
+
+    /* Όχι μαύρο gradient εδώ */
+    .box-fuel h3,
+    .box-fuel p,
+    .box-fuel .bento-icon {
+        color: #0f172a;
+    }
+
+    /* Box 4: Ασφάλεια (Τετράγωνο) */
+    .box-safety {
+        grid-column: span 1;
+        grid-row: span 1;
+        background-color: #1e293b;
+        /* Ανοιχτό σκούρο γκρι */
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .box-safety .bento-overlay {
+        display: none;
+    }
+
+    /* --- RESPONSIVE BENTO --- */
+    @media (max-width: 992px) {
+        .bento-grid {
+            grid-template-columns: repeat(2, 1fr);
+            /* 2 στήλες στα tablet */
+            grid-template-rows: auto;
         }
 
-        /* Floating Nav Buttons */
-        .mob-nav-btn {
-            position: absolute;
-            top: 45%;
-            /* Center vertically relative to card height */
-            transform: translateY(-50%);
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            color: var(--alma-orange);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            z-index: 10;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            opacity: 1;
-            visibility: visible;
+        .box-guide,
+        .box-photos {
+            grid-column: span 2;
+            grid-row: auto;
+            min-height: 400px;
         }
 
-        .prev-btn {
-            left: 5px;
+        .box-fuel,
+        .box-safety {
+            grid-column: span 1;
+            grid-row: auto;
+            min-height: 300px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .bento-header {
+            padding: 0 20px;
         }
 
-        .next-btn {
-            right: 5px;
+        .bento-grid {
+            grid-template-columns: 1fr;
+            /* 1 στήλη στα κινητά */
+            padding: 0 20px;
         }
 
-        /* Hidden State for Buttons */
-        .mob-nav-btn.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        /* Mobile Typography */
-        .mob-card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .mob-title {
-            font-size: 1.6rem;
-            color: var(--alma-text);
-            margin: 0;
-            font-family: 'Playfair Display', serif;
-        }
-
-        .mob-line {
-            height: 2px;
-            width: 40px;
-            background-color: var(--alma-orange);
-            opacity: 0.5;
-        }
-
-        .mob-desc {
-            font-size: 1.05rem;
-            color: #666;
-            line-height: 1.6;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Background Decor Icon */
-        .mob-icon-bg {
-            position: absolute;
-            bottom: -20px;
-            right: -20px;
-            font-size: 6rem;
-            color: var(--alma-orange);
-            opacity: 0.05;
-            z-index: 1;
-            transform: rotate(-15deg);
+        .box-guide,
+        .box-photos,
+        .box-fuel,
+        .box-safety {
+            grid-column: span 1;
+            min-height: 350px;
         }
     }
 </style>
+
+
+<section class="bento-section" id="experience">
+
+    <div class="bento-header">
+        <span class="bento-badge gs-reveal">[ 03 // THE EXPERIENCE ]</span>
+        <h2 class="bento-title gs-reveal">BEYOND THE <br>MILES.</h2>
+        <p class="bento-subtitle gs-reveal">
+            We take care of the details, so you can focus on the run.
+            Here is what's included in every single session.
+        </p>
+    </div>
+
+    <div class="bento-grid">
+
+        <div class="bento-box box-guide gs-bento">
+            <img src="https://images.unsplash.com/photo-1562571373-e12c2f3a53ec?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="The Guide" class="bento-bg-img">
+            <div class="bento-overlay"></div>
+            <i class="bi bi-person-badge bento-icon"></i>
+            <div class="bento-content">
+                <h3>Meet Your <br>Guide</h3>
+                <p>Ultra Marathoner & Local Expert. Running the trails of Crete for over a decade. I don't just guide you; I show you Plakias through a runner's eyes.</p>
+            </div>
+        </div>
+
+        <div class="bento-box box-photos gs-bento">
+            <img src="https://images.unsplash.com/photo-1635963422426-f802fb6d7240?q=80&w=1742&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Running Group" class="bento-bg-img">
+            <div class="bento-overlay"></div>
+            <i class="bi bi-camera bento-icon"></i>
+            <div class="bento-content">
+                <h3>Leave the phone. <br>We capture the moment.</h3>
+                <p>Professional photos and videos are taken during the run and sent directly to you, totally free. Run hands-free.</p>
+            </div>
+        </div>
+
+        <div class="bento-box box-fuel gs-bento">
+            <i class="bi bi-droplet-fill bento-icon"></i>
+            <div class="bento-content">
+                <h3>Local <br>Fuel</h3>
+                <p>Cold water, electrolytes, and authentic Cretan energy snacks provided before and after we hit the trail.</p>
+            </div>
+        </div>
+
+        <div class="bento-box box-safety gs-bento">
+            <i class="bi bi-shield-check bento-icon"></i>
+            <div class="bento-content">
+                <h3>100% <br>Safe</h3>
+                <p>First aid certified guide. Mandatory waivers signed beforehand. Max 10 runners per group to ensure nobody is left behind.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<style>
+    /* ========================
+   SECTION: STRAVA COMMUNITY (LIGHT)
+   ======================== */
+    .strava-section {
+        background-color: #ffffff;
+        padding: 100px 0;
+        position: relative;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .strava-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 60px;
+    }
+
+    .strava-left {
+        flex: 1;
+    }
+
+    .strava-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(252, 76, 2, 0.1);
+        color: #fc4c02;
+        /* Strava Orange */
+        padding: 6px 14px;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 20px;
+    }
+
+    .strava-title {
+        font-size: clamp(2rem, 3.5vw, 3.5rem);
+        font-weight: 800;
+        color: var(--run-dark, #0f172a);
+        line-height: 1.1;
+        margin: 0 0 20px 0;
+        letter-spacing: -0.02em;
+    }
+
+    .strava-desc {
+        font-size: 1.1rem;
+        color: #64748b;
+        line-height: 1.6;
+        max-width: 450px;
+        margin-bottom: 30px;
+    }
+
+    .btn-strava {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background-color: #fc4c02;
+        /* Strava Brand Color */
+        color: white;
+        padding: 14px 28px;
+        border-radius: 8px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 20px rgba(252, 76, 2, 0.2);
+    }
+
+    .btn-strava:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 25px rgba(252, 76, 2, 0.4);
+        color: white;
+    }
+
+    /* Strava Stats Box (Right Side) */
+    .strava-right {
+        flex: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .strava-stats-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        padding: 40px;
+        border-radius: 24px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.03);
+    }
+
+    .stat-item h4 {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--run-dark, #0f172a);
+        margin: 0 0 5px 0;
+        line-height: 1;
+    }
+
+    .stat-item p {
+        font-size: 0.8rem;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin: 0;
+        font-weight: 600;
+    }
+
+    /* ========================
+   SECTION: TERMINAL CTA (PITCH BLACK)
+   ======================== */
+    .terminal-section {
+        background-color: #050505;
+        /* Πολύ βαθύ μαύρο, σχεδόν OLED */
+        height: 80vh;
+        /* Δεν πιάνει όλη την οθόνη, αφήνει χώρο για footer */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Απαλό glow πίσω από το κείμενο */
+    .terminal-glow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50vw;
+        height: 50vw;
+        background: radial-gradient(circle, rgba(41, 194, 133, 0.08) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    .terminal-title {
+        font-size: clamp(4rem, 12vw, 12rem);
+        /* ΤΕΡΑΣΤΙΑ Fluid Typography */
+        font-weight: 900;
+        line-height: 0.9;
+        text-transform: uppercase;
+        margin: 0;
+        color: white;
+        letter-spacing: -0.04em;
+        position: relative;
+        z-index: 2;
+    }
+
+    .terminal-title span {
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.2);
+        display: block;
+    }
+
+    .terminal-btn-wrap {
+        margin-top: 60px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .btn-finale {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 12px 12px 40px;
+        /* Χώρος αριστερά για το κείμενο, σφιχτό δεξιά για τον κύκλο */
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 100px;
+        /* Pill shape */
+        text-decoration: none;
+        overflow: hidden;
+        transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+        cursor: pointer;
+    }
+
+    .btn-finale-text {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-right: 40px;
+        position: relative;
+        z-index: 2;
+        /* Πάνω από το background fill */
+        transition: color 0.4s ease;
+    }
+
+    /* Ο κύκλος με το βελάκι */
+    .btn-finale-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--accent-color, #29c285);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 2;
+        transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .btn-finale-icon i {
+        color: #050505;
+        font-size: 1.8rem;
+        transition: transform 0.4s ease;
+    }
+
+    /* Το "Υγρό" που θα γεμίσει το κουμπί - Κρυμμένο πίσω από το icon αρχικά */
+    .btn-finale::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        width: 60px;
+        height: 60px;
+        background: var(--accent-color, #29c285);
+        border-radius: 50%;
+        transform: translateY(-50%) scale(1);
+        transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+        z-index: 1;
+        /* Κάτω από το κείμενο */
+    }
+
+    /* --- HOVER EFFECTS --- */
+    .btn-finale:hover {
+        border-color: var(--accent-color, #29c285);
+        box-shadow: 0 0 40px rgba(41, 194, 133, 0.3);
+        /* Απαλό Glow */
+    }
+
+    /* Ο κύκλος μεγαλώνει δραματικά και γεμίζει το pill */
+    .btn-finale:hover::before {
+        transform: translateY(-50%) scale(15);
+    }
+
+    /* Το κείμενο γίνεται μαύρο για να κάνει αντίθεση με το πράσινο background */
+    .btn-finale:hover .btn-finale-text {
+        color: #050505;
+    }
+
+    /* Το βελάκι φεύγει ελαφρώς δεξιά (έξτρα δυναμισμός) */
+    .btn-finale:hover .btn-finale-icon i {
+        transform: translateX(5px);
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 992px) {
+        .strava-container {
+            flex-direction: column;
+            text-align: center;
+            gap: 40px;
+        }
+
+        .strava-right {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .strava-stats-box {
+            width: 100%;
+            padding: 30px;
+            gap: 20px;
+        }
+
+        .stat-item h4 {
+            font-size: 2.2rem;
+        }
+
+        .terminal-section {
+            height: 60vh;
+        }
+
+        .terminal-title span {
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
+        }
+    }
+</style>
+
+
+<section class="strava-section">
+    <div class="strava-container">
+
+        <div class="strava-left gs-reveal">
+            <div class="strava-badge">
+                <i class="bi bi-activity"></i> Strava Club
+            </div>
+            <h2 class="strava-title">JOIN THE <br>COMMUNITY.</h2>
+            <p class="strava-desc">
+                Running is better together. Join the official Plakias Running Club on Strava. Share your routes, track your segments, and connect with runners from all over the world.
+            </p>
+            <a href="#" class="btn-strava" target="_blank">
+                Join the Club <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="strava-right gs-reveal">
+            <div class="strava-stats-box">
+                <div class="stat-item">
+                    <h4 class="counter" data-target="142">0</h4>
+                    <p>Club Members</p>
+                </div>
+                <div class="stat-item">
+                    <h4 class="counter" data-target="850">0</h4>
+                    <p>Weekly KM</p>
+                </div>
+                <div class="stat-item">
+                    <h4 class="counter" data-target="12">0</h4>
+                    <p>Local Segments</p>
+                </div>
+                <div class="stat-item">
+                    <h4>∞</h4>
+                    <p>Good Vibes</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="terminal-section">
+    <div class="terminal-glow"></div>
+
+    <h1 class="terminal-title gs-reveal">
+        READY TO <span>RUN?</span>
+    </h1>
+
+    <div class="terminal-btn-wrap gs-reveal">
+        <a href="/routes" class="btn-finale">
+            <span class="btn-finale-text">VIEW ALL PACKAGES</span>
+            <div class="btn-finale-icon">
+                <i class="bi bi-arrow-right-short"></i>
+            </div>
+        </a>
+    </div>
+</section>
+
+
+
+
+
 
 <?php
 function hook_end_scripts()
@@ -1683,375 +2054,7 @@ function hook_end_scripts()
 ?>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            // --- ELEMENTS ---
-            const navItems = document.querySelectorAll('.faq-nav-item');
-            const contentItems = document.querySelectorAll('.faq-content-item');
-            const glowBlob = document.querySelector('.focus-glow-blob');
-
-            const mobWrapper = document.getElementById('mobSwipeWrapper');
-            const mobPrev = document.getElementById('mobPrev');
-            const mobNext = document.getElementById('mobNext');
-
-            let activeIndex = 0;
-
-            // --- 1. DESKTOP LOGIC FUNCTION ---
-            function initDesktopInteractions() {
-                navItems.forEach((item, index) => {
-                    // Καθαρίζουμε τυχόν παλιούς listeners για να μην διπλασιαστούν
-                    item.onmouseenter = null;
-
-                    item.onmouseenter = () => {
-                        if (window.innerWidth <= 991) return; // Stop if on mobile
-
-                        if (activeIndex === index) return;
-                        activeIndex = index;
-
-                        // Update Visuals
-                        navItems.forEach(n => n.classList.remove('active'));
-                        item.classList.add('active');
-
-                        // Kill old animations
-                        gsap.killTweensOf(contentItems);
-
-                        // Hide others
-                        contentItems.forEach((content, i) => {
-                            if (i !== index) {
-                                gsap.to(content, {
-                                    opacity: 0,
-                                    y: -15,
-                                    duration: 0.2,
-                                    onComplete: () => content.classList.remove('active')
-                                });
-                            }
-                        });
-
-                        // Show New
-                        const newContent = contentItems[index];
-                        newContent.classList.add('active');
-
-                        gsap.fromTo(newContent, {
-                            opacity: 0,
-                            y: 15
-                        }, {
-                            opacity: 1,
-                            y: 0,
-                            duration: 0.4,
-                            ease: "power2.out",
-                            delay: 0.1
-                        });
-
-                        // Glow Blob
-                        if (glowBlob) {
-                            const randomX = (Math.random() - 0.5) * 80;
-                            const randomY = (Math.random() - 0.5) * 80;
-                            gsap.to(glowBlob, {
-                                x: randomX,
-                                y: randomY,
-                                duration: 1,
-                                ease: "power2.out"
-                            });
-                        }
-                    };
-                });
-            }
-
-            // --- 2. MOBILE LOGIC FUNCTION ---
-            function updateMobileArrows() {
-                if (!mobWrapper || !mobPrev || !mobNext) return;
-
-                const scrollLeft = mobWrapper.scrollLeft;
-                const scrollWidth = mobWrapper.scrollWidth;
-                const clientWidth = mobWrapper.clientWidth;
-
-                // Hide Prev if at start
-                if (scrollLeft <= 10) {
-                    mobPrev.classList.add('hidden');
-                } else {
-                    mobPrev.classList.remove('hidden');
-                }
-
-                // Hide Next if at end
-                if (Math.ceil(scrollLeft + clientWidth) >= scrollWidth - 10) {
-                    mobNext.classList.add('hidden');
-                } else {
-                    mobNext.classList.remove('hidden');
-                }
-            }
-
-            function initMobileInteractions() {
-                if (!mobWrapper) return;
-
-                // Αφαιρούμε παλιούς listeners
-                mobWrapper.onscroll = null;
-                if (mobNext) mobNext.onclick = null;
-                if (mobPrev) mobPrev.onclick = null;
-
-                // Προσθήκη νέων
-                mobWrapper.onscroll = updateMobileArrows;
-
-                if (mobNext) {
-                    mobNext.onclick = () => {
-                        mobWrapper.scrollBy({
-                            left: mobWrapper.clientWidth * 0.85,
-                            behavior: 'smooth'
-                        });
-                    };
-                }
-
-                if (mobPrev) {
-                    mobPrev.onclick = () => {
-                        mobWrapper.scrollBy({
-                            left: -(mobWrapper.clientWidth * 0.85),
-                            behavior: 'smooth'
-                        });
-                    };
-                }
-
-                // Initial check
-                updateMobileArrows();
-            }
-
-            // --- 3. MASTER RESIZE HANDLER ---
-            function handleResize() {
-                const width = window.innerWidth;
-
-                if (width > 991) {
-                    initDesktopInteractions();
-                    // Reset mobile styles/listeners if needed
-                } else {
-                    initMobileInteractions();
-                    // Reset desktop styles if needed
-                }
-            }
-
-            // --- INITIALIZATION ---
-            // Τρέξε μία φορά στην αρχή
-            handleResize();
-
-            // Τρέξε κάθε φορά που αλλάζει το μέγεθος (με μικρό debounce για performance)
-            let resizeTimer;
-            window.addEventListener('resize', () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(handleResize, 100);
-            });
-        });
-
-
-        const tagsSwiper = new Swiper('.tagsSlider', {
-            // centeredSlides: false,
-            grabCursor: true,
-            effect: "creative",
-            creativeEffect: {
-                prev: {
-                    shadow: true,
-                    translate: ["-120%", 0, -500],
-                },
-                next: {
-                    shadow: true,
-                    translate: ["120%", 0, -500],
-                },
-            },
-            navigation: {
-                nextEl: '.navNext',
-                prevEl: '.navPrev',
-            },
-            slidesPerView: 1,
-            updateOnWindowResize: true,
-            loop: true,
-            // autoplay: {
-            //     delay: 2000, // Time between slides in milliseconds
-            //     disableOnInteraction: false, // Keep autoplay active on interaction
-            // },
-            speed: 2500,
-            grabCursor: true,
-            centeredSlides: true,
-            centeredSlidesBounds: true,
-        });
-
-
-        document.addEventListener("DOMContentLoaded", function() {
-
-            gsap.registerPlugin(ScrollTrigger);
-
-            // --- PROCESS LINE ANIMATION ---
-            // Ελέγχουμε αν υπάρχει το στοιχείο
-            if (document.querySelector('.line-fill')) {
-
-                // Desktop Animation (Horizontal)
-                if (window.innerWidth > 991) {
-                    gsap.to(".line-fill", {
-                        width: "100%", // Γεμίζει οριζόντια
-                        duration: 2,
-                        ease: "power2.inOut",
-                        scrollTrigger: {
-                            trigger: ".process-steps-wrapper",
-                            start: "top 75%", // Ξεκινάει όταν το section είναι ορατό
-                        }
-                    });
-                }
-                // Mobile Animation (Vertical)
-                else {
-                    gsap.to(".line-fill", {
-                        height: "100%", // Γεμίζει κάθετα
-                        duration: 2,
-                        ease: "power2.inOut",
-                        scrollTrigger: {
-                            trigger: ".process-steps-wrapper",
-                            start: "top 60%",
-                        }
-                    });
-                }
-            }
-
-            // Animation για τα βήματα (Fade Up)
-            gsap.from(".step-item", {
-                y: 40,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.3, // Εμφανίζονται διαδοχικά
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: ".process-steps-wrapper",
-                    start: "top 75%"
-                }
-            });
-
-
-            // --- SERVICES STACKING LOGIC ---
-
-            const cards = gsap.utils.toArray(".service-card-gsap");
-
-            // Calculate offset based on device width (Mobile needs smaller offset)
-            const topOffset = window.innerWidth < 991 ? 90 : 140;
-
-            cards.forEach((card, index) => {
-
-                const isLastCard = index === cards.length - 1;
-
-                // Apply pinning to all cards EXCEPT the last one
-                if (!isLastCard) {
-
-                    ScrollTrigger.create({
-                        trigger: card,
-                        start: `top top+=${topOffset}`,
-
-                        // End when the whole section ends
-                        endTrigger: ".services-stack-section",
-                        end: "bottom bottom",
-
-                        pin: true,
-                        pinSpacing: false,
-                        id: `pin-${index+1}`,
-                    });
-
-                    // Animation: Scale Down & Fade Out
-                    // This prevents background bleeding on mobile
-                    const scaleAmount = window.innerWidth < 991 ? 0.98 : 0.95;
-
-                    gsap.to(card, {
-                        scale: scaleAmount,
-                        opacity: 0, // Complete fade out
-                        force3D: true, // Hardware acceleration
-
-                        scrollTrigger: {
-                            trigger: card,
-                            start: `top top+=${topOffset}`,
-                            // Fade out completes after scrolling 500px past start
-                            end: "+=500",
-                            scrub: true,
-                        }
-                    });
-                }
-            });
-
-            // Re-calculate positions
-            ScrollTrigger.refresh();
-        });
-
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const items = document.querySelectorAll('.team-item');
-            const cursor = document.getElementById('teamCursor');
-
-            // 1. UNIVERSAL ACCORDION LOGIC (Works everywhere)
-            items.forEach(item => {
-                const header = item.querySelector('.team-header');
-
-                header.addEventListener('click', () => {
-                    const body = item.querySelector('.team-body');
-                    const inner = item.querySelector('.body-inner');
-                    const isActive = item.classList.contains('active');
-
-                    // Optional: Close others (Auto-collapse)
-                    items.forEach(otherItem => {
-                        if (otherItem !== item && otherItem.classList.contains('active')) {
-                            otherItem.classList.remove('active');
-                            otherItem.querySelector('.team-body').style.height = 0;
-                        }
-                    });
-
-                    // Toggle Current
-                    if (isActive) {
-                        item.classList.remove('active');
-                        body.style.height = 0;
-                    } else {
-                        item.classList.add('active');
-                        body.style.height = inner.clientHeight + 'px';
-                    }
-                });
-            });
-
-            // 2. DESKTOP HOVER IMAGE LOGIC
-            if (window.innerWidth > 991) {
-
-                let mouseX = 0;
-                let mouseY = 0;
-
-                // Move the cursor container
-                document.addEventListener('mousemove', (e) => {
-                    mouseX = e.clientX;
-                    mouseY = e.clientY;
-
-                    if (cursor) {
-                        gsap.to(cursor, {
-                            x: mouseX - 150, // Half width
-                            y: mouseY - 200, // Half height
-                            duration: 0.5,
-                            ease: "power2.out"
-                        });
-                    }
-                });
-
-                // Show image on Header Hover ONLY
-                items.forEach(item => {
-                    const header = item.querySelector('.team-header');
-
-                    header.addEventListener('mouseenter', () => {
-                        if (cursor) {
-                            cursor.classList.add('active');
-                            const imgClass = item.getAttribute('data-img');
-                            const targetImg = cursor.querySelector(`.${imgClass}`);
-
-                            // Reset others
-                            cursor.querySelectorAll('.team-img').forEach(img => img.classList.remove('active'));
-
-                            // Activate target
-                            if (targetImg) targetImg.classList.add('active');
-                        }
-                    });
-
-                    header.addEventListener('mouseleave', () => {
-                        // Hide when leaving header (so text is readable in body)
-                        if (cursor) cursor.classList.remove('active');
-                    });
-                });
-            }
-        });
-    </script>
-
+   
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -2227,6 +2230,216 @@ function hook_end_scripts()
                 scale: 1, // Από 1.2 πάει στο 1
                 ease: "none"
             });
+
+
+            // --- LIGHT MAGNETIC BUTTON ---
+            const btnWrapLight = document.getElementById('magBtnWrapLight');
+            const btnLight = document.getElementById('magBtnLight');
+
+            if (btnWrapLight && btnLight) {
+                btnWrapLight.addEventListener('mousemove', (e) => {
+                    const rect = btnWrapLight.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(btnLight, {
+                        x: x * 0.4,
+                        y: y * 0.4,
+                        duration: 0.3
+                    });
+                });
+                btnWrapLight.addEventListener('mouseleave', () => {
+                    gsap.to(btnLight, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.5,
+                        ease: "elastic.out(1, 0.3)"
+                    });
+                });
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            // --- 1. INITIALIZE SWIPER ---
+            const swiper = new Swiper('.swiper-container', {
+                slidesPerView: 'auto',
+                grabCursor: true,
+
+                // Ενεργοποίηση των dots
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+
+                // Το Breakpoints είναι το κλειδί για το τέλειο Responsive
+                breakpoints: {
+                    // Mobile & Tablets (320px και πάνω)
+                    320: {
+                        spaceBetween: 20,
+                        centeredSlides: true, // ΚΕΝΤΡΑΡΕΙ ΤΗΝ ΕΝΕΡΓΗ ΚΑΡΤΑ
+                        slidesOffsetBefore: 0,
+                        slidesOffsetAfter: 0,
+                        freeMode: false, // Κάνει "Snap" αυστηρά στην επόμενη κάρτα (καλύτερο για κινητά)
+                    },
+                    // Desktop (992px και πάνω)
+                    992: {
+                        spaceBetween: 30,
+                        centeredSlides: false, // Στοιχισμένα αριστερά στο desktop
+                        slidesOffsetBefore: 40, // Για να ευθυγραμμίζεται με τον τίτλο
+                        slidesOffsetAfter: 40,
+                        freeMode: true, // Ελεύθερο drag στο ποντίκι
+                    }
+                }
+            });
+
+            // --- 2. GSAP ANIMATIONS (Αν τα χρησιμοποιείς) ---
+            if (typeof ScrollTrigger !== "undefined") {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Text Reveals
+                gsap.utils.toArray('.gs-reveal').forEach(function(elem) {
+                    gsap.from(elem, {
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 85%"
+                        },
+                        y: 40,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power3.out"
+                    });
+                });
+            }
+
+
+            // --- NEW: PARALLAX BACKGROUND TEXT ---
+            if (typeof ScrollTrigger !== "undefined") {
+                gsap.to("#bgTextParallax", {
+                    scrollTrigger: {
+                        trigger: ".routes-section",
+                        start: "top bottom",
+                        end: "bottom top",
+                        scrub: 1
+                    },
+                    x: -300, // Το κείμενο "EXPLORE" κινείται προς τα αριστερά καθώς σκρολάρεις
+                    ease: "none"
+                });
+            }
+
+            // --- NEW: CUSTOM DRAG CURSOR LOGIC ---
+            const dragCursor = document.getElementById('dragCursor');
+            const sliderWrap = document.querySelector('.swiper-container');
+
+            if (dragCursor && sliderWrap && window.innerWidth > 992) {
+                // Κάνει τον κέρσορα να ακολουθεί το ποντίκι μέσα στο slider
+                sliderWrap.addEventListener('mousemove', (e) => {
+                    gsap.to(dragCursor, {
+                        x: e.clientX - 40, // -40 για να κεντραριστεί ο κύκλος (width/2)
+                        y: e.clientY - 40,
+                        duration: 0.1, // Super fast tracking
+                        ease: "power2.out"
+                    });
+                });
+
+                // Εμφάνιση όταν μπαίνεις στο slider
+                sliderWrap.addEventListener('mouseenter', () => {
+                    gsap.to(dragCursor, {
+                        scale: 1,
+                        opacity: 1,
+                        duration: 0.3
+                    });
+                });
+
+                // Απόκρυψη όταν βγαίνεις
+                sliderWrap.addEventListener('mouseleave', () => {
+                    gsap.to(dragCursor, {
+                        scale: 0,
+                        opacity: 0,
+                        duration: 0.3
+                    });
+                });
+
+                // "Πιάσιμο" (mousedown/mouseup)
+                sliderWrap.addEventListener('mousedown', () => {
+                    dragCursor.classList.add('active');
+                    dragCursor.innerText = "SWIPE"; // Αλλάζει κείμενο
+                });
+
+                sliderWrap.addEventListener('mouseup', () => {
+                    dragCursor.classList.remove('active');
+                    dragCursor.innerText = "DRAG";
+                });
+            }
+
+            // --- BENTO BOX ANIMATION ---
+            if (typeof ScrollTrigger !== "undefined") {
+                gsap.from(".gs-bento", {
+                    scrollTrigger: {
+                        trigger: ".bento-grid",
+                        start: "top 80%", // Ξεκινάει όταν το grid μπει στο 80% της οθόνης
+                    },
+                    y: 60, // Έρχονται από κάτω
+                    opacity: 0,
+                    duration: 1,
+                    stagger: 0.15, // Εμφανίζονται με 0.15s διαφορά το ένα από το άλλο
+                    ease: "power3.out"
+                });
+            }
+
+
+            // --- STRAVA COUNTER ANIMATION ---
+            const counters = document.querySelectorAll('.counter');
+            let hasCounted = false; // Για να μην ξαναμετρήσει αν ανέβουμε πάνω
+
+            if (typeof ScrollTrigger !== "undefined" && counters.length > 0) {
+                ScrollTrigger.create({
+                    trigger: ".strava-stats-box",
+                    start: "top 85%",
+                    onEnter: () => {
+                        if (!hasCounted) {
+                            counters.forEach(counter => {
+                                const target = +counter.getAttribute('data-target');
+
+                                // Χρήση GSAP για ομαλή αύξηση των αριθμών
+                                gsap.to(counter, {
+                                    innerHTML: target,
+                                    duration: 2,
+                                    snap: {
+                                        innerHTML: 1
+                                    }, // Στρογγυλοποίηση
+                                    ease: "power2.out"
+                                });
+                            });
+                            hasCounted = true;
+                        }
+                    }
+                });
+            }
+
+            // --- FINAL MAGNETIC BUTTON ---
+            const btnWrapFinal = document.getElementById('magBtnWrapFinal');
+            const btnFinal = document.getElementById('magBtnFinal');
+
+            if (btnWrapFinal && btnFinal) {
+                btnWrapFinal.addEventListener('mousemove', (e) => {
+                    const rect = btnWrapFinal.getBoundingClientRect();
+                    const x = e.clientX - rect.left - rect.width / 2;
+                    const y = e.clientY - rect.top - rect.height / 2;
+                    gsap.to(btnFinal, {
+                        x: x * 0.4,
+                        y: y * 0.4,
+                        duration: 0.3
+                    });
+                });
+                btnWrapFinal.addEventListener('mouseleave', () => {
+                    gsap.to(btnFinal, {
+                        x: 0,
+                        y: 0,
+                        duration: 0.5,
+                        ease: "elastic.out(1, 0.3)"
+                    });
+                });
+            }
         });
     </script>
 
