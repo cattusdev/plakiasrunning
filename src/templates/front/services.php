@@ -1,1514 +1,1605 @@
-<?php
-// 1. Fetch Packages & Calculate Availability & Therapists
-$db = Database::getInstance();
-$pkgModel = new Packages();
-$allPackages = $pkgModel->fetchPackages();
+<section class="video-mask-hero">
+    <div class="video-bg-container">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="https://assets.mixkit.co/videos/44358/44358-720.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="text-mask-layer">
+        <h1 class="massive-mask-text">ROUTES</h1>
+    </div>
+    <div class="hero-content-overlay">
+        <p class="page-subtitle gs-reveal">
+            From easy coastal breezes to demanding mountain technical trails.
+            Find your pace and discover the unseen Plakias.
+        </p>
+        <div class="filter-wrapper gs-reveal">
+            <div class="filter-bar" id="filterBar">
+                <div class="filter-indicator" id="filterIndicator"></div>
+                <button class="filter-btn active" data-filter="all">All Routes</button>
+                <button class="filter-btn" data-filter="coastal">Coastal</button>
+                <button class="filter-btn" data-filter="mountain">Mountain</button>
+                <button class="filter-btn" data-filter="culture">Culture</button>
+            </div>
+        </div>
+    </div>
+</section>
 
-$groupedServices = [
-    'adults' => [],
-    'parents' => [],
-    'kids' => [],
-    'psychosexual' => []
-];
+<section class="routes-list-section">
+    <div class="bg-editorial-text left-text gs-parallax" data-speed="0.8">ELEVATION</div>
+    <div class="bg-editorial-text right-text gs-parallax" data-speed="1.2">TERRAIN</div>
 
-if ($allPackages) {
-    $now = time();
-    $oneWeekAgo = $now - (7 * 24 * 60 * 60); // Timestamp 7 days ago
+    <div class="routes-list-container" id="routesContainer">
 
-    foreach ($allPackages as $p) {
-        $p->is_past = false; // Default flag
+        <article class="route-card-editorial gs-reveal" data-category="coastal">
+            <div class="route-visual">
+                <div class="route-number">01</div>
+                <img src="https://images.unsplash.com/photo-1502904550040-7534597429ae?q=80&w=1000&auto=format&fit=crop" alt="Coastal Run" class="route-img">
+            </div>
+            <div class="route-content">
+                <div class="route-badge">COASTAL ESCAPE</div>
+                <h2 class="route-title">The Blue <br>Horizon.</h2>
+                <p class="route-desc">
+                    Run by the waves. A smooth, fast route combining asphalt and dirt trails with constant views of the Libyan Sea. Perfect for a relaxed or recovery run.
+                </p>
+                <div class="route-specs-grid">
+                    <div class="spec-item"><span class="spec-label">Distance</span><span class="spec-value">10 KM</span></div>
+                    <div class="spec-item"><span class="spec-label">Elevation</span><span class="spec-value">+ 50 M</span></div>
+                    <div class="spec-item"><span class="spec-label">Terrain</span><span class="spec-value">Mixed</span></div>
+                    <div class="spec-item"><span class="spec-label">Level</span><span class="spec-value">Beginner</span></div>
+                </div>
+                <a href="/book?route=coastal" class="btn-solid-booking">Book This Run <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </article>
 
-        // A. Availability & Time Logic
-        if ($p->is_group == 1) {
-            // 1. Time Filter: Check if date exists
-            if (!empty($p->start_datetime)) {
-                $eventTs = strtotime($p->start_datetime);
+        <article class="route-card-editorial gs-reveal" data-category="mountain">
+            <div class="route-visual">
+                <div class="route-number">02</div>
+                <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=1000&auto=format&fit=crop" alt="Mountain Trail" class="route-img">
+            </div>
+            <div class="route-content">
+                <div class="route-badge" style="color: #e63946; background: rgba(230, 57, 70, 0.1);">PEAK CHALLENGE</div>
+                <h2 class="route-title">Kouroupa <br>Summit.</h2>
+                <p class="route-desc">
+                    For those seeking a challenge. A steep, technical trail leading to the summit. Rocks, high elevation gain, and finally, panoramic views of southern Crete.
+                </p>
+                <div class="route-specs-grid">
+                    <div class="spec-item"><span class="spec-label">Distance</span><span class="spec-value">14 KM</span></div>
+                    <div class="spec-item"><span class="spec-label">Elevation</span><span class="spec-value">+ 850 M</span></div>
+                    <div class="spec-item"><span class="spec-label">Terrain</span><span class="spec-value">Tech Trail</span></div>
+                    <div class="spec-item"><span class="spec-label">Level</span><span class="spec-value" style="color: #e63946;">Advanced</span></div>
+                </div>
+                <a href="/book?route=mountain" class="btn-solid-booking">Book This Run <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </article>
 
-                // RULE: If older than 1 week, skip completely (don't show)
-                if ($eventTs < $oneWeekAgo) {
-                    continue;
-                }
+        <article class="route-card-editorial gs-reveal" data-category="culture">
+            <div class="route-visual">
+                <div class="route-number">03</div>
+                <img src="https://images.unsplash.com/photo-1534067783941-51c9c23ecefd?q=80&w=1000&auto=format&fit=crop" alt="Culture Run" class="route-img">
+            </div>
+            <div class="route-content">
+                <div class="route-badge" style="color: #ffb703; background: rgba(255, 183, 3, 0.1);">HISTORIC TRAIL</div>
+                <h2 class="route-title">The Old <br>Villages.</h2>
+                <p class="route-desc">
+                    Run through time. A route passing through abandoned villages, old monasteries, and ancient olive groves. A cultural experience at a running pace.
+                </p>
+                <div class="route-specs-grid">
+                    <div class="spec-item"><span class="spec-label">Distance</span><span class="spec-value">8 KM</span></div>
+                    <div class="spec-item"><span class="spec-label">Elevation</span><span class="spec-value">+ 200 M</span></div>
+                    <div class="spec-item"><span class="spec-label">Terrain</span><span class="spec-value">Dirt / Paved</span></div>
+                    <div class="spec-item"><span class="spec-label">Level</span><span class="spec-value">Intermediate</span></div>
+                </div>
+                <a href="/book?route=culture" class="btn-solid-booking">Book This Run <i class="bi bi-arrow-right"></i></a>
+            </div>
+        </article>
 
-                // RULE: If past (but within the last week), mark as past
-                if ($eventTs < $now) {
-                    $p->is_past = true;
-                }
-            }
+    </div>
+</section>
 
-            // 2. Counts
-            $res = $db->query("SELECT COUNT(*) as c FROM bookings WHERE package_id = ? AND status != 'canceled'", [$p->id]);
-            $realBookings = ($res) ? (int)$res[0]->c : 0;
-            $totalUsed = $realBookings + (int)$p->manual_bookings;
-            $max = (int)$p->max_attendants;
-            $p->remaining_spots = max(0, $max - $totalUsed);
-            $p->is_full = ($p->remaining_spots === 0);
-        } else {
-            $p->remaining_spots = null;
-            $p->is_full = false;
-        }
 
-        // B. Fetch Therapists
-        $p->assigned_therapists = $db->query(
-            "SELECT t.first_name, t.last_name, t.avatar 
-             FROM therapists t 
-             JOIN package_therapists pt ON pt.therapist_id = t.id 
-             WHERE pt.package_id = ?",
-            [$p->id]
-        );
 
-        // C. Grouping
-        $cat = $p->category;
-        if (array_key_exists($cat, $groupedServices)) {
-            $groupedServices[$cat][] = $p;
-        }
-    }
-}
-?>
+
+
+
+
+
+<section class="custom-run-banner gs-reveal">
+    <div class="cr-container">
+        <div class="cr-content">
+            <span class="cr-badge">TAILOR-MADE EXPERIENCES</span>
+            <h2 class="cr-title">YOUR PACE.<br>YOUR RULES.</h2>
+            <p class="cr-desc">
+                Not seeing your ideal route? From a 30km sunrise mountain peak to a gentle coastal recovery jog, we craft the exact running experience you're looking for.
+            </p>
+            <a onclick="openCustomModal()" class="btn-primary-custom">
+                Request Custom Run <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="cr-visual-path">
+            <svg viewBox="0 0 500 200" class="path-svg">
+                <defs>
+                    <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="transparent" />
+                        <stop offset="50%" stop-color="#34cdce" />
+                        <stop offset="100%" stop-color="transparent" />
+                    </linearGradient>
+                </defs>
+                <path class="path-line" d="M0,150 Q50,140 80,100 T150,80 T220,120 T300,40 T380,90 T450,70 T500,100" />
+
+                <circle class="path-runner-dot" r="5" fill="#34cdce">
+                    <animateMotion dur="5s" repeatCount="indefinite" path="M0,150 Q50,140 80,100 T150,80 T220,120 T300,40 T380,90 T450,70 T500,100" />
+                </circle>
+            </svg>
+
+            <div class="path-stats">
+                <div class="p-stat"><span>ELV GAIN</span><strong>+1.240m</strong></div>
+                <div class="p-stat"><span>EST TIME</span><strong>02:45:00</strong></div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <style>
-    .services-hero {
-        padding: 160px 0 80px 0;
+    .custom-run-banner {
+        background-color: #0c120e;
+        /* Πολύ βαθύ δασικό πράσινο/μαύρο */
+        color: #ffffff;
+        padding: 120px 0;
+        position: relative;
+        overflow: hidden;
     }
 
-    .mini-tag {
-        color: var(--alma-orange);
-        font-weight: 700;
-        letter-spacing: 2px;
-        font-size: 0.8rem;
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .font-serif {
-        font-family: 'Manrope', serif;
-        color: var(--alma-nav-text);
-    }
-
-    .serif-italic {
-        font-style: italic;
-        color: var(--alma-orange);
-    }
-
-    .service-editorial-section {
-        padding: 0;
-    }
-
-    .section-divider {
-        width: 100%;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(51, 76, 71, 0.1), transparent);
-        margin: 20px 0;
-    }
-
-    .editorial-title {
-        font-family: 'Playfair Display', serif;
-        font-size: 2.5rem;
-        line-height: 1.2;
-        color: var(--alma-nav-text);
-        padding-top: 10px;
-    }
-
-    .title-accent-line {
-        width: 40px;
-        height: 3px;
-        background-color: var(--alma-orange);
-        margin-top: 15px;
-        border-radius: 2px;
-    }
-
-    .clean-card {
-        background: #ffffff;
-        padding: 45px;
-        border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(51, 76, 71, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.8);
-        transition: all 0.3s ease;
-    }
-
-    .clean-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 40px rgba(51, 76, 71, 0.08);
-    }
-
-    .card-heading {
-        font-family: 'Manrope', sans-serif;
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--alma-nav-text);
-        margin: 0;
-    }
-
-    .card-text {
-        font-size: 1.05rem;
-        color: var(--alma-text);
-        line-height: 1.7;
-        margin-bottom: 15px;
-    }
-
-    .border-top-soft {
-        border-top: 1px solid rgba(0, 0, 0, 0.06);
-    }
-
-    /* --- BADGES --- */
-    .minimal-badge {
-        font-size: 0.7rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        color: var(--alma-nav-text);
-        letter-spacing: 0.5px;
-        background: var(--alma-accent);
-        padding: 6px 12px;
-        border-radius: 6px;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-    }
-
-    .badge-sage {
-        color: #fff;
-        background: var(--alma-bg-button-main);
-        border: none;
-    }
-
-    /* Availability Badges */
-    .badge-spot-alert {
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 5px 10px;
-        border-radius: 4px;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        margin-left: 8px;
-        /* Space from title */
-    }
-
-    .badge-spot-alert.low {
-        background-color: #fff3cd;
-        color: #856404;
-        border: 1px solid #ffeeba;
-    }
-
-    .badge-spot-alert.critical {
-        background-color: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-        animation: pulse-red 2s infinite;
-    }
-
-    .badge-spot-alert.plenty {
-        background-color: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-
-    .badge-spot-alert.sold-out {
-        background-color: #e2e3e5;
-        color: #383d41;
-        border: 1px solid #d6d8db;
-        text-decoration: line-through;
-    }
-
-    @keyframes pulse-red {
-        0% {
-            box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4);
-        }
-
-        70% {
-            box-shadow: 0 0 0 6px rgba(220, 53, 69, 0);
-        }
-
-        100% {
-            box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
-        }
-    }
-
-    /* Buttons */
-    .btn-clean-action {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 700;
-        color: var(--alma-nav-text);
-        text-decoration: none;
-        border-bottom: 2px solid var(--alma-orange);
-        padding-bottom: 3px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-clean-action:hover {
-        color: var(--alma-orange);
-        gap: 15px;
-    }
-
-    .btn-clean-action.disabled {
-        pointer-events: none;
-        opacity: 0.5;
-        border-bottom-color: #ccc;
-        color: #999;
-    }
-
-    .btn-clean-outline {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 600;
-        color: var(--alma-nav-text);
-        text-decoration: none;
-        font-size: 0.9rem;
-        border: 1px solid var(--alma-nav-text);
-        padding: 10px 25px;
-        border-radius: 50px;
-        transition: all 0.3s ease;
-    }
-
-    .btn-clean-outline:hover {
-        background-color: var(--alma-nav-text);
-        color: #fff;
-    }
-
-    /* Sticky Nav */
-    .nav-capsule-wrapper {
-        position: fixed;
-        bottom: 40px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100px);
-        z-index: 100;
+    .cr-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
         display: flex;
-        justify-content: center;
-        width: auto;
-        max-width: 90%;
-        opacity: 0;
-        visibility: hidden;
-        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        align-items: center;
+        justify-content: space-between;
+        gap: 80px;
     }
 
-    .nav-capsule-wrapper.is-visible {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
-        visibility: visible;
+    .cr-badge {
+        display: inline-block;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--accent-color);
+        letter-spacing: 3px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
     }
 
-    .nav-capsule {
+    .cr-title {
+        font-size: clamp(3rem, 5vw, 4.5rem);
+        font-weight: 900;
+        line-height: 1;
+        margin-bottom: 30px;
+        letter-spacing: -0.03em;
+    }
+
+    .cr-desc {
+        font-size: 1.1rem;
+        color: #a0aec0;
+        line-height: 1.8;
+        margin-bottom: 40px;
+        max-width: 500px;
+    }
+
+    .btn-primary-custom {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--accent-color);
+        color: #0c120e;
+        padding: 18px 40px;
+        border-radius: 100px;
+        font-weight: 800;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: transform 0.3s ease, background 0.3s ease;
+    }
+
+    .btn-primary-custom:hover {
+        transform: translateY(-3px);
+        background: #ffffff;
+    }
+
+    .cr-visual-path {
+        flex: 1;
         position: relative;
         display: flex;
+        flex-direction: column;
         align-items: center;
-        background: rgba(253, 251, 245, 0.95);
-        backdrop-filter: blur(12px);
-        padding: 6px;
-        border-radius: 50px;
-        box-shadow: 0 10px 40px rgba(51, 76, 71, 0.2);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        overflow-x: auto;
+        padding-left: 40px;
     }
 
-    .nav-capsule::-webkit-scrollbar {
+    .path-svg {
+        width: 100%;
+        height: auto;
+        overflow: visible;
+    }
+
+    .path-line {
+        fill: none;
+        stroke: url(#lineGradient);
+        stroke-width: 3;
+        stroke-linecap: round;
+        /* Εφέ σχεδίασης της γραμμής */
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: drawPath 4s ease-out forwards;
+    }
+
+    .path-runner-dot {
+        filter: drop-shadow(0 0 8px #34cdce);
+    }
+
+    .path-stats {
+        display: flex;
+        gap: 40px;
+        margin-top: 30px;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 20px;
+        width: 100%;
+    }
+
+    .p-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .p-stat span {
+        font-family: 'Courier New', monospace;
+        font-size: 0.7rem;
+        color: #64748b;
+        letter-spacing: 1px;
+    }
+
+    .p-stat strong {
+        font-size: 1.1rem;
+        color: #ffffff;
+        font-weight: 800;
+    }
+
+    @keyframes drawPath {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .cr-visual-path {
+            padding-left: 0;
+            margin-top: 50px;
+            width: 100%;
+        }
+
+        .path-stats {
+            justify-content: center;
+        }
+    }
+
+    .trail-tag {
+        position: absolute;
+        background: #ffffff;
+        color: #0c120e;
+        padding: 10px 20px;
+        border-radius: 100px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 800;
+        font-size: 0.85rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        z-index: 3;
+    }
+
+    .tag-1 {
+        top: 15%;
+        left: -10%;
+    }
+
+    .tag-2 {
+        bottom: 20%;
+        right: -5%;
+    }
+
+    .tag-icon {
+        width: 30px;
+        height: 30px;
+        background: var(--accent-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 992px) {
+        .cr-container {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .cr-visual-organic {
+            margin-top: 60px;
+        }
+
+        .trail-tag {
+            position: relative;
+            left: 0;
+            right: 0;
+            margin: 10px auto;
+            width: fit-content;
+        }
+    }
+</style>
+
+
+
+
+
+<button class="mobile-filter-fab" id="mobileFilterFab">
+    <i class="bi bi-sliders"></i> Filters
+    <span class="fab-badge" id="fabBadge" style="display:none;">0</span>
+</button>
+
+<div class="sheet-overlay" id="sheetOverlay"></div>
+
+<div class="mobile-filter-sheet" id="mobileFilterSheet">
+    <div class="sheet-header">
+        <span>Select Terrain</span>
+        <div class="sheet-actions">
+            <button class="mobile-clear-btn" id="mobileClearBtn" style="display: none;">Clear</button>
+            <button class="close-sheet-btn" id="closeSheetBtn"><i class="bi bi-x-lg"></i></button>
+        </div>
+    </div>
+    <div class="sheet-body">
+        <button class="sheet-btn" data-filter="coastal">Coastal Escape</button>
+        <button class="sheet-btn" data-filter="mountain">Mountain Trail</button>
+        <button class="sheet-btn" data-filter="culture">Historic Run</button>
+    </div>
+</div>
+
+<div class="desktop-floating-filter" id="desktopFloatingFilter">
+    <span class="dff-label">Viewing:</span>
+    <span class="dff-value" id="dffValue">All Routes</span>
+    <i class="bi bi-arrow-up-short"></i>
+</div>
+
+<style>
+    .modern-nav {
+        background: var(--run-dark, #0f172a);
+    }
+
+    .video-mask-hero {
+        position: relative;
+        height: 75vh;
+        background: #ffffff;
+        overflow: hidden;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 35px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .video-bg-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    .hero-video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: saturate(1.2) contrast(1.1);
+    }
+
+    .text-mask-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #353535;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+        mix-blend-mode: screen;
+        pointer-events: none;
+    }
+
+    .massive-mask-text {
+        font-size: 24vw;
+        font-weight: 900;
+        margin: 0;
+        color: #000000;
+        text-transform: uppercase;
+        letter-spacing: -0.05em;
+        line-height: 0.8;
+        transform: translateY(-10%);
+    }
+
+    .hero-content-overlay {
+        position: relative;
+        z-index: 3;
+        text-align: center;
+        max-width: 900px;
+        padding: 0 20px;
+        width: 100%;
+    }
+
+    .page-subtitle {
+        font-size: 1.2rem;
+        color: var(--run-gray);
+        margin: 0 auto 40px auto;
+        line-height: 1.6;
+        max-width: 600px;
+    }
+
+    .filter-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .filter-bar {
+        position: relative;
+        display: inline-flex;
+        background: #e9e9e9;
+        padding: 6px;
+        border-radius: 100px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        gap: 5px;
+        max-width: 100%;
+        overflow-x: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .filter-bar::-webkit-scrollbar {
         display: none;
     }
 
-    .nav-glider {
+    .filter-indicator {
         position: absolute;
         top: 6px;
         left: 6px;
         height: calc(100% - 12px);
-        background-color: var(--alma-bg-button-main);
-        border-radius: 40px;
-        z-index: 1;
+        background: var(--run-dark, #0f172a);
+        border-radius: 100px;
         transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-        width: 0;
-        opacity: 0;
-        box-shadow: 0 2px 10px rgba(137, 194, 170, 0.3);
+        z-index: 1;
     }
 
-    .nav-link-item {
+    .filter-btn {
         position: relative;
         z-index: 2;
-        padding: 12px 25px;
-        font-size: 0.95rem;
+        background: transparent;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 100px;
+        font-size: 0.9rem;
         font-weight: 700;
-        color: var(--alma-nav-text);
-        text-decoration: none;
-        white-space: nowrap;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
         transition: color 0.3s ease;
-        border-radius: 40px;
+        white-space: nowrap;
     }
 
-    .nav-link-item a:hover {
-        color: var(--alma-nav-text) !important;
+    .filter-btn:hover {
+        color: var(--run-dark, #0f172a);
     }
 
-    .nav-link-item.active {
-        color: #fff;
+    .filter-btn.active {
+        color: #ffffff;
     }
 
-    @media (max-width: 991px) {
-        .editorial-title {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-
-        .clean-card {
-            padding: 30px;
-        }
-
-        .nav-capsule-wrapper {
-            bottom: 20px;
-            width: 95%;
-            justify-content: center;
-        }
-
-        .nav-capsule {
-            width: 100%;
-            justify-content: space-between;
-            padding: 4px;
-        }
-
-        .nav-link-item {
-            padding: 10px 10px;
-            font-size: 0.75rem;
-            flex: 1;
-            text-align: center;
-        }
-    }
-
-    /* --- STACKED AVATARS --- */
-    .avatar-stack {
-        display: flex;
-        align-items: center;
-        margin-top: 12px;
-    }
-
-    .avatar-circle {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        border: 2px solid #fff;
-        object-fit: cover;
-        margin-left: -10px;
-        background-color: var(--alma-bg-button-main);
-        /* Fallback χρώμα */
-        color: #fff;
-        font-size: 0.7rem;
-        font-weight: 700;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-transform: uppercase;
+    .routes-list-section {
         position: relative;
-        transition: transform 0.2s ease, z-index 0.2s;
+        background-color: #ffffff;
+        padding: 100px 0;
+        overflow: hidden;
     }
 
-    .avatar-circle:first-child {
-        margin-left: 0;
-        z-index: 5;
-    }
-
-    .avatar-circle:nth-child(2) {
-        z-index: 4;
-    }
-
-    .avatar-circle:nth-child(3) {
-        z-index: 3;
-    }
-
-    .avatar-circle:hover {
-        transform: translateY(-3px);
-        z-index: 10;
-    }
-
-    .therapist-names-label {
-        font-size: 0.8rem;
-        color: #777;
-        margin-left: 8px;
-    }
-</style>
-
-<section class="services-hero">
-    <div class="container text-center">
-        <span class="mini-tag">ΟΙ ΥΠΗΡΕΣΙΕΣ ΜΑΣ</span>
-        <h1 class="display-4 font-serif mt-3">
-            Οδηγός Φροντίδας & <span class="serif-italic">Εξέλιξης.</span>
-        </h1>
-    </div>
-</section>
-
-<div class="nav-capsule-wrapper">
-    <div class="nav-capsule">
-        <div class="nav-glider"></div>
-        <a href="#adults" class="nav-link-item active">Ενήλικες</a>
-        <a href="#parents" class="nav-link-item">Γονείς</a>
-        <a href="#kids" class="nav-link-item">Παιδιά & Έφηβοι</a>
-        <a href="#psychosexual" class="nav-link-item">Ψυχοσεξουαλική</a>
-    </div>
-</div>
-
-<div id="services-wrapper">
-
-    <section id="adults" class="service-editorial-section">
-        <div class="container">
-            <div class="row py-3 py-md-5">
-                <div class="col-lg-3 mb-4 mb-lg-0">
-                    <h2 class="editorial-title">Ενήλικες</h2>
-                    <div class="title-accent-line"></div>
-                </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <?php if (!empty($groupedServices['adults'])): ?>
-                        <?php foreach ($groupedServices['adults'] as $svc): ?>
-                            <div class="clean-card reveal-item mb-4">
-                                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                                    <div class="d-flex align-items-center flex-wrap gap-2">
-                                        <h3 class="card-heading m-0"><?php echo htmlspecialchars($svc->title); ?></h3>
-
-                                        <?php if ($svc->is_group == 1): ?>
-                                            <?php if ($svc->is_past): ?>
-                                                <span class="badge-spot-alert sold-out" style="background:#eee; color:#777; border-color:#ddd;"><i class="bi bi-calendar-x"></i> ΟΛΟΚΛΗΡΩΘΗΚΕ</span>
-                                            <?php elseif ($svc->is_full): ?>
-                                                <span class="badge-spot-alert sold-out"><i class="bi bi-x-circle"></i> ΕΞΑΝΤΛΗΘΗΚΕ</span>
-                                            <?php elseif ($svc->remaining_spots <= 3): ?>
-                                                <span class="badge-spot-alert critical" title="Κλείστε άμεσα!"><i class="bi bi-fire"></i> Μόνο <?php echo $svc->remaining_spots; ?> θέσεις!</span>
-                                            <?php else: ?>
-                                                <span class="badge-spot-alert plenty"><i class="bi bi-ticket-perforated"></i> <?php echo $svc->remaining_spots; ?> θέσεις</span>
-                                            <?php endif; ?>
-                                        <?php endif; ?>
-                                    </div>
-
-                                    <?php if ($svc->is_group == 1): ?>
-                                        <span class="minimal-badge badge-sage">Workshop</span>
-                                    <?php else: ?>
-                                        <span class="minimal-badge">
-                                            <?php
-                                            if ($svc->type === 'mixed') echo 'Online & Δια Ζώσης';
-                                            elseif ($svc->type === 'inPerson') echo 'Δια Ζώσης';
-                                            elseif ($svc->type === 'online') echo 'Online';
-                                            else echo htmlspecialchars(ucfirst($svc->type));
-                                            ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-
-                                <?php if (!empty($svc->assigned_therapists)): ?>
-                                    <div class="avatar-stack" style="margin-top: 10px; display: flex; align-items: center;">
-                                        <?php foreach ($svc->assigned_therapists as $th): ?>
-                                            <?php
-                                            $fullName = htmlspecialchars($th->first_name . ' ' . $th->last_name);
-                                            $initials = mb_substr($th->first_name, 0, 1) . mb_substr($th->last_name, 0, 1);
-                                            $avatarPath = !empty($th->avatar) ? htmlspecialchars($th->avatar) : '';
-                                            ?>
-                                            <?php if ($avatarPath): ?>
-                                                <img src="<?php echo $avatarPath; ?>" class="avatar-circle" title="<?php echo $fullName; ?>" alt="<?php echo $fullName; ?>"
-                                                    style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; margin-left: -10px; position: relative; background: #eee;">
-                                            <?php else: ?>
-                                                <div class="avatar-circle" title="<?php echo $fullName; ?>"
-                                                    style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; margin-left: -10px; background-color: var(--alma-bg-button-main, #567c6d); color: #fff; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; text-transform: uppercase; position: relative;">
-                                                    <?php echo $initials; ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-
-                                        <?php if (count($svc->assigned_therapists) === 1): ?>
-                                            <span class="therapist-names-label" style="font-size: 0.85rem; color: #666; margin-left: 8px; font-weight: 600;">
-                                                <?php echo htmlspecialchars($svc->assigned_therapists[0]->first_name . ' ' . $svc->assigned_therapists[0]->last_name); ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
-                                    <style>
-                                        .avatar-stack .avatar-circle:first-child {
-                                            margin-left: 0 !important;
-                                            z-index: 5;
-                                        }
-                                    </style>
-                                <?php endif; ?>
-
-                                <p class="card-text mt-3"><?php echo nl2br(htmlspecialchars($svc->description)); ?></p>
-
-                                <div class="mt-4 pt-3 border-top-soft">
-                                    <?php if ($svc->is_group == 1 && $svc->is_past): ?>
-                                        <span class="btn-clean-action disabled text-muted" style="border-bottom-color: transparent;">
-                                            Ολοκληρώθηκε <i class="bi bi-check2-all ms-2"></i>
-                                        </span>
-                                    <?php elseif ($svc->is_group == 1 && $svc->is_full): ?>
-                                        <a href="/contact?subject=Waiting_List_<?php echo urlencode($svc->title); ?>" class="btn-clean-outline">Λίστα Αναμονής <i class="bi bi-hourglass ms-2"></i></a>
-                                    <?php else: ?>
-                                        <a href="#"
-                                            class="btn-clean-action open-booking-modal"
-                                            data-service-id="<?php echo $svc->id; ?>"
-                                            data-remaining-spots="<?php echo $svc->remaining_spots; ?>">
-                                            Κλείστε Ραντεβού <i class="bi bi-arrow-right ms-2"></i>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p class="text-muted fst-italic">Δεν υπάρχουν διαθέσιμες υπηρεσίες.</p>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <section id="parents" class="service-editorial-section">
-        <div class="container">
-            <div class="row py-3 py-md-5">
-                <div class="col-lg-3 mb-4 mb-lg-0">
-                    <h2 class="editorial-title">Γονείς & <br>Οικογένεια</h2>
-                    <div class="title-accent-line"></div>
-                </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <?php if (!empty($groupedServices['parents'])): ?>
-                        <?php foreach ($groupedServices['parents'] as $svc): ?>
-                            <div class="clean-card reveal-item mb-4">
-                                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                                    <div class="d-flex align-items-center flex-wrap gap-2">
-                                        <h3 class="card-heading m-0"><?php echo htmlspecialchars($svc->title); ?></h3>
-
-                                        <?php if ($svc->is_group == 1): ?>
-                                            <?php if ($svc->is_past): ?>
-                                                <span class="badge-spot-alert sold-out" style="background:#eee; color:#777; border-color:#ddd;"><i class="bi bi-calendar-x"></i> ΟΛΟΚΛΗΡΩΘΗΚΕ</span>
-                                            <?php elseif ($svc->is_full): ?>
-                                                <span class="badge-spot-alert sold-out"><i class="bi bi-x-circle"></i> ΕΞΑΝΤΛΗΘΗΚΕ</span>
-                                            <?php elseif ($svc->remaining_spots <= 3): ?>
-                                                <span class="badge-spot-alert critical"><i class="bi bi-fire"></i> Μόνο <?php echo $svc->remaining_spots; ?> θέσεις!</span>
-                                            <?php else: ?>
-                                                <span class="badge-spot-alert plenty"><i class="bi bi-ticket-perforated"></i> <?php echo $svc->remaining_spots; ?> θέσεις</span>
-                                            <?php endif; ?>
-                                        <?php endif; ?>
-                                    </div>
-
-                                    <?php if ($svc->is_group == 1): ?>
-                                        <span class="minimal-badge badge-sage">Workshop</span>
-                                    <?php else: ?>
-                                        <span class="minimal-badge">
-                                            <?php
-                                            if ($svc->type === 'mixed') echo 'Online & Δια Ζώσης';
-                                            elseif ($svc->type === 'inPerson') echo 'Δια Ζώσης';
-                                            elseif ($svc->type === 'online') echo 'Online';
-                                            else echo htmlspecialchars(ucfirst($svc->type));
-                                            ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-
-                                <?php if (!empty($svc->assigned_therapists)): ?>
-                                    <div class="avatar-stack" style="margin-top: 10px; display: flex; align-items: center;">
-                                        <?php foreach ($svc->assigned_therapists as $th): ?>
-                                            <?php
-                                            $fullName = htmlspecialchars($th->first_name . ' ' . $th->last_name);
-                                            $initials = mb_substr($th->first_name, 0, 1) . mb_substr($th->last_name, 0, 1);
-                                            $avatarPath = !empty($th->avatar) ? htmlspecialchars($th->avatar) : '';
-                                            ?>
-                                            <?php if ($avatarPath): ?>
-                                                <img src="<?php echo $avatarPath; ?>" class="avatar-circle" title="<?php echo $fullName; ?>" alt="<?php echo $fullName; ?>"
-                                                    style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; margin-left: -10px; position: relative; background: #eee;">
-                                            <?php else: ?>
-                                                <div class="avatar-circle" title="<?php echo $fullName; ?>"
-                                                    style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; margin-left: -10px; background-color: var(--alma-bg-button-main, #567c6d); color: #fff; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; text-transform: uppercase; position: relative;">
-                                                    <?php echo $initials; ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-
-                                        <?php if (count($svc->assigned_therapists) === 1): ?>
-                                            <span class="therapist-names-label" style="font-size: 0.85rem; color: #666; margin-left: 8px; font-weight: 600;">
-                                                <?php echo htmlspecialchars($svc->assigned_therapists[0]->first_name . ' ' . $svc->assigned_therapists[0]->last_name); ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
-                                    <style>
-                                        .avatar-stack .avatar-circle:first-child {
-                                            margin-left: 0 !important;
-                                            z-index: 5;
-                                        }
-                                    </style>
-                                <?php endif; ?>
-
-                                <p class="card-text mt-3"><?php echo nl2br(htmlspecialchars($svc->description)); ?></p>
-
-                                <div class="mt-4 pt-3 border-top-soft">
-                                    <?php if ($svc->is_group == 1 && $svc->is_past): ?>
-                                        <span class="btn-clean-action disabled text-muted" style="border-bottom-color: transparent;">
-                                            Ολοκληρώθηκε <i class="bi bi-check2-all ms-2"></i>
-                                        </span>
-                                    <?php elseif ($svc->is_group == 1 && $svc->is_full): ?>
-                                        <a href="/contact?subject=Waiting_List_<?php echo urlencode($svc->title); ?>" class="btn-clean-outline">Λίστα Αναμονής <i class="bi bi-hourglass ms-2"></i></a>
-                                    <?php else: ?>
-                                        <a href="#"
-                                            class="btn-clean-action open-booking-modal"
-                                            data-service-id="<?php echo $svc->id; ?>"
-                                            data-remaining-spots="<?php echo $svc->remaining_spots; ?>">
-                                            Κλείστε Ραντεβού <i class="bi bi-arrow-right ms-2"></i>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <section id="kids" class="service-editorial-section">
-        <div class="container">
-            <div class="row py-3 py-md-5">
-                <div class="col-lg-3 mb-4 mb-lg-0">
-                    <h2 class="editorial-title">Παιδιά & <br>Έφηβοι</h2>
-                    <div class="title-accent-line"></div>
-                </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <?php if (!empty($groupedServices['kids'])): ?>
-                        <?php foreach ($groupedServices['kids'] as $svc): ?>
-                            <div class="clean-card reveal-item mb-4">
-                                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                                    <div class="d-flex align-items-center flex-wrap gap-2">
-                                        <h3 class="card-heading m-0"><?php echo htmlspecialchars($svc->title); ?></h3>
-                                        <?php if ($svc->is_group == 1): ?>
-                                            <?php if ($svc->is_past): ?>
-                                                <span class="badge-spot-alert sold-out" style="background:#eee; color:#777; border-color:#ddd;"><i class="bi bi-calendar-x"></i> ΟΛΟΚΛΗΡΩΘΗΚΕ</span>
-                                            <?php elseif ($svc->is_full): ?>
-                                                <span class="badge-spot-alert sold-out"><i class="bi bi-x-circle"></i> ΕΞΑΝΤΛΗΘΗΚΕ</span>
-                                            <?php elseif ($svc->remaining_spots <= 3): ?>
-                                                <span class="badge-spot-alert critical"><i class="bi bi-fire"></i> Μόνο <?php echo $svc->remaining_spots; ?> θέσεις!</span>
-                                            <?php else: ?>
-                                                <span class="badge-spot-alert plenty"><i class="bi bi-ticket-perforated"></i> <?php echo $svc->remaining_spots; ?> θέσεις</span>
-                                            <?php endif; ?>
-                                        <?php endif; ?>
-                                    </div>
-
-                                    <?php if ($svc->is_group == 1): ?>
-                                        <span class="minimal-badge badge-sage">Workshop</span>
-                                    <?php else: ?>
-                                        <span class="minimal-badge">
-                                            <?php
-                                            if ($svc->type === 'mixed') echo 'Online & Δια Ζώσης';
-                                            elseif ($svc->type === 'inPerson') echo 'Δια Ζώσης';
-                                            elseif ($svc->type === 'online') echo 'Online';
-                                            else echo htmlspecialchars(ucfirst($svc->type));
-                                            ?>
-                                        </span>
-                                    <?php endif; ?>
-                                </div>
-
-                                <?php if (!empty($svc->assigned_therapists)): ?>
-                                    <div class="avatar-stack" style="margin-top: 10px; display: flex; align-items: center;">
-                                        <?php foreach ($svc->assigned_therapists as $th): ?>
-                                            <?php
-                                            $fullName = htmlspecialchars($th->first_name . ' ' . $th->last_name);
-                                            $initials = mb_substr($th->first_name, 0, 1) . mb_substr($th->last_name, 0, 1);
-                                            $avatarPath = !empty($th->avatar) ? htmlspecialchars($th->avatar) : '';
-                                            ?>
-                                            <?php if ($avatarPath): ?>
-                                                <img src="<?php echo $avatarPath; ?>" class="avatar-circle" title="<?php echo $fullName; ?>" alt="<?php echo $fullName; ?>"
-                                                    style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; margin-left: -10px; position: relative; background: #eee;">
-                                            <?php else: ?>
-                                                <div class="avatar-circle" title="<?php echo $fullName; ?>"
-                                                    style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; margin-left: -10px; background-color: var(--alma-bg-button-main, #567c6d); color: #fff; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; text-transform: uppercase; position: relative;">
-                                                    <?php echo $initials; ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-
-                                        <?php if (count($svc->assigned_therapists) === 1): ?>
-                                            <span class="therapist-names-label" style="font-size: 0.85rem; color: #666; margin-left: 8px; font-weight: 600;">
-                                                <?php echo htmlspecialchars($svc->assigned_therapists[0]->first_name . ' ' . $svc->assigned_therapists[0]->last_name); ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
-                                    <style>
-                                        .avatar-stack .avatar-circle:first-child {
-                                            margin-left: 0 !important;
-                                            z-index: 5;
-                                        }
-                                    </style>
-                                <?php endif; ?>
-
-                                <p class="card-text mt-3"><?php echo nl2br(htmlspecialchars($svc->description)); ?></p>
-
-                                <div class="mt-4 pt-3 border-top-soft">
-                                    <?php if ($svc->is_group == 1 && $svc->is_past): ?>
-                                        <span class="btn-clean-action disabled text-muted" style="border-bottom-color: transparent;">
-                                            Ολοκληρώθηκε <i class="bi bi-check2-all ms-2"></i>
-                                        </span>
-                                    <?php elseif ($svc->is_group == 1 && $svc->is_full): ?>
-                                        <a href="/contact?subject=Waiting_List_<?php echo urlencode($svc->title); ?>" class="btn-clean-outline">Λίστα Αναμονής <i class="bi bi-hourglass ms-2"></i></a>
-                                    <?php else: ?>
-                                        <a href="#"
-                                            class="btn-clean-action open-booking-modal"
-                                            data-service-id="<?php echo $svc->id; ?>"
-                                            data-remaining-spots="<?php echo $svc->remaining_spots; ?>">
-                                            Κλείστε Ραντεβού <i class="bi bi-arrow-right ms-2"></i>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-    <section id="psychosexual" class="service-editorial-section">
-        <div class="container">
-            <div class="row py-3 py-md-5">
-                <div class="col-lg-3 mb-4 mb-lg-0">
-                    <h2 class="editorial-title">Εξειδικευμένη <br>Θεραπεία</h2>
-                    <div class="title-accent-line"></div>
-                </div>
-                <div class="col-lg-8 offset-lg-1">
-                    <?php if (!empty($groupedServices['psychosexual'])): ?>
-                        <?php foreach ($groupedServices['psychosexual'] as $svc): ?>
-                            <div class="clean-card reveal-item mb-4">
-                                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-                                    <h3 class="card-heading"><?php echo htmlspecialchars($svc->title); ?></h3>
-
-                                    <?php if ($svc->is_group == 1): ?>
-                                        <?php if ($svc->is_past): ?>
-                                            <span class="badge-spot-alert sold-out" style="background:#eee; color:#777; border-color:#ddd;"><i class="bi bi-calendar-x"></i> ΟΛΟΚΛΗΡΩΘΗΚΕ</span>
-                                        <?php elseif ($svc->is_full): ?>
-                                            <span class="badge-spot-alert sold-out"><i class="bi bi-x-circle"></i> ΕΞΑΝΤΛΗΘΗΚΕ</span>
-                                        <?php else: ?>
-                                            <span class="badge-spot-alert plenty"><i class="bi bi-ticket-perforated"></i> <?php echo $svc->remaining_spots; ?> θέσεις</span>
-                                        <?php endif; ?>
-                                    <?php endif; ?>
-
-                                    <span class="minimal-badge">
-                                        <?php
-                                        if ($svc->type === 'mixed') echo 'Online & Δια Ζώσης';
-                                        elseif ($svc->type === 'inPerson') echo 'Δια Ζώσης';
-                                        elseif ($svc->type === 'online') echo 'Online';
-                                        else echo htmlspecialchars(ucfirst($svc->type));
-                                        ?>
-                                    </span>
-                                </div>
-
-                                <?php if (!empty($svc->assigned_therapists)): ?>
-                                    <div class="avatar-stack" style="margin-top: 10px; display: flex; align-items: center;">
-                                        <?php foreach ($svc->assigned_therapists as $th): ?>
-                                            <?php
-                                            $fullName = htmlspecialchars($th->first_name . ' ' . $th->last_name);
-                                            $initials = mb_substr($th->first_name, 0, 1) . mb_substr($th->last_name, 0, 1);
-                                            $avatarPath = !empty($th->avatar) ? htmlspecialchars($th->avatar) : '';
-                                            ?>
-                                            <?php if ($avatarPath): ?>
-                                                <img src="<?php echo $avatarPath; ?>" class="avatar-circle" title="<?php echo $fullName; ?>" alt="<?php echo $fullName; ?>"
-                                                    style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; margin-left: -10px; position: relative; background: #eee;">
-                                            <?php else: ?>
-                                                <div class="avatar-circle" title="<?php echo $fullName; ?>"
-                                                    style="width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff; margin-left: -10px; background-color: var(--alma-bg-button-main, #567c6d); color: #fff; font-size: 0.7rem; font-weight: 700; display: flex; align-items: center; justify-content: center; text-transform: uppercase; position: relative;">
-                                                    <?php echo $initials; ?>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-
-                                        <?php if (count($svc->assigned_therapists) === 1): ?>
-                                            <span class="therapist-names-label" style="font-size: 0.85rem; color: #666; margin-left: 8px; font-weight: 600;">
-                                                <?php echo htmlspecialchars($svc->assigned_therapists[0]->first_name . ' ' . $svc->assigned_therapists[0]->last_name); ?>
-                                            </span>
-                                        <?php endif; ?>
-                                    </div>
-                                    <style>
-                                        .avatar-stack .avatar-circle:first-child {
-                                            margin-left: 0 !important;
-                                            z-index: 5;
-                                        }
-                                    </style>
-                                <?php endif; ?>
-
-                                <p class="card-text mt-3"><?php echo nl2br(htmlspecialchars($svc->description)); ?></p>
-
-                                <div class="mt-4 pt-3 border-top-soft">
-                                    <?php if ($svc->is_group == 1 && $svc->is_past): ?>
-                                        <span class="btn-clean-action disabled text-muted" style="border-bottom-color: transparent;">
-                                            Ολοκληρώθηκε <i class="bi bi-check2-all ms-2"></i>
-                                        </span>
-                                    <?php elseif ($svc->is_group == 1 && $svc->is_full): ?>
-                                        <a href="/contact?subject=Waiting_List_<?php echo urlencode($svc->title); ?>" class="btn-clean-outline">Λίστα Αναμονής <i class="bi bi-hourglass ms-2"></i></a>
-                                    <?php else: ?>
-                                        <a href="#"
-                                            class="btn-clean-action open-booking-modal"
-                                            data-service-id="<?php echo $svc->id; ?>"
-                                            data-remaining-spots="<?php echo $svc->remaining_spots; ?>">
-                                            Κλείστε Ραντεβού <i class="bi bi-arrow-right ms-2"></i>
-                                        </a>
-                                    <?php endif; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
-                </div>
-            </div>
-        </div>
-    </section>
-
-</div>
-
-
-<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-xl modal-dialog-centered modal-fullscreen-lg-down">
-        <div class="modal-content border-0 shadow-lg overflow-hidden" style="border-radius: 20px;">
-
-            <div class="modal-header border-0 pb-0 d-flex flex-column align-items-center bg-white" style="z-index: 10;">
-                <div class="w-100 d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="modal-title fw-bold font-serif" id="modalPkgTitle">Κράτηση Συνεδρίας</h5>
-                    <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="w-100 px-md-5 py-3">
-                    <ul class="step-progress">
-                        <li class="active">Επιλογές</li>
-                        <li>Στοιχεία</li>
-                        <li>Ημερομηνία</li>
-                        <li>Ολοκλήρωση</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="modal-body position-relative p-0" style="min-height: 500px; background-color: #f9fbfb;">
-
-                <div id="wizardLoader" class="d-none position-absolute w-100 h-100 top-0 start-0 d-flex flex-column align-items-center justify-content-center bg-white" style="z-index: 50; opacity: 0.95;">
-                    <div class="spinner-border text-primary mb-3" role="status"></div>
-                    <span class="text-muted fw-bold small tracking-wide">ΦΟΡΤΩΣΗ...</span>
-                </div>
-
-                <div id="globalError" class="alert alert-danger position-absolute top-50 start-50 translate-middle-x mt-3 d-none shadow-sm" style="z-index: 60; width: 90%; max-width: 500px; border-radius: 10px;">
-                    <i class="bi bi-exclamation-circle-fill me-2"></i> <span id="errorMsg"></span>
-                </div>
-
-                <form id="bookingForm" class="h-100 d-flex flex-column">
-
-                    <div class="wizard-step active h-100 p-4 p-md-5 overflow-auto" data-step="0">
-
-
-
-                        <div class="row justify-content-center g-4">
-
-                            <div class="col-12 col-md-10" id="therapistSection">
-                                <label class="d-block text-secondary small fw-bold mb-3 text-uppercase text-center" style="letter-spacing: 1px; font-size: 0.75rem;">ΕΠΙΛΟΓΗ ΘΕΡΑΠΕΥΤΗ</label>
-                                <div class="d-flex gap-3 flex-wrap justify-content-center" id="therapistList">
-                                </div>
-                                <input type="hidden" id="selectedTherapistId">
-                            </div>
-
-                            <div class="col-12 col-md-10" id="typeSection">
-                                <label class="d-block text-secondary small fw-bold mb-3 mt-4 text-uppercase text-center" style="letter-spacing: 1px; font-size: 0.75rem;">ΤΡΟΠΟΣ</label>
-                                <div class="row g-3">
-                                    <div class="col-6">
-                                        <label class="custom-radio-card h-100">
-                                            <input type="radio" name="sessionType" value="online">
-                                            <div class="card-content py-3 text-center">
-                                                <i class="bi bi-camera-video-fill fs-5 text-primary mb-2 d-block"></i>
-                                                <span class="fw-bold d-block small">Online</span>
-                                            </div>
-                                        </label>
-                                    </div>
-                                    <div class="col-6">
-                                        <label class="custom-radio-card h-100">
-                                            <input type="radio" name="sessionType" value="inPerson">
-                                            <div class="card-content py-3 text-center">
-                                                <i class="bi bi-geo-alt-fill fs-5 text-warning mb-2 d-block"></i>
-                                                <span class="fw-bold d-block small">Δια Ζώσης</span>
-                                            </div>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-md-10 d-none" id="groupFixedInfo">
-                                <div class="alert alert-light border text-center p-3">
-                                    <i class="bi bi-calendar-check text-primary mb-2 fs-4 d-block"></i>
-                                    <h6 class="fw-bold mb-1">Ημερομηνία Workshop</h6>
-                                    <div id="groupDateText" class="text-muted small">...</div>
-                                </div>
-                            </div>
-
-
-                            <div class="mb-5">
-                                <label class="d-block text-secondary small fw-bold mb-2 text-uppercase" style="letter-spacing: 1px; font-size: 0.75rem;">ΕΠΙΛΕΓΜΕΝΟ ΠΑΚΕΤΟ</label>
-                                <div class="d-flex align-items-center justify-content-between p-3 border rounded-3 bg-white shadow-sm">
-                                    <div>
-                                        <h5 class="fw-bold text-dark mb-1" id="modalPkgTitleDesc">Loading...</h5>
-
-                                        <span class="text-muted small" id="pkgDurationText">
-                                            <div class="spinner-border spinner-border-sm text-secondary"></div>
-                                        </span>
-                                    </div>
-                                    <div class="text-end">
-                                        <span class="fs-6 fw-bold text-primary" id="pkgPriceText"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                    <div class="wizard-step h-100 p-4 p-md-5 overflow-auto" data-step="1">
-                        <div class="text-center mb-5">
-                            <h3 class="fw-bold text-dark">Τα στοιχεία σας</h3>
-                            <p class="text-muted">Χρειαζόμαστε μερικές πληροφορίες για την κράτηση.</p>
-                        </div>
-
-                        <div class="row justify-content-center">
-                            <div class="col-md-8">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <label class="form-label small fw-bold text-muted">ΟΝΟΜΑ</label>
-                                        <input type="text" class="form-control form-control-lg custom-input" id="inpFname">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label small fw-bold text-muted">ΕΠΩΝΥΜΟ</label>
-                                        <input type="text" class="form-control form-control-lg custom-input" id="inpLname">
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label class="form-label small fw-bold text-muted">ΤΗΛΕΦΩΝΟ</label>
-                                        <div class="input-group custom-phone-group">
-                                            <button class="btn btn-outline-light border dropdown-toggle d-flex align-items-center gap-2 bg-white text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <img src="/assets/images/countries/gr.png" alt="GR" width="20" id="selectedFlag">
-                                                <span id="selectedCode">+30</span>
-                                            </button>
-                                            <ul class="dropdown-menu shadow border-0" id="countryDropdown" style="max-height: 200px; overflow-y: auto;"></ul>
-                                            <input type="tel" class="form-control form-control-lg border-start-0 ps-2 custom-input" id="inpPhone" value="6985878578">
-                                        </div>
-                                        <input type="hidden" id="finalCountryCode" value="30">
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label class="form-label small fw-bold text-muted">EMAIL</label>
-                                        <input type="email" class="form-control form-control-lg custom-input" id="inpEmail">
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label class="form-label small fw-bold text-muted">ΣΗΜΕΙΩΣΕΙΣ</label>
-                                        <textarea class="form-control custom-input" id="inpNotes" rows="2"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="wizard-step h-100 p-4 p-md-5 overflow-auto" data-step="2">
-                        <div class="text-center mb-4">
-                            <h3 class="fw-bold text-dark">Επιλογή Ημερομηνίας</h3>
-                            <p class="text-muted">Διαλέξτε την ημέρα και ώρα που σας εξυπηρετεί.</p>
-                        </div>
-
-                        <div class="container-fluid px-0" style="max-width: 900px;">
-
-                            <div id="selectedSlotAnchor" class="d-none alert alert-light border d-flex justify-content-between align-items-center py-2 px-3 mb-3 rounded-3 shadow-sm">
-                                <small class="fw-bold text-success"><i class="bi bi-check-circle-fill me-1"></i> <span id="anchorText">...</span></small>
-                                <button type="button" class="btn-close small" style="font-size: 0.7rem;" id="clearSlotBtn"></button>
-                            </div>
-
-                            <div class="d-flex justify-content-between align-items-center mb-4 bg-white p-2 rounded-pill shadow-sm border">
-                                <button type="button" class="btn btn-circle" id="prevWeek"><i class="bi bi-chevron-left"></i></button>
-                                <span class="fw-bold text-dark" id="currentMonthLabel">...</span>
-                                <button type="button" class="btn btn-circle" id="nextWeek"><i class="bi bi-chevron-right"></i></button>
-                            </div>
-
-                            <div class="scroll-fade-wrapper mb-5">
-                                <div class="d-flex justify-content-between gap-1 overflow-x-auto pb-2" id="weekDaysContainer">
-                                </div>
-                            </div>
-
-
-                            <div class="row g-4">
-                                <div class="col-md-6 border-end-md">
-                                    <h6 class="text-muted fw-bold mb-3 small"><i class="bi bi-sun me-2"></i>ΠΡΩΙ (Έως 15:00)</h6>
-                                    <div class="d-flex flex-wrap gap-2" id="morningSlots"></div>
-                                </div>
-                                <div class="col-md-6">
-                                    <h6 class="text-muted fw-bold mb-3 small"><i class="bi bi-moon-stars me-2"></i>ΑΠΟΓΕΥΜΑ (Από 15:00)</h6>
-                                    <div class="d-flex flex-wrap gap-2" id="afternoonSlots"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="wizard-step h-100 p-4 p-md-5 overflow-auto" data-step="3">
-                        <div class="text-center mb-4">
-                            <h3 class="fw-bold text-dark">Ολοκλήρωση</h3>
-                            <p class="text-muted">Ελέγξτε τα στοιχεία και προχωρήστε σε πληρωμή.</p>
-                        </div>
-
-                        <div class="row g-4 justify-content-center">
-                            <div class="col-md-6">
-                                <div class="card border-0 shadow-sm bg-light h-100" style="border-radius: 16px;">
-                                    <div class="card-body p-4">
-                                        <h6 class="fw-bold text-uppercase text-muted small mb-3">ΣΤΟΙΧΕΙΑ</h6>
-                                        <div class="mb-3">
-                                            <span class="d-block text-muted small">Υπηρεσία</span>
-                                            <span class="fw-bold text-dark" id="reviewPkgTitle">...</span>
-                                        </div>
-                                        <div class="mb-3">
-                                            <span class="d-block text-muted small">Θεραπευτής</span>
-                                            <span class="fw-bold text-dark" id="reviewTherapist">...</span>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6 mb-3">
-                                                <span class="d-block text-muted small">Ημερομηνία</span>
-                                                <span class="fw-bold text-dark" id="reviewDate">...</span>
-                                            </div>
-                                            <div class="col-6 mb-3">
-                                                <span class="d-block text-muted small">Ώρα</span>
-                                                <span class="fw-bold text-dark" id="reviewTime">...</span>
-                                            </div>
-                                        </div>
-                                        <div class="mb-0">
-                                            <span class="d-block text-muted small">Τρόπος</span>
-                                            <span class="badge bg-white text-dark border px-3 py-2 mt-1" id="reviewType">...</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="card border-0 shadow-sm bg-white" style="border-radius: 16px;">
-                                    <div class="card-body p-4 d-flex flex-column">
-                                        <h6 class="fw-bold text-uppercase text-muted small mb-3">ΠΛΗΡΩΜΗ</h6>
-                                        <div class="d-flex justify-content-between align-items-end mb-3">
-                                            <span class="text-muted">Σύνολο</span>
-                                            <span class="h3 mb-0 fw-bold text-primary" id="reviewPrice">...</span>
-                                        </div>
-                                        <hr class="text-muted opacity-25">
-                                        <div class="d-flex align-items-center gap-3 mb-4">
-                                            <div class="bg-light-success text-success rounded-circle d-flex align-items-center justify-content-center" style="width:40px;height:40px;"><i class="bi bi-person-check-fill"></i></div>
-                                            <div style="line-height:1.2;">
-                                                <span class="d-block fw-bold small" id="reviewClientName">...</span>
-                                                <span class="d-block text-muted small" id="reviewClientEmail">...</span>
-                                            </div>
-                                        </div>
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input float-none me-2" type="checkbox" id="termsCheck">
-                                            <label class="form-check-label small text-muted" for="termsCheck">Συμφωνώ με τους <a href="#">Όρους Χρήσης</a>.</label>
-                                        </div>
-                                        <div class="p-3 rounded text-center border border-dashed">
-                                            <div id="pay-form" class="" disabled></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-            </div>
-
-            <div class="modal-footer border-0 p-4 bg-white justify-content-between">
-                <button type="button" class="btn btn-light rounded-pill px-4 fw-bold text-muted" id="btnBack" style="visibility: hidden;">
-                    <i class="bi bi-arrow-left me-2"></i> Πίσω
-                </button>
-                <button type="button" class="btn btn-dark rounded-pill px-5 py-2 fw-bold shadow-sm" id="btnNext">
-                    Συνέχεια <i class="bi bi-arrow-right ms-2"></i>
-                </button>
-                <button type="button" class="btn btn-success rounded-pill px-5 py-2 fw-bold shadow-sm d-none" id="btnBook">
-                    Πληρωμή & Κράτηση
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<style>
-    #everypayContainer {
-        position: relative !important;
-        visibility: visible !important;
-        min-height: 400px;
-        /* Give it initial height */
-        display: block !important;
-    }
-
-    #everypayContainer iframe {
-        width: 100% !important;
-        height: 100% !important;
-    }
-
-    /* Wizard Container & Transitions */
-    .wizard-step {
-        display: none;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all 0.4s ease-out;
-    }
-
-    .wizard-step.active {
-        display: block;
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    /* Stepper Header */
-    .step-progress {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        justify-content: space-between;
-        position: relative;
-        margin-bottom: 0;
-    }
-
-    .step-progress::before {
-        content: '';
+    .bg-editorial-text {
         position: absolute;
-        top: 14px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: #eee;
+        font-size: 18vw;
+        font-weight: 900;
+        line-height: 0.8;
+        color: var(--run-dark, #0f172a);
+        opacity: 0.02;
+        text-transform: uppercase;
+        white-space: nowrap;
         z-index: 0;
+        pointer-events: none;
     }
 
-    .step-progress li {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-        width: 25%;
-        font-size: 0.8rem;
-        color: #aaa;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+    .left-text {
+        top: 10%;
+        left: -5%;
+        transform: rotate(-90deg);
+        transform-origin: left top;
     }
 
-    .step-progress li::before {
-        content: '';
-        width: 12px;
-        height: 12px;
-        background: #eee;
-        border-radius: 50%;
-        display: block;
-        margin: 8px auto 8px auto;
-        border: 2px solid #fff;
-        box-shadow: 0 0 0 2px #fff;
-        transition: all 0.3s;
+    .right-text {
+        top: 40%;
+        right: -20%;
     }
 
-    .step-progress li.active {
-        color: var(--alma-bg-button-main);
-    }
-
-    .step-progress li.active::before {
-        background: var(--alma-bg-button-main);
-        transform: scale(1.3);
-    }
-
-    /* Custom Radio Cards (Type) */
-    .custom-radio-card {
-        display: block;
-        cursor: pointer;
-        position: relative;
-    }
-
-    .custom-radio-card input {
-        position: absolute;
-        opacity: 0;
-    }
-
-    .custom-radio-card .card-content {
-        background: white;
-        border: 2px solid #eee;
-        border-radius: 16px;
-        padding: 20px;
-        text-align: center;
-        transition: all 0.2s;
-    }
-
-    .custom-radio-card input:checked+.card-content {
-        border-color: var(--alma-bg-button-main);
-        background: rgba(51, 76, 71, 0.03);
-        box-shadow: 0 4px 15px rgba(51, 76, 71, 0.1);
-    }
-
-    .icon-circle {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .routes-list-container {
+        max-width: 1400px;
         margin: 0 auto;
-        font-size: 1.4rem;
-    }
-
-    .bg-light-blue {
-        background: #eef7ff;
-        color: #0d6efd;
-    }
-
-    .bg-light-orange {
-        background: #fff5eb;
-        color: #fd7e14;
-    }
-
-    /* Custom Therapist Card */
-    .therapist-select-card {
-        width: 140px;
-        cursor: pointer;
+        padding: 0 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 120px;
         position: relative;
+        z-index: 2;
     }
 
-    .therapist-select-card input {
-        position: absolute;
-        opacity: 0;
-    }
-
-    .therapist-select-card .t-content {
-        background: white;
-        border: 2px solid #eee;
-        border-radius: 12px;
-        padding: 15px;
-        text-align: center;
-        transition: all 0.2s;
-        opacity: 0.7;
-        filter: grayscale(100%);
-    }
-
-    .therapist-select-card img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .therapist-select-card:hover .t-content {
-        opacity: 1;
-        filter: grayscale(0%);
-        border-color: #ddd;
-    }
-
-    .therapist-select-card input:checked+.t-content {
-        border-color: var(--alma-bg-button-main);
-        opacity: 1;
-        filter: grayscale(0%);
-        transform: translateY(-3px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    }
-
-    .therapist-select-card input:checked+.t-content::after {
-        content: '\f26a';
-        font-family: bootstrap-icons;
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        background: var(--alma-bg-button-main);
-        color: white;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
+    .route-card-editorial {
         display: flex;
         align-items: center;
+        gap: 80px;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .route-card-editorial:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    .route-visual {
+        flex: 1;
+        position: relative;
+        border-radius: 24px;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+        max-height: 600px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+    }
+
+    .route-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.7s ease;
+    }
+
+    .route-card-editorial:hover .route-img {
+        transform: scale(1.05);
+    }
+
+    .route-number {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        font-size: 5rem;
+        font-weight: 900;
+        line-height: 0.8;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.6);
+        z-index: 2;
+    }
+
+    .route-content {
+        flex: 1.2;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
-        font-size: 0.8rem;
     }
 
-    /* Inputs */
-    .custom-input {
-        border: 2px solid #eee;
-        border-radius: 10px;
-        font-size: 0.95rem;
-        padding: 12px;
-        transition: border-color 0.2s;
+    .route-badge {
+        display: inline-block;
+        align-self: flex-start;
+        padding: 6px 14px;
+        background: rgba(41, 194, 133, 0.1);
+        color: var(--accent-color);
+        font-family: 'Courier New', monospace;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 2px;
+        border-radius: 50px;
+        margin-bottom: 20px;
     }
 
-    .custom-input:focus {
-        border-color: var(--alma-bg-button-main);
-        box-shadow: none;
-        background: #fff;
+    .route-title {
+        font-size: clamp(2.5rem, 4vw, 4rem);
+        font-weight: 900;
+        line-height: 1.1;
+        color: var(--run-dark, #0f172a);
+        margin: 0 0 20px 0;
+        letter-spacing: -0.02em;
     }
 
-    .section-label {
-        font-size: 0.8rem;
+    .route-desc {
+        font-size: 1.1rem;
+        color: #64748b;
+        line-height: 1.7;
+        margin-bottom: 40px;
+    }
+
+    .route-specs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 50px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .spec-item {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .spec-label {
+        font-family: 'Courier New', monospace;
+        font-size: 0.75rem;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .spec-value {
+        font-size: 1.3rem;
+        font-weight: 800;
+        color: var(--run-dark, #0f172a);
+    }
+
+    .btn-solid-booking {
+        align-self: flex-start;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background-color: var(--run-dark, #0f172a);
+        color: #ffffff;
+        padding: 18px 36px;
+        border-radius: 100px;
+        font-size: 1rem;
         font-weight: 700;
         text-transform: uppercase;
         letter-spacing: 1px;
-        color: #999;
-        display: block;
-        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
     }
 
-    #weekDaysContainer {
-        /* Enable horizontal scrolling */
-        overflow-x: auto;
-        overflow-y: hidden;
-        white-space: nowrap;
-
-        /* Smooth scrolling momentum for iOS */
-        -webkit-overflow-scrolling: touch;
-
-        /* Hide the scrollbar for a cleaner look */
-        scrollbar-width: none;
-        /* Firefox */
-        -ms-overflow-style: none;
-        /* IE 10+ */
-
-        /* Add some padding so shadows aren't cut off */
-        padding: 5px;
+    .btn-solid-booking i {
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
     }
 
-    #weekDaysContainer::-webkit-scrollbar {
-        display: none;
-        /* Chrome/Safari/Webkit */
+    .btn-solid-booking:hover {
+        background-color: var(--accent-color);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(41, 194, 133, 0.3);
+        color: #0f172a;
     }
 
-    /* Specific styling for mobile screens */
-    @media (max-width: 768px) {
-        #weekDaysContainer {
-            /* Overwrite Bootstrap's justify-content-between so items start from left */
-            justify-content: flex-start !important;
-            gap: 10px !important;
-            /* Add consistent space between items */
-        }
-
-        .cal-day-btn {
-            /* Don't shrink the buttons! Keep them a touch-friendly size */
-            flex: 0 0 auto;
-            width: 60px;
-            /* Fixed width ensures they don't get squashed */
-        }
+    .btn-solid-booking:hover i {
+        transform: translateX(5px);
     }
 
-    /* 1. Wrapper για το Fade Effect */
-    .scroll-fade-wrapper {
-        position: relative;
-        /* Αφήνουμε λίγο χώρο δεξιά για να μην κόβεται απότομα */
-        margin-right: -10px;
-        padding-right: 10px;
-    }
-
-    /* 2. Το Σβήσιμο (Gradient) στα δεξιά */
-    .scroll-fade-wrapper::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 50px;
-        /* Πόσο πλατύ είναι το σβήσιμο */
-        /* Διαφανές -> Λευκό */
-        background: linear-gradient(to right, rgba(255, 255, 255, 0), #ffffff);
-        pointer-events: none;
-        /* Επιτρέπει το scroll/click από κάτω */
-        z-index: 2;
+    .desktop-floating-filter {
+        position: fixed;
+        bottom: 40px;
+        right: 40px;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 12px 24px;
+        border-radius: 100px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 90;
         opacity: 0;
-        /* Κρυφό σε desktop */
-        transition: opacity 0.3s ease;
+        transform: translateY(20px);
+        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        border: 1px solid #e2e8f0;
+        cursor: pointer;
     }
 
-    /* Εμφάνιση μόνο σε Mobile/Tablet */
-    @media (max-width: 768px) {
-        .scroll-fade-wrapper::after {
+    .desktop-floating-filter.show {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    .desktop-floating-filter:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .dff-label {
+        font-size: 0.8rem;
+        color: #64748b;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .dff-value {
+        font-size: 0.9rem;
+        color: var(--run-dark, #0f172a);
+        font-weight: 800;
+        text-transform: uppercase;
+    }
+
+    .desktop-floating-filter i {
+        color: var(--accent-color);
+        font-size: 1.2rem;
+        margin-left: 5px;
+    }
+
+    .mobile-filter-fab,
+    .mobile-filter-sheet,
+    .sheet-overlay {
+        display: none;
+    }
+
+    @media (max-width: 992px) {
+        .video-mask-hero {
+            height: 60vh;
+            padding-bottom: 60px;
+        }
+
+        .massive-mask-text {
+            font-size: 28vw;
+        }
+
+        .routes-list-container {
+            gap: 80px;
+            padding: 0 20px;
+        }
+
+        .route-card-editorial,
+        .route-card-editorial:nth-child(even) {
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .route-visual {
+            width: 100%;
+            aspect-ratio: 1/1;
+        }
+
+        .route-specs-grid {
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+        }
+
+        .btn-solid-booking {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .desktop-floating-filter {
+            display: none !important;
+        }
+
+        .mobile-filter-fab {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--run-dark, #0f172a);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 100px;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.3);
+            z-index: 90;
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1), opacity 0.4s ease;
+        }
+
+        .mobile-filter-fab.show {
+            transform: translateX(-50%) translateY(0);
             opacity: 1;
         }
 
-        /* 3. Animation: Μικρό "σκούντημα" για να φανεί ότι κινείται */
-        #weekDaysContainer {
-            animation: slide-hint 1s ease-out 0.5s;
-            /* Καθυστέρηση 0.5s για να το δει */
+        .fab-badge {
+            background: var(--accent-color);
+            color: #0f172a;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 800;
+            margin-left: 4px;
+        }
+
+        .sheet-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .mobile-clear-btn {
+            background: transparent;
+            border: none;
+            color: #ef4444;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .sheet-overlay {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 99;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .sheet-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .mobile-filter-sheet {
+            display: block;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 24px 24px 0 0;
+            z-index: 100;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            padding: 24px;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-filter-sheet.active {
+            transform: translateY(0);
+        }
+
+        .sheet-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--run-dark, #0f172a);
+        }
+
+        .close-sheet-btn {
+            background: #f1f5f9;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            font-size: 1.2rem;
+        }
+
+        .sheet-body {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sheet-btn {
+            background: transparent;
+            border: 1px solid #e2e8f0;
+            padding: 16px;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #64748b;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .sheet-btn.active {
+            background: var(--run-dark, #0f172a);
+            color: white;
+            border-color: var(--run-dark, #0f172a);
         }
     }
 
-    /* Το Keyframe για την κίνηση */
-    @keyframes slide-hint {
-        0% {
+    @media (max-width: 768px) {
+        .video-mask-hero {
+            height: 55vh;
+            padding-bottom: 40px;
+            align-items: center;
+        }
+
+        .hero-content-overlay {
+            position: absolute;
+            bottom: 30px;
+        }
+
+        .massive-mask-text {
+            font-size: 24vw;
+            transform: translateY(-30%);
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            margin-bottom: 30px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            font-size: 0.8rem;
+        }
+
+        .filter-bar {
+            justify-content: flex-start;
+            padding: 5px;
+        }
+    }
+</style>
+
+
+
+
+<section class="faq-section">
+    <div class="faq-container">
+        <div class="faq-header gs-reveal">
+            <span class="faq-badge">KNOW BEFORE YOU GO</span>
+            <h2 class="faq-main-title">Runner's Intel.</h2>
+        </div>
+
+        <div class="faq-list gs-reveal">
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Do I need specific trail shoes for all routes?</span>
+                    <i class="bi bi-plus"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>For Coastal routes, standard running shoes are fine. However, for Mountain and Technical trails, we strongly recommend trail-specific footwear with good grip to ensure your safety on rocky terrain.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What happens if my pace is slower than expected?</span>
+                    <i class="bi bi-plus"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Our "No-Drop Policy" means no runner is left behind. Our guides adjust the pace to yours. These are experiences, not races. We are here to enjoy the landscape, not just the stopwatch.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Is hotel pickup and drop-off included?</span>
+                    <i class="bi bi-plus"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, for all private and scheduled runs within the Plakias wider area, we provide complimentary transfer to and from the starting point of the route.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What is included in the price?</span>
+                    <i class="bi bi-plus"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Every run includes a professional local guide, insurance, high-quality photography/video of your run, hydration (water/electrolytes), and a light local snack at the end.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .faq-section {
+        padding: 120px 0;
+        background: #ffffff;
+    }
+
+    .faq-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .faq-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .faq-badge {
+        font-family: 'Courier New', monospace;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: var(--accent-color);
+        letter-spacing: 2px;
+    }
+
+    .faq-main-title {
+        font-size: 3rem;
+        font-weight: 900;
+        color: #0f172a;
+        margin-top: 10px;
+    }
+
+    .faq-list {
+        border-top: 1px solid #e2e8f0;
+    }
+
+    .faq-item {
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .faq-question {
+        width: 100%;
+        padding: 30px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        transition: color 0.3s ease;
+    }
+
+    .faq-question i {
+        font-size: 1.5rem;
+        color: #94a3b8;
+        transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .faq-item.active .faq-question {
+        color: var(--accent-color);
+    }
+
+    .faq-item.active .faq-question i {
+        transform: rotate(45deg);
+        /* Το + γίνεται x */
+        color: var(--accent-color);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    }
+
+    .faq-answer p {
+        padding-bottom: 30px;
+        color: #64748b;
+        line-height: 1.8;
+        font-size: 1.1rem;
+    }
+</style>
+
+
+
+<div class="booking-modal-overlay" id="customRunModal">
+    <div class="booking-modal-window">
+        <button class="modal-close-btn" onclick="closeCustomModal()"><i class="bi bi-x-lg"></i></button>
+
+        <div class="modal-progress-container">
+            <div class="modal-progress-bar" id="modalProgress"></div>
+        </div>
+
+        <form id="customRunForm" class="modal-steps-wrapper">
+
+            <div class="modal-step active" data-step="1">
+                <span class="step-counter">01/03</span>
+                <h3 class="step-title">Choose your terrain</h3>
+                <div class="options-grid">
+                    <label class="option-card">
+                        <input type="radio" name="terrain" value="coastal">
+                        <div class="option-content">
+                            <i class="fa fa-water"></i>
+                            <span>Coastal</span>
+                        </div>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="terrain" value="mountain">
+                        <div class="option-content">
+                            <i class="fa fa-mountain"></i>
+                            <span>Mountain</span>
+                        </div>
+                    </label>
+                    <label class="option-card">
+                        <input type="radio" name="terrain" value="mixed">
+                        <div class="option-content">
+                            <i class="fa fa-shuffle"></i>
+                            <span>Mixed Path</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-step" data-step="2">
+                <span class="step-counter">02/03</span>
+                <h3 class="step-title">Select Distance</h3>
+                <div class="distance-selector-grid">
+                    <label class="dist-card">
+                        <input type="radio" name="distance" value="5-10k" required>
+                        <div class="dist-content">
+                            <span class="dist-km">5-10</span>
+                            <span class="dist-label">Kilometers</span>
+                        </div>
+                    </label>
+                    <label class="dist-card">
+                        <input type="radio" name="distance" value="10-20k">
+                        <div class="dist-content">
+                            <span class="dist-km">10-20</span>
+                            <span class="dist-label">Kilometers</span>
+                        </div>
+                    </label>
+                    <label class="dist-card">
+                        <input type="radio" name="distance" value="custom">
+                        <div class="dist-content">
+                            <span class="dist-km">?</span>
+                            <span class="dist-label">Let's talk</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="modal-step" data-step="3">
+                <span class="step-counter">03/03</span>
+                <h3 class="step-title">Final Details</h3>
+                <div class="input-fields-stack">
+                    <input type="text" name="name" id="nameInput" placeholder="Full Name" required>
+                    <input type="email" name="email" id="emailInput" placeholder="Email Address" required>
+
+                    <div class="phone-input-wrapper">
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+
+                    <div class="calendar-wrapper">
+                        <input type="text" id="runDate" name="date" placeholder="Select Date" required>
+                    </div>
+
+                    <textarea name="message" placeholder="Notes (Injuries, pace, etc.)"></textarea>
+
+                    <div class="terms-wrapper">
+                        <label class="terms-checkbox-label">
+                            <input type="checkbox" name="agree_terms" id="termsCheckbox">
+                            <span class="checkmark"></span>
+                            <span class="terms-text">
+                                I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>.
+                            </span>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-nav">
+                <button type="button" class="btn-prev" id="btnPrev" style="display:none;">Back</button>
+                <button type="button" class="btn-next" id="btnNext">Continue <i class="bi bi-arrow-right"></i></button>
+                <button type="submit" class="btn-submit" id="btnSubmit" style="display:none;">Submit Request</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+<style>
+    .booking-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 9999;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+
+    .booking-modal-window {
+        background: #ffffff;
+        width: 100%;
+        max-width: 600px;
+        border-radius: 30px;
+        position: relative;
+        padding: 50px;
+        overflow: hidden;
+    }
+
+    /* Progress Bar */
+    .modal-progress-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: #f1f5f9;
+    }
+
+    .modal-progress-bar {
+        height: 100%;
+        background: var(--accent-color);
+        width: 33.33%;
+        transition: width 0.4s ease;
+    }
+
+    /* Modal Elements */
+    .modal-close-btn {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        border: none;
+        background: #f1f5f9;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .step-counter {
+        font-family: 'Courier New', monospace;
+        color: var(--accent-color);
+        font-weight: 700;
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .step-title {
+        font-size: 2rem;
+        font-weight: 900;
+        color: #0f172a;
+        margin-bottom: 30px;
+        letter-spacing: -0.02em;
+    }
+
+    /* Options Grid */
+    .options-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 15px;
+    }
+
+    .option-card {
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .option-card input {
+        display: none;
+    }
+
+    .option-content {
+        padding: 30px 10px;
+        border: 2px solid #f1f5f9;
+        border-radius: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .option-content i {
+        font-size: 2rem;
+        display: block;
+        margin-bottom: 10px;
+        color: #64748b;
+    }
+
+    .option-card input:checked+.option-content {
+        border-color: var(--accent-color);
+        background: rgba(41, 194, 133, 0.05);
+    }
+
+    .option-card input:checked+.option-content i {
+        color: var(--accent-color);
+    }
+
+    /* Step Visibility */
+    .modal-step {
+        display: none;
+    }
+
+    .modal-step.active {
+        display: block;
+        animation: stepFade 0.4s ease forwards;
+    }
+
+
+    @keyframes stepFade {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Controls */
+    .modal-nav {
+        margin-top: 40px;
+        display: flex;
+        gap: 15px;
+    }
+
+    .btn-next,
+    .btn-submit {
+        flex: 1;
+        background: #0f172a;
+        color: #fff;
+        border: none;
+        padding: 18px;
+        border-radius: 100px;
+        font-weight: 800;
+        cursor: pointer;
+        text-transform: uppercase;
+    }
+
+    .btn-prev {
+        background: #f1f5f9;
+        color: #64748b;
+        border: none;
+        padding: 18px 30px;
+        border-radius: 100px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+    /* Inputs */
+    .input-group-grid input,
+    .input-group-grid textarea {
+        width: 100%;
+        padding: 15px;
+        border: 2px solid #f1f5f9;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        font-family: inherit;
+    }
+
+    /* Distance Cards Redesign */
+    .distance-selector-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .dist-card {
+        cursor: pointer;
+        position: relative;
+    }
+
+    .dist-card input {
+        display: none;
+    }
+
+    .dist-content {
+        background: #f8fafc;
+        border: 2px solid #f1f5f9;
+        padding: 25px 10px;
+        border-radius: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .dist-km {
+        font-size: 1.8rem;
+        font-weight: 900;
+        display: block;
+        color: #0f172a;
+    }
+
+    .dist-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #64748b;
+    }
+
+    .dist-card input:checked+.dist-content {
+        border-color: var(--accent-color);
+        background: #ffffff;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        transform: translateY(-3px);
+    }
+
+    /* Phone & Calendar UI */
+    .iti {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    /* Plugin width */
+    .input-fields-stack input,
+    .input-fields-stack textarea {
+        width: 100%;
+        padding: 16px;
+        border: 2px solid #f1f5f9;
+        border-radius: 12px;
+        margin-bottom: 15px;
+        font-size: 1rem;
+    }
+
+    .input-fields-stack input:focus {
+        border-color: var(--accent-color);
+        outline: none;
+    }
+
+    /* Validation Error Style */
+    input.invalid {
+        border-color: #ef4444 !important;
+        background: #fff1f2;
+    }
+
+    .error-msg {
+        color: #ef4444;
+        font-size: 0.8rem;
+        margin-top: -10px;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    /* Shake animation για όταν δεν επιλέγει τίποτα */
+    @keyframes shakeError {
+
+        0%,
+        100% {
             transform: translateX(0);
         }
 
         25% {
-            transform: translateX(-20px);
+            transform: translateX(-5px);
         }
 
-        /* Κουνιέται αριστερά */
-        50% {
-            transform: translateX(0);
-        }
-
-        /* Επιστρέφει */
-        100% {
-            transform: translateX(0);
+        75% {
+            transform: translateX(5px);
         }
     }
 
-    /* Calendar Day Buttons */
-    .cal-day-btn {
-        min-width: 65px;
-        border: 1px solid #eee;
-        background: white;
-        border-radius: 12px;
-        padding: 10px 5px;
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.2s;
-        flex: 1;
+    .shake-error {
+        animation: shakeError 0.4s ease;
     }
 
-    .cal-day-btn:hover {
-        background: #f8f9fa;
-        transform: translateY(-2px);
-    }
-
-    .cal-day-btn.active {
-        background: var(--alma-bg-button-main);
-        color: white;
-        border-color: var(--alma-bg-button-main);
-        box-shadow: 0 4px 10px rgba(86, 124, 109, 0.4);
-    }
-
-    .cal-day-btn.disabled {
-        opacity: 0.4;
-        pointer-events: none;
-        background: #f9f9f9;
-    }
-
-    /* Slot Buttons */
-    .slot-btn {
-        border: 1px solid var(--alma-bg-button-main);
-        color: var(--alma-bg-button-main);
-        background: transparent;
-        padding: 8px 16px;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        transition: all 0.2s;
-    }
-
-    .slot-btn:hover {
-        background: rgba(86, 124, 109, 0.1);
-    }
-
-    .slot-btn.active {
-        background: var(--alma-bg-button-main);
-        color: white;
-        box-shadow: 0 2px 8px rgba(86, 124, 109, 0.4);
-    }
-
-    /* Misc */
-    .btn-circle {
-        width: 32px;
-        height: 32px;
+    /* Loader Spinner */
+    .spinner-loader {
+        width: 18px;
+        height: 18px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
         border-radius: 50%;
+        border-top-color: #fff;
+        display: inline-block;
+        animation: spin 0.8s linear infinite;
+        margin-right: 10px;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Success/Error State Layout */
+    .modal-response-state {
+        text-align: center;
+        padding: 40px 0;
+        animation: stepFade 0.5s ease forwards;
+    }
+
+    /* Invalid Input Style */
+    input.invalid {
+        border-color: #ef4444 !important;
+        background: #fff1f2 !important;
+    }
+
+    .terms-wrapper {
+        margin-top: 10px;
+        padding: 0 5px;
+    }
+
+    .terms-checkbox-label {
         display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1px solid #eee;
-        background: white;
+        align-items: flex-start;
+        gap: 12px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: #64748b;
+        line-height: 1.4;
     }
 
-    .btn-circle:hover {
-        background: #f1f1f1;
+    .terms-checkbox-label input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
     }
 
-    .dropdown-item img {
-        vertical-align: middle;
-        margin-right: 8px;
+    .checkmark {
+        width: 20px;
+        height: 20px;
+        border: 2px solid #e2e8f0;
+        border-radius: 6px;
+        flex-shrink: 0;
+        position: relative;
+        transition: all 0.2s ease;
+        background: #fff;
+    }
+
+    .terms-checkbox-label input:checked+.checkmark {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+
+    .terms-checkbox-label input:checked+.checkmark::after {
+        content: '\F26E';
+        /* Bootstrap Icon check */
+        font-family: "bootstrap-icons";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        font-size: 0.8rem;
+    }
+
+    .terms-text a {
+        color: var(--run-dark);
+        text-decoration: underline;
+        font-weight: 600;
+    }
+
+    .terms-checkbox-label.invalid .checkmark {
+        border-color: #ef4444;
+        background: #fff1f2;
     }
 </style>
 
-<div style="height: 120px;"></div>
+
+
+
+
+
+
 
 <?php
 function hook_end_scripts()
@@ -1517,1023 +1608,489 @@ function hook_end_scripts()
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/intlTelInput.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            gsap.registerPlugin(ScrollTrigger);
+        document.addEventListener("DOMContentLoaded", () => {
+            let currentStep = 1;
+            const form = document.getElementById('customRunForm');
+            const modal = document.getElementById('customRunModal');
+            const progressBar = document.getElementById('modalProgress');
+            const btnNext = document.getElementById('btnNext');
+            const btnPrev = document.getElementById('btnPrev');
+            const btnSubmit = document.getElementById('btnSubmit');
 
-            const navLinks = document.querySelectorAll('.nav-link-item');
-            const glider = document.querySelector('.nav-glider');
-            const navWrapper = document.querySelector('.nav-capsule-wrapper');
-            const servicesWrapper = document.getElementById('services-wrapper');
-
-            function moveGlider(element) {
-                const rect = element.getBoundingClientRect();
-                const parentRect = element.parentElement.getBoundingClientRect();
-                const relativeLeft = rect.left - parentRect.left - 6.5;
-
-                glider.style.width = rect.width + 'px';
-                glider.style.transform = `translateX(${relativeLeft}px)`;
-                glider.style.opacity = '1';
-
-                navLinks.forEach(link => link.classList.remove('active'));
-                element.classList.add('active');
-            }
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    moveGlider(this);
-                    const targetId = this.getAttribute('href');
-                    const targetSection = document.querySelector(targetId);
-                    const offset = 40;
-                    const bodyRect = document.body.getBoundingClientRect().top;
-                    const elementRect = targetSection.getBoundingClientRect().top;
-                    const elementPosition = elementRect - bodyRect;
-                    const offsetPosition = elementPosition - offset;
-
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: "smooth"
-                    });
-                });
+            // --- 1. INITIALIZE PLUGINS ---
+            const phoneInputField = document.querySelector("#phone");
+            const phoneInput = window.intlTelInput(phoneInputField, {
+                preferredCountries: ["gr", "gb", "de"],
+                separateDialCode: true,
+                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/js/utils.js"
             });
 
-            if (navLinks.length > 0) setTimeout(() => moveGlider(navLinks[0]), 200);
-
-            const sections = document.querySelectorAll('.service-editorial-section');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.getAttribute('id');
-                        const activeLink = document.querySelector(`.nav-link-item[href="#${id}"]`);
-                        if (activeLink) {
-                            moveGlider(activeLink);
-                        }
-                    }
-                });
-            }, {
-                rootMargin: '-40% 0px -50% 0px'
+            const datePicker = flatpickr("#runDate", {
+                minDate: "today",
+                dateFormat: "d-m-Y",
+                disableMobile: "true"
             });
-            sections.forEach(section => observer.observe(section));
 
-            function checkNavVisibility() {
-                if (!servicesWrapper) return;
-                const rect = servicesWrapper.getBoundingClientRect();
-                const windowHeight = window.innerHeight;
-                const startVisible = rect.top < windowHeight - 100;
-                const endVisible = rect.bottom > 600;
+            // --- 2. MODAL CONTROLS ---
+            window.openCustomModal = function() {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                resetForm();
+            };
 
-                if (startVisible && endVisible) {
-                    navWrapper.classList.add('is-visible');
-                } else {
-                    navWrapper.classList.remove('is-visible');
+            window.closeCustomModal = function() {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            };
+
+            // Close on overlay click
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeCustomModal();
+            });
+
+            // --- 3. NAVIGATION LOGIC ---
+            btnNext.addEventListener('click', () => {
+                if (validateStep(currentStep)) {
+                    goToStep(currentStep + 1);
                 }
+            });
+
+            btnPrev.addEventListener('click', () => {
+                goToStep(currentStep - 1);
+            });
+
+            function goToStep(step) {
+                document.querySelector(`.modal-step[data-step="${currentStep}"]`).classList.remove('active');
+                currentStep = step;
+                document.querySelector(`.modal-step[data-step="${currentStep}"]`).classList.add('active');
+                updateUI();
             }
 
-            window.addEventListener('scroll', checkNavVisibility);
-            checkNavVisibility();
+            function updateUI() {
+                progressBar.style.width = (currentStep / 3) * 100 + '%';
+                btnPrev.style.display = (currentStep === 1) ? 'none' : 'block';
+                btnNext.style.display = (currentStep === 3) ? 'none' : 'block';
+                btnSubmit.style.display = (currentStep === 3) ? 'block' : 'none';
+            }
 
-            gsap.utils.toArray('.reveal-item').forEach(item => {
-                gsap.fromTo(item, {
-                    opacity: 0,
-                    y: 30
-                }, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: item,
-                        start: "top 85%"
+            // --- 4. VALIDATION ENGINE ---
+            function validateStep(step) {
+                const currentStepEl = document.querySelector(`.modal-step[data-step="${step}"]`);
+                let isValid = true;
+
+                // Reset previous errors
+                currentStepEl.querySelectorAll('.invalid').forEach(el => el.classList.remove('invalid'));
+
+                if (step === 1 || step === 2) {
+                    const radioChecked = currentStepEl.querySelector('input[type="radio"]:checked');
+                    if (!radioChecked) {
+                        // Shake the cards for visual feedback
+                        const container = currentStepEl.querySelector('.options-grid') || currentStepEl.querySelector('.distance-selector-grid');
+                        container.classList.add('shake-error');
+                        setTimeout(() => container.classList.remove('shake-error'), 500);
+                        isValid = false;
                     }
-                });
+                }
+
+                if (step === 3) {
+                    const inputs = currentStepEl.querySelectorAll('input[required]');
+                    inputs.forEach(input => {
+                        if (!input.value.trim()) {
+                            input.classList.add('invalid');
+                            isValid = false;
+                        }
+                        if (input.type === 'email' && !validateEmail(input.value)) {
+                            input.classList.add('invalid');
+                            isValid = false;
+                        }
+                    });
+
+                    if (!phoneInput.isValidNumber()) {
+                        phoneInputField.classList.add('invalid');
+                        isValid = false;
+                    }
+
+                    const termsCheckbox = document.getElementById('termsCheckbox');
+                    const termsLabel = termsCheckbox.closest('.terms-checkbox-label');
+
+                    if (!termsCheckbox.checked) {
+                        termsLabel.classList.add('invalid'); // Γίνεται κόκκινο το δικό μας UI
+                        isValid = false;
+                    } else {
+                        termsLabel.classList.remove('invalid');
+                    }
+
+                }
+                return isValid;
+            }
+
+            function validateEmail(email) {
+                return String(email).toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+            }
+
+            // --- 5. AJAX SUBMISSION ---
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                if (!validateStep(3)) return;
+
+                // Show Loader on Button
+                const originalBtnText = btnSubmit.innerHTML;
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<span class="spinner-loader"></span> Processing...';
+
+                // Prepare Data
+                const formData = new FormData(form);
+                formData.append('action', 'custom_run_request');
+                formData.append('full_phone', phoneInput.getNumber()); // Full international number
+
+                // AJAX POST to /includes/ajax.php
+                fetch('/includes/ajax.php', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            showFinalMessage('success', 'Request Sent!', 'We will contact you shortly to design your perfect run.');
+                        } else {
+                            showFinalMessage('error', 'Oops!', data.message || 'Something went wrong. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        showFinalMessage('error', 'Network Error', 'Please check your connection and try again.');
+                    })
+                    .finally(() => {
+                        btnSubmit.disabled = false;
+                        btnSubmit.innerHTML = originalBtnText;
+                    });
             });
+
+            function showFinalMessage(type, title, text) {
+                const wrapper = document.querySelector('.modal-steps-wrapper');
+                const icon = type === 'success' ? 'bi-check-circle' : 'bi-exclamation-circle';
+                const iconColor = type === 'success' ? 'var(--accent-color)' : '#ef4444';
+
+                wrapper.innerHTML = `
+            <div class="modal-response-state">
+                <i class="bi ${icon}" style="color: ${iconColor}; font-size: 4rem;"></i>
+                <h2 style="margin-top:20px;">${title}</h2>
+                <p style="color:#64748b;">${text}</p>
+                <button type="button" class="btn-next" onclick="closeCustomModal()" style="margin-top:30px;">Close</button>
+            </div>
+        `;
+            }
+
+            function resetForm() {
+                // Επαναφορά της φόρμας αν χρειάζεται να την ξανανοίξει ο χρήστης
+                // (Προαιρετικό, ανάλογα αν θες να βλέπει το Success message αν το ξανανοίξει)
+            }
         });
     </script>
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/google-libphonenumber@3.2.13/dist/libphonenumber.js"></script>
-
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            // --- STATE ---
-            const wizardState = {
-                step: 0,
-                pkgId: null,
-                pkgData: null,
-                therapistId: null,
-                therapistName: '',
-                sessionType: null,
-                groupSpots: null,
-                client: {},
-                slot: null,
-                calendar: {
-                    currentDate: new Date(),
-                    weekOffset: 0
-                }
-            };
-
-            const els = {
-                modal: new bootstrap.Modal(document.getElementById('bookingModal')),
-                modalEl: document.getElementById('bookingModal'),
-                loader: document.getElementById('wizardLoader'),
-                errorAlert: document.getElementById('globalError'),
-                errorMsg: document.getElementById('errorMsg'),
-                steps: document.querySelectorAll('.wizard-step'),
-                progressItems: document.querySelectorAll('.step-progress li'),
-                btnNext: document.getElementById('btnNext'),
-                btnBack: document.getElementById('btnBack'),
-                btnBook: document.getElementById('btnBook')
-            };
-
-            function getLocalISODate(d) {
-                const z = n => ('0' + n).slice(-2);
-                return d.getFullYear() + '-' + z(d.getMonth() + 1) + '-' + z(d.getDate());
-            }
-
-            // --- OPEN MODAL ---
-            document.querySelectorAll('.open-booking-modal').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const pid = btn.dataset.serviceId;
-                    const spots = btn.dataset.remainingSpots;
-                    initWizard(pid, spots);
+        document.addEventListener("DOMContentLoaded", () => {
+            if (typeof gsap !== "undefined") {
+                gsap.utils.toArray('.gs-reveal').forEach(function(elem) {
+                    gsap.from(elem, {
+                        y: 40,
+                        opacity: 0,
+                        duration: 1,
+                        ease: "power3.out",
+                        stagger: 0.2
+                    });
                 });
+            }
+
+            const filterBar = document.getElementById('filterBar');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const indicator = document.getElementById('filterIndicator');
+            const routesSection = document.querySelector('.routes-list-section');
+            const fab = document.getElementById('mobileFilterFab');
+            const sheet = document.getElementById('mobileFilterSheet');
+            const overlay = document.getElementById('sheetOverlay');
+            const closeBtn = document.getElementById('closeSheetBtn');
+            const sheetBtns = document.querySelectorAll('.sheet-btn');
+            const dff = document.getElementById('desktopFloatingFilter');
+            const dffValue = document.getElementById('dffValue');
+
+            function moveIndicator(btn) {
+                if (!indicator || !filterBar) return;
+                const leftPos = btn.offsetLeft;
+                const width = btn.offsetWidth;
+                indicator.style.left = `${leftPos}px`;
+                indicator.style.width = `${width}px`;
+
+                if (filterBar.scrollWidth > filterBar.clientWidth) {
+                    const scrollTarget = btn.offsetLeft - (filterBar.offsetWidth / 2) + (btn.offsetWidth / 2);
+                    filterBar.scrollTo({
+                        left: scrollTarget,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+
+            setTimeout(() => {
+                const activeBtn = document.querySelector('.filter-btn.active');
+                if (activeBtn) moveIndicator(activeBtn);
+            }, 100);
+
+            // --- RESIZE LOGIC & RESET ---
+            let isDesktop = window.innerWidth > 992;
+            let prevWidth = window.innerWidth;
+
+            window.addEventListener('resize', () => {
+                const currentActive = document.querySelector('.filter-btn.active');
+                if (currentActive) moveIndicator(currentActive);
+
+                const currentWidth = window.innerWidth;
+                const wasDesktop = prevWidth > 992;
+                isDesktop = currentWidth > 992;
+
+                // ΑΝ ΑΛΛΑΞΕΙ ΣΥΣΚΕΥΗ (Desktop <-> Mobile), ΚΑΝΟΥΜΕ RESET ΤΑ ΦΙΛΤΡΑ
+                if (wasDesktop !== isDesktop) {
+                    // Reset Desktop
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    const defaultDesktop = document.querySelector('.filter-btn[data-filter="all"]');
+                    if (defaultDesktop) {
+                        defaultDesktop.classList.add('active');
+                        moveIndicator(defaultDesktop);
+                        if (dffValue) dffValue.textContent = 'All Routes';
+                    }
+
+                    // Reset Mobile
+                    mobileFilters = [];
+                    sheetBtns.forEach(b => b.classList.remove('active'));
+                    if (fabBadge) fabBadge.style.display = 'none';
+                    if (mobileClearBtn) mobileClearBtn.style.display = 'none';
+
+                    applyFilterLogic();
+                }
+                prevWidth = currentWidth;
             });
 
-            els.modalEl.addEventListener('show.bs.modal', () => {
-                document.body.style.overflow = 'hidden';
-                document.documentElement.style.overflow = 'hidden';
-            });
-
-            // Όταν κλείνει το Modal -> Επαναφορά Scroll & Reset Wizard
-            els.modalEl.addEventListener('hidden.bs.modal', () => {
-                document.body.style.overflow = '';
-                document.documentElement.style.overflow = '';
-
-                // Καλό είναι να κάνουμε reset εδώ, για να καθαρίζει αν ο χρήστης το κλείσει με ESC ή κλικ έξω
-                resetWizard();
-            });
-
-            async function initWizard(pkgId, spots) {
-                resetWizard();
-                wizardState.pkgId = pkgId;
-                wizardState.groupSpots = spots;
-                els.modal.show();
-                toggleLoader(true);
-
-                try {
-                    const csrf_token = document.querySelector('meta[name="csrf_token"]')?.getAttribute('content') || '';
-
-                    const fd = new FormData();
-                    fd.append('action', 'fetchPublicPackage');
-                    fd.append('csrf_token', csrf_token);
-                    fd.append('id', pkgId);
-                    const res = await fetch('includes/ajax.php', {
-                        method: 'POST',
-                        body: fd
-                    }).then(r => r.json());
-
-                    if (res.success) {
-                        wizardState.pkgData = res.data;
-                        renderStep1();
-                        toggleLoader(false);
-                    } else {
-                        showError('Error loading package.');
-                        setTimeout(() => els.modal.hide(), 2000);
-                    }
-                } catch (e) {
-                    console.error(e);
-                    showError('Connection error.');
-                    toggleLoader(false);
-                }
-            }
-
-            // --- NAVIGATION ---
-            els.btnNext.addEventListener('click', () => changeStep(1));
-            els.btnBack.addEventListener('click', () => changeStep(-1));
-
-            function changeStep(dir) {
-                const nextStep = wizardState.step + dir;
-
-                if (dir === 1) {
-                    if (!validateStep(wizardState.step)) return;
-                }
-
-                // Group Skip Logic (Skip Calendar Step 2)
-                if (wizardState.pkgData.is_group == 1 && nextStep === 2) {
-                    // Auto-set slot
-                    const dt = wizardState.pkgData.start_datetime.split(' ');
-                    wizardState.slot = {
-                        date: dt[0],
-                        time: dt[1].substring(0, 5)
-                    };
-
-                    if (dir === 1) renderStep(3); // Jump to Review
-                    else renderStep(1); // Jump back to Info
-                    return;
-                }
-
-                renderStep(nextStep);
-            }
-
-            function renderStep(idx) {
-                wizardState.step = idx;
-
-                // UI Updates
-                els.steps.forEach(s => s.classList.remove('active'));
-                if (els.steps[idx]) els.steps[idx].classList.add('active');
-
-                els.progressItems.forEach((li, i) => {
-                    if (i <= idx) li.classList.add('active');
-                    else li.classList.remove('active');
-                });
-
-                els.btnBack.style.visibility = idx === 0 ? 'hidden' : 'visible';
-
-                // Step 4: Review
-                if (idx === 3) {
-                    els.btnNext.classList.add('d-none');
-                    els.btnBook.classList.remove('d-none');
-                    renderReview();
-                } else {
-                    els.btnNext.classList.remove('d-none');
-                    els.btnBook.classList.add('d-none');
-                }
-
-                // Step 3: Calendar
-                if (idx === 2) {
-                    // Scenario A: User has already picked a slot (or we manually set it)
-                    if (wizardState.slot && wizardState.slot.date) {
-                        jumpToDate(new Date(wizardState.slot.date));
-                    }
-                    // Scenario B: First time entering step, no slot. Find next available.
-                    else {
-                        findAndJumpToFirstDate();
-                    }
-                    updateAnchorLabel();
-                }
-
-                hideError();
-            }
-
-            // Jumps calendar state to specific date
-            function jumpToDate(targetDate) {
-                // Μηδενισμός ώρας για αποφυγή προβλημάτων
-                targetDate.setHours(0, 0, 0, 0);
-
-                const today = new Date();
-                today.setHours(0, 0, 0, 0);
-
-                // Βρίσκουμε τη Δευτέρα (Start of Week)
-                const getMonday = (d) => {
-                    const day = d.getDay(),
-                        diff = d.getDate() - day + (day == 0 ? -6 : 1);
-                    return new Date(d.setDate(diff));
-                }
-
-                const mondayTarget = getMonday(new Date(targetDate));
-                const mondayToday = getMonday(new Date(today));
-
-                // Υπολογισμός εβδομάδων διαφοράς
-                const diffTime = mondayTarget.getTime() - mondayToday.getTime();
-                const diffWeeks = Math.round(diffTime / (1000 * 60 * 60 * 24 * 7));
-
-                wizardState.calendar.weekOffset = diffWeeks;
-                wizardState.calendar.currentDate = mondayTarget;
-
-                // ΣΗΜΑΝΤΙΚΟ: Αποθηκεύουμε την ημερομηνία-στόχο με το σωστό format
-                wizardState.calendar.autoSelectDate = getLocalISODate(targetDate);
-
-                initCalendar();
-            }
-
-            // AJAX call to find first available day
-            async function findAndJumpToFirstDate() {
-                // Show loader on calendar area
-                document.getElementById('weekDaysContainer').innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm text-secondary"></div></div>';
-                const csrf_token = document.querySelector('meta[name="csrf_token"]')?.getAttribute('content') || '';
-
-                const fd = new FormData();
-                fd.append('action', 'getNextAvailableDate');
-                fd.append('therapist_id', wizardState.therapistId);
-                fd.append('duration', wizardState.pkgData.duration_minutes);
-                fd.append('csrf_token', csrf_token);
-
-                try {
-                    const res = await fetch('includes/ajax.php', {
-                        method: 'POST',
-                        body: fd
-                    }).then(r => r.json());
-                    if (res.success && res.date) {
-                        jumpToDate(new Date(res.date));
-                    } else {
-                        // Fallback to today
-                        initCalendar();
-                    }
-                } catch (e) {
-                    initCalendar();
-                }
-            }
-
-            // --- VALIDATION ---
-            function validateStep(idx) {
-                // STEP 0: Therapist & Type
-                if (idx === 0) {
-                    if (wizardState.pkgData.is_group != 1) {
-                        const tChecked = document.querySelector('input[name="therapist"]:checked');
-                        if (!tChecked) {
-                            showError('Επιλέξτε θεραπευτή.');
-                            return false;
-                        }
-                        wizardState.therapistId = tChecked.value;
-                        const card = tChecked.closest('.therapist-select-card');
-                        wizardState.therapistName = card ? card.querySelector('.t-name').innerText : '';
-                    } else {
-                        wizardState.therapistId = 0;
-                        wizardState.therapistName = 'Workshop Team';
-                    }
-
-                    if (wizardState.pkgData.type === 'mixed') {
-                        const typeChecked = document.querySelector('input[name="sessionType"]:checked');
-                        if (!typeChecked) {
-                            showError('Επιλέξτε τρόπο.');
-                            return false;
-                        }
-                        wizardState.sessionType = typeChecked.value;
-                    } else {
-                        wizardState.sessionType = wizardState.pkgData.type;
-                    }
-                    return true;
-                }
-
-                // STEP 1: Details (Name, Email, Phone)
-                if (idx === 1) {
-                    const fname = document.getElementById('inpFname').value.trim();
-                    const lname = document.getElementById('inpLname').value.trim();
-                    const phone = document.getElementById('inpPhone').value.trim();
-                    const email = document.getElementById('inpEmail').value.trim();
-                    const clintNotes = document.getElementById('inpNotes').value.trim();
-
-                    // 1. Έλεγχος Κενών Πεδίων
-                    if (!fname || !lname || !email || !phone) {
-                        showError('Συμπληρώστε όλα τα απαραίτητα πεδία (*).');
-                        return false;
-                    }
-
-                    // 2. ΝΕΟ: Έλεγχος Εγκυρότητας Email
-                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                    if (!emailRegex.test(email)) {
-                        showError('Παρακαλώ εισάγετε ένα έγκυρο email.');
-                        return false;
-                    }
-
-                    // 3. Έλεγχος Τηλεφώνου (Libphonenumber)
-                    const code = document.getElementById('finalCountryCode').value;
-                    const fullPhone = '+' + code + phone;
-
-                    if (typeof libphonenumber !== 'undefined') {
-                        try {
-                            const u = libphonenumber.PhoneNumberUtil.getInstance();
-                            const n = u.parseAndKeepRawInput(fullPhone);
-                            if (!u.isValidNumber(n)) {
-                                showError('Μη έγκυρος αριθμός τηλεφώνου.');
-                                return false;
-                            }
-                        } catch (e) {
-                            showError('Μη έγκυρος αριθμός τηλεφώνου.');
-                            return false;
-                        }
-                    }
-
-                    // Αποθήκευση στο State
-                    wizardState.client = {
-                        fname,
-                        lname,
-                        email,
-                        phone: fullPhone,
-                        notes: clintNotes
-                    };
-                    return true;
-                }
-
-                // STEP 2: Calendar Slot
-                if (idx === 2) {
-                    if (!wizardState.slot) {
-                        showError('Επιλέξτε ώρα για το ραντεβού.');
-                        return false;
-                    }
-                    return true;
-                }
-
-                return true;
-            }
-
-            // --- RENDERERS ---
-            function renderStep1() {
-                const pkg = wizardState.pkgData;
-
-                // 1. UPDATE SUMMARY CARD (The clean design)
-                document.getElementById('modalPkgTitle').innerText = pkg.title;
-                document.getElementById('modalPkgTitleDesc').innerText = pkg.title;
-                document.getElementById('pkgDurationText').innerHTML = `<i class="bi bi-clock me-1"></i>${pkg.duration_minutes} λεπτά`;
-
-                // Price Logic
-                const price = parseFloat(pkg.price);
-                const priceEl = document.getElementById('pkgPriceText');
-
-                if (price > 0) {
-                    priceEl.innerText = price.toFixed(2) + '€';
-                    priceEl.className = "fs-5 fw-bold text-dark"; // Clean dark text
-                } else {
-                    priceEl.innerHTML = '<span class="badge bg-light text-dark border fw-normal">Δωρεάν</span>';
-                }
-
-                // 2. THERAPISTS LIST
-                const tContainer = document.getElementById('therapistList');
-                tContainer.innerHTML = '';
-                const tSection = document.getElementById('therapistSection');
-                const gInfo = document.getElementById('groupFixedInfo');
-
-                if (pkg.is_group == 1) {
-                    // --- Group Session ---
-                    tSection.classList.add('d-none');
-                    gInfo.classList.remove('d-none');
-
-                    const d = new Date(pkg.start_datetime);
-                    let badge = '';
-                    if (wizardState.groupSpots && wizardState.groupSpots < 5) {
-                        badge = `<div class="mt-1"><span class="badge bg-danger-subtle text-danger border border-danger-subtle" style="font-size:0.75rem">Τελευταίες ${wizardState.groupSpots} θέσεις!</span></div>`;
-                    }
-
-                    document.getElementById('groupDateText').innerHTML = d.toLocaleString('el-GR', {
-                        weekday: 'long',
-                        day: 'numeric',
-                        month: 'long',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                    }) + badge;
-
-                } else {
-                    // --- 1-on-1 Session ---
-                    tSection.classList.remove('d-none');
-                    gInfo.classList.add('d-none');
-
-                    if (pkg.therapists && pkg.therapists.length > 0) {
-                        pkg.therapists.forEach(t => {
-                            // Avatar logic
-                            const av = t.avatar ?
-                                `<img src="${t.avatar}" class="rounded-circle mb-2" style="width:85px;height:85px;object-fit:cover;">` :
-                                `<div class="bg-light text-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2 border" style="width:50px;height:50px;"><span class="fw-bold fs-5">${t.first_name[0]}</span></div>`;
-
-                            const html = `
-                                <label class="therapist-select-card" style="width: 145px; cursor: pointer;">
-                                    <input type="radio" name="therapist" value="${t.id}">
-                                    <div class="t-content p-3 rounded-3 border bg-white text-center h-100 transition-all">
-                                        ${av}
-                                        <div class="fw-bold small t-name text-truncate w-100">${t.first_name}</div>
-                                        <div class="small text-muted" style="font-size: 0.7rem;">${t.last_name}</div>
-                                    </div>
-                                </label>`;
-                            tContainer.insertAdjacentHTML('beforeend', html);
-                        });
-
-                        // Auto-select if only one
-                        if (pkg.therapists.length === 1) {
-                            tContainer.querySelector('input').checked = true;
-                        }
-                    } else {
-                        // Any Therapist Option
-                        tContainer.innerHTML = `
-                            <label class="therapist-select-card" style="width: 145px; cursor: pointer;">
-                                <input type="radio" name="therapist" value="any" checked>
-                                <div class="t-content p-3 rounded-3 border bg-white text-center h-100">
-                                    <div class="bg-light text-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2 border" style="width:50px;height:50px;">
-                                        <i class="bi bi-people-fill fs-5"></i>
-                                    </div>
-                                    <div class="fw-bold small t-name">Οποιοσδήποτε</div>
-                                    <div class="small text-muted" style="font-size: 0.7rem;">Διαθέσιμος</div>
-                                </div>
-                            </label>`;
-                    }
-                }
-
-                // 3. LOCATION / TYPE
-                const typeSec = document.getElementById('typeSection');
-                if (pkg.type === 'mixed') {
-                    typeSec.classList.remove('d-none');
-                } else {
-                    typeSec.classList.add('d-none');
-                }
-            }
-
-            // Step 4 Review
-            // STEP 4: REVIEW & PAY
-            function renderReview() {
-                const pkg = wizardState.pkgData;
-                const slot = wizardState.slot;
-                const cli = wizardState.client;
-
-                // 1. Fill Summary Data
-                document.getElementById('reviewPkgTitle').innerText = pkg.title;
-                document.getElementById('reviewTherapist').innerText = wizardState.therapistName || 'Οποιοσδήποτε';
-
-                // --- Date Logic ---
-                const d = new Date(slot.date);
-                document.getElementById('reviewDate').innerText = d.toLocaleDateString('el-GR', {
-                    weekday: 'long',
-                    day: 'numeric',
-                    month: 'long'
-                });
-
-                // --- Time Logic (Πρωί/Απόγευμα) ---
-                let timeDisplay = slot.time;
-                if (slot.time !== 'Fixed' && slot.time.includes(':')) {
-                    const h = parseInt(slot.time.split(':')[0]);
-                    let period = 'Βράδυ';
-                    if (h < 12) period = 'Πρωί';
-                    else if (h < 17) period = 'Μεσημέρι';
-                    else if (h < 20) period = 'Απόγευμα';
-
-                    timeDisplay += ` (${period})`;
-                }
-                document.getElementById('reviewTime').innerText = timeDisplay;
-
-                // --- Type Logic (Icons) ---
-                const tEl = document.getElementById('reviewType');
-                if (wizardState.sessionType === 'online') {
-                    tEl.innerHTML = '<i class="bi bi-camera-video-fill me-1"></i> Online (Video)';
-                    tEl.className = 'badge bg-primary text-white border px-3 py-2 mt-1';
-                } else {
-                    tEl.innerHTML = '<i class="bi bi-geo-alt-fill me-1"></i> Δια Ζώσης';
-                    tEl.className = 'badge bg-white text-dark border px-3 py-2 mt-1';
-                }
-
-                // Price & Client
-                const price = parseFloat(pkg.price);
-                const finalPrice = price > 0 ? price : 0;
-                document.getElementById('reviewPrice').innerText = finalPrice > 0 ? finalPrice.toFixed(2) + '€' : 'Δωρεάν';
-                document.getElementById('reviewClientName').innerText = cli.fname + ' ' + cli.lname;
-                document.getElementById('reviewClientEmail').innerText = cli.email;
-
-                // 2. Initialize Payment (EveryPay)
-                // const payContainer = document.getElementById('everypayContainer');
-
-                // Only clear/init if we haven't already initialized for this price
-                // (Optional check to prevent flickering, but clearing is safer to ensure fresh state)
-                // payContainer.innerHTML = '';
-                // payContainer.innerHTML = '';
-
-                if (finalPrice > 0) {
-                    const priceCents = Math.round(finalPrice * 100);
-
-                    try {
-                        everypay.payform({
-                            pk: 'pk_1pRyetzc0CbZBwvNVNXpdFafvspjcnk8', // <--- PUT YOUR KEY HERE
-                            amount: priceCents,
-                            locale: 'el',
-                            txnType: 'tds',
-                            theme: 'default',
-                            data: {
-                                email: cli.email,
-                                phone: cli.phone
-                            },
-                            display: {
-                                button: false, // We use our own button
-                                billing: true,
-                                mobile: true
-                            },
-                            formOptions: {
-                                border: '0',
-                                size: 'lg'
-                            }
-                        }, handlePaymentResponse);
-
-                        setTimeout(() => {
-                            if (typeof everypay.showForm === 'function') {
-                                everypay.showForm();
-                            }
-                        }, 200);
-
-                    } catch (err) {
-                        console.error("EveryPay Init Error:", err);
-                        // payContainer.innerHTML = '<div class="alert alert-danger small">Σφάλμα φόρτωσης πληρωμής.</div>';
-                    }
-                } else {
-                    // payContainer.innerHTML = '<div class="alert alert-success small"><i class="bi bi-check-circle me-2"></i>Δεν απαιτείται πληρωμή.</div>';
-                }
-            }
-
-            // --- BUTTON CLICK (Triggers Payment or Direct Submit) ---
-            els.btnBook.addEventListener('click', () => {
-                // 1. Check Terms
-                if (!document.getElementById('termsCheck').checked) {
-                    showError('Πρέπει να αποδεχτείτε τους όρους χρήσης.');
-                    return;
-                }
-
-                // 2. Check Price
-                const price = parseFloat(wizardState.pkgData.price);
-
-                if (price > 0) {
-                    // Trigger EveryPay Validation & Tokenization
-                    // This will call handlePaymentResponse on success
-                    if (typeof everypay !== 'undefined') {
-                        everypay.onClick();
-                    } else {
-                        showError('Το σύστημα πληρωμών δεν έχει φορτώσει.');
-                    }
-                }
-            });
-
-            // --- PAYMENT CALLBACK ---
-            window.handlePaymentResponse = function(r) {
-                console.log('Payment Response:', r);
-                if (r.response === 'success') {
-                    // Success! Send token to backend to capture charge & save booking
-                    submitBooking(r.token);
-                } else {
-                    // Error handling (EveryPay usually shows errors in the form, but we can alert too)
-                    if (r.error) showError('Η πληρωμή απέτυχε: ' + r.error.message);
-                }
-            }
-
-            // --- FINAL SUBMIT ---
-            async function submitBooking(paymentToken) {
-                toggleLoader(true);
-                els.btnBook.classList.add('d-none');
-                els.btnBack.classList.add('d-none');
-                const fd = new FormData();
-
-                const metaToken = document.querySelector('meta[name="csrf_token"]')?.getAttribute('content')
-
-                // Backend Action
-                fd.append('action', 'createPublicBooking');
-                fd.append('csrf_token', metaToken);
-
-                // Package & Config
-                fd.append('package_id', wizardState.pkgId);
-                fd.append('therapist_id', wizardState.therapistId);
-                fd.append('type', wizardState.sessionType);
-
-                // Slot
-                fd.append('date', wizardState.slot.date);
-                fd.append('time', wizardState.slot.time);
-
-                // Client
-                const c = wizardState.client;
-                fd.append('first_name', c.fname);
-                fd.append('last_name', c.lname);
-                fd.append('email', c.email);
-                fd.append('phone', c.phone);
-                fd.append('notes', c.notes || '');
-
-                // Payment
-                if (paymentToken) fd.append('payment_token', paymentToken);
-
-                try {
-                    const res = await fetch('includes/ajax.php', {
-                        method: 'POST',
-                        body: fd
-                    }).then(r => r.json());
-
-                    toggleLoader(false);
-
-                    if (res.success) {
-                        // HIDE FORM, SHOW SUCCESS MESSAGE
-                        document.getElementById('bookingForm').classList.add('d-none'); // Hide entire form
-
-                        // Show Success Step (You can add a hidden div for this in HTML or inject it)
-                        const body = els.modalEl.querySelector('.modal-body');
-                        body.innerHTML = `
-                    <div class="d-flex flex-column align-items-center justify-content-center h-100 text-center p-5">
-                        <div class="mb-4 text-success" style="font-size: 4rem;"><i class="bi bi-check-circle-fill"></i></div>
-                        <h3 class="fw-bold mb-3">Η κράτηση ολοκληρώθηκε!</h3>
-                        <p class="text-muted mb-4">Σας ευχαριστούμε. Ένα email επιβεβαίωσης έχει σταλεί στο <strong>${c.email}</strong>.</p>
-                        <button class="btn btn-dark rounded-pill px-4" onclick="window.location.reload()">Εντάξει</button>
-                    </div>
-                `;
-
-                        // Hide Footer buttons
-                        document.querySelector('.modal-footer').classList.add('d-none');
-
-                    } else {
-                        showError('Σφάλμα: ' + (res.errors ? res.errors.join(', ') : 'Άγνωστο σφάλμα.'));
-                    }
-                } catch (e) {
-                    console.error(e);
-                    showError('Σφάλμα επικοινωνίας με τον server.');
-                    toggleLoader(false);
-                    els.btnBack.classList.add('d-none');
-                }
-            }
-
-            // --- CALENDAR (Standard) ---
-            document.getElementById('prevWeek').onclick = () => {
-                wizardState.calendar.weekOffset--;
-                initCalendar();
-            };
-            document.getElementById('nextWeek').onclick = () => {
-                wizardState.calendar.weekOffset++;
-                initCalendar();
-            };
-
-            function initCalendar() {
-                const d = new Date();
-                const day = d.getDay();
-                const diff = d.getDate() - day + (day == 0 ? -6 : 1);
-                d.setDate(diff + (wizardState.calendar.weekOffset * 7));
-                wizardState.calendar.currentDate = d;
-                renderWeek();
-            }
-
-            function renderWeek() {
-                const container = document.getElementById('weekDaysContainer');
-                if (!container) return;
-
-                container.innerHTML = '';
-                document.getElementById('currentMonthLabel').innerText =
-                    wizardState.calendar.currentDate.toLocaleString('el-GR', {
-                        month: 'long',
-                        year: 'numeric'
+            setTimeout(() => {
+                // Ελέγχουμε αν είμαστε σε κινητό/tablet ΚΑΙ αν η μπάρα όντως έχει κρυμμένο περιεχόμενο (overflow)
+                if (window.innerWidth <= 992 && filterBar && filterBar.scrollWidth > filterBar.clientWidth) {
+
+                    // 1. Κάνουμε ένα μικρό scroll προς τα δεξιά (50 pixels)
+                    filterBar.scrollBy({
+                        left: 50,
+                        behavior: 'smooth'
                     });
 
-                const start = new Date(wizardState.calendar.currentDate);
-                const today = new Date();
-
-                // Get Limits from State
-                // Find selected therapist in pkgData
-                const tid = wizardState.therapistId;
-                let maxDays = 60; // Default
-
-                if (wizardState.pkgData && wizardState.pkgData.therapists) {
-                    const tObj = wizardState.pkgData.therapists.find(t => t.id == tid);
-                    if (tObj && tObj.booking_window_days) {
-                        maxDays = parseInt(tObj.booking_window_days);
-                    }
-                }
-
-                // Calculate Max Date
-                const maxDate = new Date();
-                maxDate.setDate(today.getDate() + maxDays);
-                const maxDateStr = getLocalISODate(maxDate);
-                const todayStr = getLocalISODate(today);
-
-                let autoClickTarget = null;
-
-                for (let i = 0; i < 7; i++) {
-                    const day = new Date(start);
-                    day.setDate(start.getDate() + i);
-
-                    const iso = getLocalISODate(day);
-
-                    const btn = document.createElement('div');
-                    btn.className = 'cal-day-btn d-flex flex-column align-items-center justify-content-center flex-shrink-0';
-                    btn.innerHTML = `<span class="small fw-bold text-uppercase">${day.toLocaleString('el-GR', {weekday:'short'})}</span><span class="fs-5">${day.getDate()}</span>`;
-
-                    // --- LOGIC: Disable if Past OR Future > Max Window ---
-                    if (iso < todayStr || iso > maxDateStr) {
-                        btn.classList.add('disabled', 'opacity-50'); // Add opacity for visual clue
-                        btn.style.cursor = 'not-allowed';
-                    } else {
-                        btn.onclick = () => loadSlots(iso, btn);
-                    }
-
-                    // ... (rest of selection logic) ...
-                    if (wizardState.slot && wizardState.slot.date === iso) {
-                        btn.classList.add('active');
-                        autoClickTarget = {
-                            iso: iso,
-                            el: btn
-                        };
-                    }
-                    if (!wizardState.slot && wizardState.calendar.autoSelectDate === iso) {
-                        // Ensure we don't auto-select a disabled date
-                        if (iso <= maxDateStr) {
-                            autoClickTarget = {
-                                iso: iso,
-                                el: btn
-                            };
-                        }
-                        wizardState.calendar.autoSelectDate = null;
-                    }
-
-                    container.appendChild(btn);
-                }
-
-                if (autoClickTarget) {
-                    loadSlots(autoClickTarget.iso, autoClickTarget.el);
-                } else {
-                    const ms = document.getElementById('morningSlots');
-                    const as = document.getElementById('afternoonSlots');
-                    if (ms) ms.innerHTML = '<span class="small text-muted w-100 text-center py-2">Επιλέξτε ημέρα...</span>';
-                    if (as) as.innerHTML = '';
-                }
-            }
-
-            async function loadSlots(dateStr, btnEl) {
-                // Active visual for Day Button
-                if (btnEl) {
-                    document.querySelectorAll('.cal-day-btn').forEach(b => b.classList.remove('active'));
-                    btnEl.classList.add('active');
-                }
-
-                const ms = document.getElementById('morningSlots');
-                const as = document.getElementById('afternoonSlots');
-                if (!ms || !as) return;
-
-                // Show Spinner
-                ms.innerHTML = '<div class="spinner-border spinner-border-sm text-secondary mx-auto"></div>';
-                as.innerHTML = '';
-
-                const fd = new FormData();
-                const csrf_token = document.querySelector('meta[name="csrf_token"]')?.getAttribute('content') || '';
-
-                fd.append('action', 'getPublicSlots');
-                fd.append('therapist_id', wizardState.therapistId);
-                fd.append('csrf_token', csrf_token);
-                fd.append('date', dateStr);
-                fd.append('duration', wizardState.pkgData.duration_minutes);
-                fd.append('type', wizardState.sessionType);
-
-                try {
-                    const res = await fetch('includes/ajax.php', {
-                        method: 'POST',
-                        body: fd
-                    }).then(r => r.json());
-
-                    // --- FIX 1: Clear BOTH containers immediately ---
-                    ms.innerHTML = '';
-                    as.innerHTML = '';
-
-                    if (res.success && res.slots.length > 0) {
-                        let hasM = false,
-                            hasA = false;
-                        const seenTimes = new Set(); // --- FIX 2: Deduplicate slots ---
-
-                        res.slots.forEach(time => {
-                            if (seenTimes.has(time)) return; // Skip if we already added this time
-                            seenTimes.add(time);
-
-                            const hour = parseInt(time.split(':')[0]);
-                            const btn = document.createElement('button');
-                            btn.type = 'button';
-                            btn.className = 'slot-btn';
-                            btn.innerText = time;
-
-                            // Highlight if selected
-                            if (wizardState.slot && wizardState.slot.date === dateStr && wizardState.slot.time === time) {
-                                btn.classList.add('active');
-                            }
-
-                            btn.onclick = () => selectSlot(btn, dateStr, time);
-
-                            const div = document.createElement('div');
-                            div.appendChild(btn);
-
-                            if (hour < 15) {
-                                ms.appendChild(div);
-                                hasM = true;
-                            } else {
-                                as.appendChild(div);
-                                hasA = true;
-                            }
+                    // 2. Μετά από μισό δευτερόλεπτο, το επιστρέφουμε στο 0
+                    setTimeout(() => {
+                        filterBar.scrollTo({
+                            left: 0,
+                            behavior: 'smooth'
                         });
-
-                        if (!hasM) ms.innerHTML = '<span class="small text-muted fst-italic w-100 text-center bg-warning-subtle p-4 rounded">Δεν βρέθηκαν διαθέσιμα πρωινά ραντεβού για αυτή την ημέρα.</span>';
-                        if (!hasA) as.innerHTML = '<span class="small text-muted fst-italic w-100 text-center bg-warning-subtle p-4 rounded">Δεν υπάρχουν διαθέσιμα απογευματινά ραντεβού για την επιλεγμένη ημερομηνία.</span>';
-
-                    } else {
-                        ms.innerHTML = '<span class="small text-muted fst-italic w-100 text-center bg-danger-subtle p-4 rounded">Δεν υπάρχουν διαθέσιμα ραντεβού για αυτή την ημέρα. Παρακαλώ επιλέξτε μια άλλη ημερομηνία.</span>';
-                    }
-                } catch (e) {
-                    console.error(e);
-                    ms.innerHTML = '<span class="text-danger small">Παρουσιάστηκε πρόβλημα κατά τη φόρτωση. Παρακαλώ δοκιμάστε ξανά σε λίγο.</span>';
+                    }, 500);
                 }
-            }
+            }, 1500);
 
-            function selectSlot(el, date, time) {
-                document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
-                el.classList.add('active');
-                wizardState.slot = {
-                    date,
-                    time
-                };
-                updateAnchorLabel(); // Update the label
-            }
-
-            // --- HELPERS ---
-            function toggleLoader(s) {
-                if (s) els.loader.classList.remove('d-none');
-                else els.loader.classList.add('d-none');
-            }
-
-            function showError(m) {
-                els.errorMsg.innerText = m;
-                els.errorAlert.classList.remove('d-none');
-                setTimeout(() => els.errorAlert.classList.add('d-none'), 3000);
-            }
-
-            function hideError() {
-                els.errorAlert.classList.add('d-none');
-            }
-
-            function resetWizard() {
-                wizardState.step = 0;
-                wizardState.slot = null;
-                document.getElementById('bookingForm').reset();
-                document.getElementById('morningSlots').innerHTML = '';
-                document.getElementById('afternoonSlots').innerHTML = '';
-                renderStep(0);
-            }
-
-            function selectSlot(el, date, time) {
-                document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('active'));
-                el.classList.add('active');
-                wizardState.slot = {
-                    date,
-                    time
-                };
-
-                // Update Anchor Label
-                updateAnchorLabel();
-            }
-
-            // --- Anchor Label Logic ---
-            function updateAnchorLabel() {
-                const anchor = document.getElementById('selectedSlotAnchor');
-                if (wizardState.slot && wizardState.slot.time !== 'Fixed') {
-                    const d = new Date(wizardState.slot.date);
-                    const dateStr = d.toLocaleDateString('el-GR', {
-                        day: 'numeric',
-                        month: 'short',
-                        weekday: 'short'
+            if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+                gsap.utils.toArray('.gs-parallax').forEach(function(layer) {
+                    const depth = layer.getAttribute('data-speed');
+                    const movement = -(layer.offsetHeight * depth);
+                    gsap.to(layer, {
+                        y: movement,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: ".routes-list-section",
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true
+                        }
                     });
-                    document.getElementById('anchorText').innerText = `Επιλογή: ${dateStr} @ ${wizardState.slot.time}`;
-                    anchor.classList.remove('d-none');
+                });
+            }
+
+            window.addEventListener('scroll', () => {
+                if (routesSection) {
+                    const isPastHero = window.scrollY > (routesSection.offsetTop - 300);
+                    if (window.innerWidth <= 992 && fab) {
+                        isPastHero ? fab.classList.add('show') : fab.classList.remove('show');
+                    } else if (window.innerWidth > 992 && dff) {
+                        isPastHero ? dff.classList.add('show') : dff.classList.remove('show');
+                    }
+                }
+            });
+
+            if (dff && filterBar) {
+                dff.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: filterBar.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            function toggleSheet(show) {
+                if (!sheet || !overlay) return;
+                if (show) {
+                    sheet.classList.add('active');
+                    overlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
                 } else {
-                    anchor.classList.add('d-none');
+                    sheet.classList.remove('active');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
                 }
             }
 
-            // Clear Button Listener
-            const clrBtn = document.getElementById('clearSlotBtn');
-            if (clrBtn) {
-                clrBtn.addEventListener('click', () => {
-                    wizardState.slot = null;
-                    updateAnchorLabel();
-                    document.querySelectorAll('.slot-btn.active').forEach(b => b.classList.remove('active'));
-                });
-            }
+            if (fab) fab.addEventListener('click', () => toggleSheet(true));
+            if (closeBtn) closeBtn.addEventListener('click', () => toggleSheet(false));
+            if (overlay) overlay.addEventListener('click', () => toggleSheet(false));
 
-            // Country Dropdown
-            function initCountries() {
-                const dd = document.getElementById('countryDropdown');
-                const img = document.getElementById('selectedFlag');
-                const span = document.getElementById('selectedCode');
-                const inp = document.getElementById('finalCountryCode');
+            // --- FILTERING LOGIC ---
+            let mobileFilters = [];
+            const fabBadge = document.getElementById('fabBadge');
+            const mobileClearBtn = document.getElementById('mobileClearBtn');
 
-                const list = [{
-                        c: '30',
-                        r: 'gr',
-                        n: 'Greece'
-                    }, {
-                        c: '357',
-                        r: 'cy',
-                        n: 'Cyprus'
-                    },
-                    {
-                        c: '44',
-                        r: 'gb',
-                        n: 'UK'
-                    }, {
-                        c: '49',
-                        r: 'de',
-                        n: 'Germany'
-                    }, {
-                        c: '1',
-                        r: 'us',
-                        n: 'USA'
+            function applyFilterLogic() {
+                const allRoutes = document.querySelectorAll('.route-card-editorial');
+                let matchedRoutes = [];
+
+                // Scroll μόνο αν ΔΕΝ είναι ανοιχτό το mobile menu
+                if (routesSection && (!sheet || !sheet.classList.contains('active'))) {
+                    window.scrollTo({
+                        top: routesSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+
+                allRoutes.forEach(route => {
+                    const routeCat = route.getAttribute('data-category');
+                    let isMatch = false;
+
+                    if (isDesktop) {
+                        const activeDesktop = document.querySelector('.filter-btn.active');
+                        const activeVal = activeDesktop ? activeDesktop.getAttribute('data-filter') : 'all';
+                        isMatch = (activeVal === 'all' || activeVal === routeCat);
+                    } else {
+                        isMatch = (mobileFilters.length === 0 || mobileFilters.includes(routeCat));
                     }
-                ];
-                dd.innerHTML = '';
-                list.forEach(x => {
-                    const li = document.createElement('li');
-                    li.innerHTML = `<a class="dropdown-item d-flex align-items-center gap-2" href="#" data-c="${x.c}" data-img="/assets/images/countries/${x.r}.png"><img src="/assets/images/countries/${x.r}.png" width="20"> ${x.n} (+${x.c})</a>`;
-                    li.querySelector('a').onclick = (e) => {
-                        e.preventDefault();
-                        img.src = e.currentTarget.dataset.img;
-                        span.innerText = '+' + e.currentTarget.dataset.c;
-                        inp.value = e.currentTarget.dataset.c;
-                    };
-                    dd.appendChild(li);
+
+                    if (isMatch) {
+                        matchedRoutes.push(route);
+                    } else {
+                        gsap.to(route, {
+                            opacity: 0,
+                            scale: 0.95,
+                            y: 20,
+                            duration: 0.3,
+                            onComplete: () => route.style.display = "none"
+                        });
+                    }
+                });
+
+                setTimeout(() => {
+                    matchedRoutes.forEach(route => route.style.display = "flex");
+                    gsap.fromTo(matchedRoutes, {
+                        opacity: 0,
+                        y: 40
+                    }, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.6,
+                        ease: "power2.out",
+                        stagger: 0.15
+                    });
+                }, 300);
+            }
+
+            // DESKTOP: SINGLE SELECT CLICKS
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const text = this.textContent;
+
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    moveIndicator(this);
+                    if (dffValue) dffValue.textContent = text;
+
+                    applyFilterLogic();
+                });
+            });
+
+            // MOBILE: MULTI SELECT CLICKS
+            sheetBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const val = this.getAttribute('data-filter');
+
+                    if (mobileFilters.includes(val)) {
+                        mobileFilters = mobileFilters.filter(f => f !== val);
+                        this.classList.remove('active');
+                    } else {
+                        mobileFilters.push(val);
+                        this.classList.add('active');
+                    }
+
+                    // Update UI 
+                    if (mobileFilters.length > 0) {
+                        if (fabBadge) {
+                            fabBadge.style.display = 'inline-flex';
+                            fabBadge.textContent = mobileFilters.length;
+                        }
+                        if (mobileClearBtn) mobileClearBtn.style.display = 'block';
+                    } else {
+                        if (fabBadge) fabBadge.style.display = 'none';
+                        if (mobileClearBtn) mobileClearBtn.style.display = 'none';
+                    }
+
+                    applyFilterLogic(); // Φιλτράρει live στο background
+                    // ΠΡΟΣΟΧΗ: ΔΕΝ κλείνουμε το sheet πια! (Αφαιρέθηκε το toggleSheet(false))
+                });
+            });
+
+            // MOBILE: CLEAR BUTTON CLICK
+            if (mobileClearBtn) {
+                mobileClearBtn.addEventListener('click', () => {
+                    mobileFilters = [];
+                    sheetBtns.forEach(b => b.classList.remove('active'));
+                    if (fabBadge) fabBadge.style.display = 'none';
+                    mobileClearBtn.style.display = 'none';
+                    applyFilterLogic();
                 });
             }
-            initCountries();
 
+
+
+
+            document.querySelectorAll('.faq-question').forEach(button => {
+                button.addEventListener('click', () => {
+                    const item = button.parentElement;
+
+                    
+                    document.querySelectorAll('.faq-item').forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                            otherItem.querySelector('.faq-answer').style.maxHeight = null;
+                        }
+                    });
+                    
+
+                    item.classList.toggle('active');
+                    const answer = item.querySelector('.faq-answer');
+
+                    if (item.classList.contains('active')) {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                    } else {
+                        answer.style.maxHeight = null;
+                    }
+                });
+            });
         });
     </script>
 <?php

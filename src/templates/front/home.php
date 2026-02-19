@@ -4,14 +4,6 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
 <!-- 29c1c2 -->
 
 <style>
-    :root {
-        --text-color: #ffffff;
-        /* --accent-color: #29c1c2; */
-        --accent-color: #34cdce;
-        /* Mint Green */
-        --dark-bg: #0f172a;
-    }
-
     /* HERO WRAPPER */
     .hero-wrapper {
         position: relative;
@@ -153,7 +145,6 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
 
     .text-reveal-wrapper {
         margin-bottom: -1vh;
-        overflow: hidden;
     }
 
     .hero-badge-pill {
@@ -602,7 +593,7 @@ if (!isset($GLOBAL_INCLUDE_CHECK)) die(header('location:  /'));
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: var(--accent-color);
+        background-color: var(--run-light);
         z-index: 2;
         transform-origin: bottom;
     }
